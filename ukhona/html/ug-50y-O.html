@@ -1,497 +1,707 @@
 <!DOCTYPE html>
-<!-- html, head, body[header, main, footer] -->
-<html lang="en" data-theme="dark">
-<!-- head, body[header, main, footer] -->
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Ukhona — An Accounting of Survival</title>
-  <meta name="color-scheme" content="dark light" />
-  <meta name="theme-color" content="#0a0a0f" />
-  <meta name="description" content="The Dude's Rug.">
-  <link rel="canonical" href="https://ukb-dt.github.io/repos-00/">
-  <meta name="robots" content="index,follow">
-  <meta name="color-scheme" content="dark light">
-  <meta name="theme-color" content="#0a0a0f">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Open Graph / Twitter -->
-  <meta property="og:site_name" content="Repos">
-  <meta property="og:title" content="The Dude's Rug">
-  <meta property="og:description" content="Saddle Point">
-  <meta property="og:type" content="blog">
-  <meta property="og:url" content="https://ukb-dt.github.io/repos-00/">
-  <meta property="og:image" content="../img/ukb-landscape.jpg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="The Dude's Rug">
-  <meta name="twitter:description" content="Saddle Point">
-  <meta name="twitter:image" content="../img/ukb-landscape.jpg"> 
+<title>Uganda–Saudi Growth Corridor · Fractal Development Twin</title>
 
-    <!-- Icons / assets -->
-  <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
-  <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
-  <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
-  <link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-light.png" as="image">
-  <link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-dark.png" as="image">
+<!-- FONTS -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Libre+Baskerville:wght@400;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link href="../css/head.css" rel="stylesheet" />
-  <script src="../js/mathjax.js"></script>
-  <script id="MathJax-script" defer
-     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-  </script>
+<!-- MATH -->
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+
+/* ═══════════════════════════
+   TOKENS
+═══════════════════════════ */
+
+:root {
+
+--ink:#161513;
+--paper:#F2EEE6;
+
+--clay:#8C3B2A;
+--sand:#E6D3B0;
+--gold:#C9A24D;
+--forest:#294233;
+--steel:#3E3C38;
+
+--mono:'DM Mono', monospace;
+--serif:'Libre Baskerville', serif;
+--display:'Playfair Display', serif;
+
+--xs:0.7rem;
+--sm:0.85rem;
+--md:1rem;
+--lg:1.3rem;
+--xl:1.8rem;
+--xxl:2.8rem;
+--xxxl:4.5rem;
+
+}
+
+/* RESET */
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html{scroll-behavior:smooth;}
+
+body{
+background:var(--ink);
+color:var(--paper);
+font-family:var(--serif);
+line-height:1.7;
+}
+
+/* NOISE */
+
+body::before{
+content:'';
+position:fixed;
+inset:0;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+pointer-events:none;
+z-index:99;
+}
+
+h1,h2,h3{
+font-family:var(--display);
+line-height:1.1;
+}
+
+/* ═══════════════════════════
+   HERO
+═══════════════════════════ */
+
+.hero{
+min-height:100vh;
+padding:5rem 3rem;
+display:flex;
+align-items:flex-end;
+background:
+radial-gradient(circle at 15% 80%, rgba(140,59,42,.4), transparent 55%),
+radial-gradient(circle at 85% 20%, rgba(201,162,77,.25), transparent 55%),
+linear-gradient(180deg,#0f0e0d,#161513);
+}
+
+.hero-inner{
+max-width:1100px;
+}
+
+.hero-tag{
+font-family:var(--mono);
+font-size:var(--xs);
+letter-spacing:.3em;
+text-transform:uppercase;
+color:var(--gold);
+margin-bottom:1.5rem;
+}
+
+.hero h1{
+font-size:clamp(2.8rem,7vw,5rem);
+font-weight:900;
+margin-bottom:1rem;
+}
+
+.hero h1 em{
+color:var(--clay);
+font-style:italic;
+}
+
+.hero-sub{
+font-family:var(--mono);
+color:#aaa;
+max-width:650px;
+}
+
+.hero-meta{
+display:flex;
+gap:2rem;
+margin-top:2.5rem;
+flex-wrap:wrap;
+}
+
+.hero-stat strong{
+font-size:var(--xl);
+color:var(--gold);
+display:block;
+}
+
+.hero-stat span{
+font-size:var(--xs);
+font-family:var(--mono);
+letter-spacing:.15em;
+color:#888;
+}
+
+/* ═══════════════════════════
+   STRIP
+═══════════════════════════ */
+
+.strip{
+background:#1f1d1b;
+border-top:1px solid rgba(201,162,77,.3);
+border-bottom:1px solid rgba(201,162,77,.3);
+padding:2rem 3rem;
+display:grid;
+grid-template-columns:60px 1fr;
+gap:1.5rem;
+}
+
+.strip-icon{
+border:1px solid var(--gold);
+border-radius:50%;
+width:48px;
+height:48px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-family:var(--mono);
+color:var(--gold);
+}
+
+.strip-body{
+font-size:var(--sm);
+color:#ccc;
+}
+
+.strip-body em{color:var(--sand);}
+
+/* ═══════════════════════════
+   WRAPPER
+═══════════════════════════ */
+
+.wrap{
+max-width:1100px;
+margin:auto;
+padding:0 3rem;
+}
+
+/* ═══════════════════════════
+   TREE
+═══════════════════════════ */
+
+.tree{
+padding:6rem 0;
+border-top:1px solid rgba(255,255,255,.06);
+}
+
+.tree-head{
+margin-bottom:4rem;
+}
+
+.tree-head h2{
+font-size:var(--xxl);
+margin-bottom:1rem;
+}
+
+.tree-head p{
+max-width:800px;
+color:#bbb;
+}
+
+/* ═══════════════════════════
+   LAYERS
+═══════════════════════════ */
+
+.layer{
+display:grid;
+grid-template-columns:100px 1fr;
+border-top:1px solid rgba(255,255,255,.06);
+}
+
+.layer:first-child{border-top:none;}
+
+.layer-col{
+display:flex;
+flex-direction:column;
+align-items:center;
+padding:2.5rem 0;
+}
+
+.layer-icon{
+font-size:2.4rem;
+margin-bottom:.5rem;
+}
+
+.layer-lg{
+writing-mode:vertical-rl;
+font-family:var(--mono);
+font-size:.6rem;
+letter-spacing:.1em;
+color:var(--clay);
+margin-top:.8rem;
+}
+
+.layer-spine{
+width:1px;
+flex:1;
+background:linear-gradient(#777,transparent);
+opacity:.3;
+margin-top:1rem;
+}
+
+.layer-body{
+padding:2.5rem 2.5rem 2.5rem 2rem;
+}
+
+.layer-n{
+font-family:var(--mono);
+font-size:var(--xs);
+color:var(--gold);
+letter-spacing:.2em;
+margin-bottom:.4rem;
+}
+
+.layer h3{
+font-size:var(--lg);
+margin-bottom:.6rem;
+}
+
+.layer-m{
+font-family:var(--mono);
+font-size:var(--sm);
+background:rgba(201,162,77,.08);
+border:1px solid rgba(201,162,77,.25);
+padding:.3rem .7rem;
+display:inline-block;
+margin-bottom:1rem;
+color:var(--gold);
+}
+
+.layer p{
+color:#bbb;
+max-width:720px;
+margin-bottom:1rem;
+}
+
+.layer ul{
+list-style:none;
+max-width:720px;
+}
+
+.layer li{
+display:grid;
+grid-template-columns:1.2rem 1fr;
+gap:.5rem;
+font-size:var(--sm);
+color:#aaa;
+margin-bottom:.5rem;
+}
+
+.layer li::before{
+content:'→';
+font-family:var(--mono);
+color:var(--clay);
+}
+
+.layer-box{
+margin-top:1.3rem;
+padding:1rem 1.4rem;
+border-left:3px solid var(--gold);
+background:rgba(201,162,77,.08);
+font-size:var(--sm);
+color:var(--sand);
+}
+
+/* ═══════════════════════════
+   FOOTER
+═══════════════════════════ */
+
+footer{
+padding:3rem;
+text-align:center;
+font-family:var(--mono);
+font-size:var(--xs);
+color:#777;
+border-top:1px solid rgba(255,255,255,.05);
+}
+
+/* MOBILE */
+
+@media(max-width:800px){
+
+.hero{padding:4rem 1.5rem;}
+.wrap{padding:0 1.5rem;}
+.layer{grid-template-columns:70px 1fr;}
+
+}
+
+</style>
 </head>
-<!-- body[header, main, footer] -->
+
 <body>
-  <div class="scroll-indicator"><div class="scroll-progress"></div></div>
-  <div class="bg-pattern"></div>
-  <!-- header, main, footer -->
-  <header class="header">
-    <div class="nav-container wrap-max">
-      <img src="https://abikesa.github.io/logos/assets/ukubona-dark.png"
-           alt="Ukubona LLC Logo"
-           id="logo"
-           class="logo" />
-
-      <div class="top-right">
-        <ul class="nav-links">
-          <li><a href="https://ukb-dt.github.io/repos-00/" class="nav-link" data-nav="home">Home</a></li>
-        </ul>
-
-        <button class="menu-icon" id="menuIcon" role="button" aria-label="Open navigation menu" aria-expanded="false">
-          <div></div><div></div><div></div>
-          <div></div><div></div><div></div>
-          <div></div><div></div><div></div>
-        </button>
-
-        <button id="toggle-theme" aria-label="Toggle theme">🌙</button>
-      </div>
-    </div>
-    <div class="app-grid wrap-max" id="gridMenu" aria-hidden="true">
-
-          <!-- Renaissance (c. 1400–1600): Polyphony, sacred motets, madrigals -->
-          <a href="#"><div class="icon-box">🎼</div>Josquin des Prez</a>
-          <a href="#"><div class="icon-box">🎵</div>Giovanni Pierluigi da Palestrina</a>
-          <a href="#"><div class="icon-box">🎶</div>Orlando di Lasso</a>
-          <a href="#"><div class="icon-box">🎹</div>Thomas Tallis</a>
-          <a href="#"><div class="icon-box">🎻</div>William Byrd</a>
-          <a href="#"><div class="icon-box">🎵</div>Guillaume Dufay</a>
-          <a href="#"><div class="icon-box">🎼</div>Johannes Ockeghem</a>
-          <a href="#"><div class="icon-box">🎶</div>Jacob Obrecht</a>
-          <a href="#"><div class="icon-box">🎹</div>John Taverner</a>
-          <a href="#"><div class="icon-box">🌿</div>Hildegard von Bingen</a>
-          <a href="#"><div class="icon-box">🎻</div>Philippe de Vitry</a>
-          <a href="#"><div class="icon-box">🎵</div>Francesco Landini</a>
-          <a href="#"><div class="icon-box">🎼</div>Gilles Binchois</a>
-          <a href="#"><div class="icon-box">🎶</div>Johannes Ciconia</a>
-          <a href="#"><div class="icon-box">🎹</div>Antoine Busnois</a>
-
-          <!-- Baroque (c. 1600–1750): Oratorio, concerto, fugue, opera emergence -->
-          <a href="#"><div class="icon-box">🎹</div>Claudio Monteverdi</a>
-          <a href="#"><div class="icon-box">🎻</div>Henry Purcell</a>
-          <a href="#"><div class="icon-box">🎺</div>Antonio Vivaldi</a>
-          <a href="#"><div class="icon-box">🎼</div>Johann Sebastian Bach</a>
-          <a href="#"><div class="icon-box">🎵</div>George Frideric Handel</a>
-          <a href="#"><div class="icon-box">🎶</div>Georg Philipp Telemann</a>
-          <a href="#"><div class="icon-box">🎹</div>Arcangelo Corelli</a>
-          <a href="#"><div class="icon-box">🎻</div>Jean-Baptiste Lully</a>
-          <a href="#"><div class="icon-box">🎼</div>Henry Schütz</a>
-          <a href="#"><div class="icon-box">🎵</div>Domenico Scarlatti</a>
-          <a href="#"><div class="icon-box">🎶</div>François Couperin</a>
-          <a href="#"><div class="icon-box">🎹</div>Jean-Philippe Rameau</a>
-          <a href="#"><div class="icon-box">🎻</div>Tomaso Albinoni</a>
-          <a href="#"><div class="icon-box">🎺</div>Johann Pachelbel</a>
-          <a href="#"><div class="icon-box">🎼</div>Dieterich Buxtehude</a>
-          <a href="#"><div class="icon-box">🎵</div>Alessandro Scarlatti</a>
-
-          <!-- Classical (c. 1750–1820): Symphony, sonata, balance, clarity -->
-          <a href="#"><div class="icon-box">🎻</div>Franz Joseph Haydn</a>
-          <a href="#"><div class="icon-box">🎹</div>Wolfgang Amadeus Mozart</a>
-          <a href="#"><div class="icon-box">🎼</div>Ludwig van Beethoven</a>
-          <a href="#"><div class="icon-box">🎵</div>Christoph Willibald Gluck</a>
-          <a href="#"><div class="icon-box">🎶</div>Carl Philipp Emanuel Bach</a>
-          <a href="#"><div class="icon-box">🎹</div>Luigi Boccherini</a>
-          <a href="#"><div class="icon-box">🎻</div>Muzio Clementi</a>
-          <a href="#"><div class="icon-box">🎼</div>Antonio Salieri</a>
-          <a href="#"><div class="icon-box">🎵</div>Johann Christian Bach</a>
-          <a href="#"><div class="icon-box">🎶</div>Johann Stamitz</a>
-          <a href="#"><div class="icon-box">🎹</div>Carl Ditters von Dittersdorf</a>
-
-          <!-- Romantic (c. 1820–1900): Emotion, nationalism, program music, piano virtuosity -->
-          <a href="#"><div class="icon-box">🎹</div>Franz Schubert</a>
-          <a href="#"><div class="icon-box">🎼</div>Frédéric Chopin</a>
-          <a href="#"><div class="icon-box">🎻</div>Robert Schumann</a>
-          <a href="#"><div class="icon-box">🎵</div>Franz Liszt</a>
-          <a href="#"><div class="icon-box">🎶</div>Felix Mendelssohn</a>
-          <a href="#"><div class="icon-box">🎹</div>Johannes Brahms</a>
-          <a href="#"><div class="icon-box">🎭</div>Richard Wagner</a>
-          <a href="#"><div class="icon-box">🎺</div>Giuseppe Verdi</a>
-          <a href="#"><div class="icon-box">🎻</div>Pyotr Ilyich Tchaikovsky</a>
-          <a href="#"><div class="icon-box">🎼</div>Hector Berlioz</a>
-          <a href="#"><div class="icon-box">🎵</div>Antonín Dvořák</a>
-          <a href="#"><div class="icon-box">🎶</div>Gustav Mahler</a>
-          <a href="#"><div class="icon-box">🎹</div>Camille Saint-Saëns</a>
-          <a href="#"><div class="icon-box">🎻</div>Bedřich Smetana</a>
-          <a href="#"><div class="icon-box">🎼</div>Edvard Grieg</a>
-          <a href="#"><div class="icon-box">🎵</div>Clara Schumann</a>
-
-          <!-- Modern / 20th Century+ (c. 1900–present): Atonality, impressionism, minimalism, experimentation -->
-          <a href="#"><div class="icon-box">🌊</div>Claude Debussy</a>
-          <a href="#"><div class="icon-box">🎨</div>Maurice Ravel</a>
-          <a href="#"><div class="icon-box">⚛️</div>Arnold Schoenberg</a>
-          <a href="#"><div class="icon-box">🔥</div>Igor Stravinsky</a>
-          <a href="#"><div class="icon-box">🌀</div>Béla Bartók</a>
-          <a href="#"><div class="icon-box">🎼</div>Sergei Prokofiev</a>
-          <a href="#"><div class="icon-box">🎹</div>Dmitri Shostakovich</a>
-          <a href="#"><div class="icon-box">🎵</div>Olivier Messiaen</a>
-          <a href="#"><div class="icon-box">🧩</div>John Cage</a>
-          <a href="#"><div class="icon-box">♾️</div>Philip Glass</a>
-          <a href="#"><div class="icon-box">🎻</div>Aaron Copland</a>
-          <a href="#"><div class="icon-box">🎶</div>Benjamin Britten</a>
-          <a href="#"><div class="icon-box">🎹</div>Alban Berg</a>
-          <a href="#"><div class="icon-box">🎼</div>Anton Webern</a>
-          <a href="#"><div class="icon-box">🌌</div>Charles Ives</a>
-          <a href="#"><div class="icon-box">🎵</div>György Ligeti</a>
-          <a href="#"><div class="icon-box">🎻</div>Steve Reich</a>
-          <a href="#"><div class="icon-box">🎹</div>Arvo Pärt</a>
 
-    </div>
-  </header>
+<!-- HERO -->
 
-  <!-- main[sections], footer -->
-  <main class="page wrap-max">
+<section class="hero">
 
-  <!-- G -->
-  <!-- O -->
-<!-- ═══════════════════════════
-     ECOLOGY PIPELINE · UKB
-═══════════════════════════ -->
+<div class="hero-inner">
 
-<section class="pipeline-section" id="ecology-fractal">
+<div class="hero-tag">
+National Planning Authority · Fractal Twin G
+</div>
 
-  <div class="section-eyebrow reveal">Ecological Stack · Growth Topology</div>
+<h1>
+Uganda–Saudi<br>
+<em>Growth Corridor</em>
+</h1>
 
-  <div class="pipeline-header">
+<p class="hero-sub">
+A computable development architecture mapping NDP IV
+to a tenfold GDP trajectory through Saudi partnership.
+Kampala · February 2026
+</p>
 
-    <h2 class="reveal">
-      From Soil to Seed —<br>
-      Development as a Recursive System
-    </h2>
+<div class="hero-meta">
 
-    <p class="reveal reveal-delay-1">
+<div class="hero-stat">
+<strong>$50B → $500B</strong>
+<span>Tenfold Target</span>
+</div>
 
-      I do not model growth as "projects" or "sectors".
-      I model it as a living stack.
+<div class="hero-stat">
+<strong>5</strong>
+<span>Growth Layers</span>
+</div>
 
-      Person → Household → Firm → State → World
-      is not a metaphor.
+<div class="hero-stat">
+<strong>G</strong>
+<span>Government Tier</span>
+</div>
 
-      It is a transport equation.
+</div>
 
-      What begins in soil variables
-      propagates upward
-      until it becomes policy,
-      markets,
-      and civilization.
+</div>
+</section>
 
-      These Luganda primitives are not cultural residue.
-      They are local coordinate systems
-      for universal development dynamics.
+<!-- STRIP -->
 
-    </p>
+<div class="strip">
 
-  </div>
+<div class="strip-icon">NPA</div>
 
-  <div class="divider reveal"><span class="divider-glyph">◆</span></div>
+<div class="strip-body">
 
-  <div class="stage-grid">
+<strong>Briefing Context</strong><br>
 
+Executive Chairperson talking points for high-level
+interministerial engagement with Saudi Arabia.
+This document formalizes Uganda’s development path
+as a multi-layer optimization system.
 
-    <!-- STAGE I · SOIL -->
+</div>
 
-    <div class="stage-card reveal">
+</div>
 
-      <div class="stage-number-col">
-        <span class="stage-numeral">I</span>
-        <div class="stage-spine"></div>
-      </div>
+<!-- CONTENT -->
 
-      <div class="stage-body">
+<div class="wrap">
 
-        <span class="stage-roman">Substrate · Person Scale</span>
+<section class="tree">
 
-        <h3 class="stage-title">Soil — Gatonnya · Mukutulansanja · Mugulansigo</h3>
+<div class="tree-head">
 
-        <div class="stage-math-pill">x₀ : Biological + Moral Substrate</div>
+<h2>
+From Soil to Canopy:
+The Ugandan Growth Function
+</h2>
 
-        <p class="stage-prose">
+<p>
 
-          Every system begins before institutions exist.
+Let \(x_0\) represent Uganda’s endowment,
+\(f(x,t)\) its institutional machinery,
+and \(Y(t)\) cumulative GDP.
 
-          It begins inside bodies.
-          Inside habits.
-          Inside nutrition.
-          Inside sleep.
-          Inside discipline.
+The corridor seeks to optimize:
 
-          <strong>Gatonnya</strong> is raw vitality.
-          <strong>Mukutulansanja</strong> is moral texture.
-          <strong>Mugulansigo</strong> is cognitive fertility.
+\[
+\max \int_0^T f(x,t)\,dt
+\]
 
-          This is the person before society touches them.
+subject to fiscal, political,
+and ecological constraints.
 
-          If this layer is unstable,
-          no amount of policy will compensate.
+Saudi partnership supplies capital,
+technology, and market access
+to steepen the gradient.
 
-        </p>
+</p>
 
-        <ul class="stage-bullets">
+</div>
 
-          <li><strong>Health:</strong> nutrition, immunity, physical endurance</li>
-          <li><strong>Character:</strong> impulse control, honesty, patience</li>
-          <li><strong>Cognition:</strong> literacy, numeracy, abstraction capacity</li>
+<!-- LAYER 1 -->
 
-        </ul>
+<div class="layer">
 
-      </div>
+<div class="layer-col">
 
-    </div>
+<div class="layer-icon">🌱</div>
+<div class="layer-lg">Gatonnya<br>Mukutulansanja</div>
+<div class="layer-spine"></div>
 
+</div>
 
-    <!-- STAGE II · ROOTS -->
+<div class="layer-body">
 
-    <div class="stage-card reveal">
+<div class="layer-n">Layer I · Soil</div>
 
-      <div class="stage-number-col">
-        <span class="stage-numeral">II</span>
-        <div class="stage-spine"></div>
-      </div>
+<h3>Natural & Human Endowment</h3>
 
-      <div class="stage-body">
+<div class="layer-m">
+\(x_0 = [L,M,W,E,P]\)
+</div>
 
-        <span class="stage-roman">Anchoring · Household Scale</span>
+<p>
 
-        <h3 class="stage-title">Roots — Kafuumulampawu · Muzigo</h3>
+This layer is invariant.
+Land, water, minerals, energy,
+and population define Uganda’s
+initial condition.
 
-        <div class="stage-math-pill">x₁ : Dependency + Memory</div>
+No policy can bypass this vector.
+It must be amplified.
 
-        <p class="stage-prose">
+</p>
 
-          Soil becomes productive only when rooted.
+<ul>
 
-          <strong>Kafuumulampawu</strong> is attachment —
-          who catches you when you fall.
+<li><strong>Land:</strong> 44M ha arable, underutilized</li>
+<li><strong>Oil:</strong> 1.4B barrels recoverable</li>
+<li><strong>Hydro:</strong> 2,000+ MW potential</li>
+<li><strong>Demography:</strong> 60% under 25</li>
 
-          <strong>Muzigo</strong> is inheritance —
-          debt, land, trauma, reputation.
+</ul>
 
-          This is the household as
-          an intergenerational balance sheet.
+<div class="layer-box">
 
-          Poverty is often not low income.
-          It is negative inheritance.
+Saudi Arabia holds capital and energy expertise.
+Uganda holds land and water.
+The gradient points to convergence.
 
-        </p>
+</div>
 
-        <div class="stage-warning">
+</div>
+</div>
 
-          <strong>Roots transmit noise.</strong>
+<!-- LAYER 2 -->
 
-          Dysfunctional households
-          inject stochastic volatility
-          into every future institution.
+<div class="layer">
 
-          Schools cannot fully correct
-          broken root systems.
+<div class="layer-col">
 
-        </div>
+<div class="layer-icon">🌿</div>
+<div class="layer-lg">Kafuumulampawu<br>Muzigo</div>
+<div class="layer-spine"></div>
 
-        <ul class="stage-bullets">
+</div>
 
-          <li><strong>Family Capital:</strong> land, housing, tools</li>
-          <li><strong>Social Capital:</strong> kinship networks</li>
-          <li><strong>Historical Load:</strong> debts, disputes, stigma</li>
+<div class="layer-body">
 
-        </ul>
+<div class="layer-n">Layer II · Roots</div>
 
-      </div>
+<h3>Infrastructure & Systems</h3>
 
-    </div>
+<div class="layer-m">
+\(x(t)=x_0+I(t)-\varepsilon\)
+</div>
 
+<p>
 
-    <!-- STAGE III · TRUNK -->
+Infrastructure converts endowment
+into usable state space.
 
-    <div class="stage-card reveal">
+Execution noise
+(\(\varepsilon\)) must be minimized
+through digital monitoring.
 
-      <div class="stage-number-col">
-        <span class="stage-numeral">III</span>
-        <div class="stage-spine"></div>
-      </div>
+</p>
 
-      <div class="stage-body">
+<ul>
 
-        <span class="stage-roman">Integration · Firm Scale</span>
+<li><strong>Energy:</strong> dams, solar farms</li>
+<li><strong>Transport:</strong> SGR, highways</li>
+<li><strong>Digital:</strong> data centers</li>
+<li><strong>Irrigation:</strong> agro unlock</li>
 
-        <h3 class="stage-title">Trunk — Ssebaaseka · Kasambula</h3>
+</ul>
 
-        <div class="stage-math-pill">f(x) : Organizational Spine</div>
+<div class="layer-box">
 
-        <p class="stage-prose">
+Saudi PPPs de-risk fiscal exposure
+while guaranteeing long-term supply.
 
-          Roots converge into structure.
+</div>
 
-          <strong>Ssebaaseka</strong> is coordination.
-          <strong>Kasambula</strong> is authority.
+</div>
+</div>
 
-          This is where households become firms,
-          clinics,
-          schools,
-          cooperatives,
-          NGOs.
+<!-- LAYER 3 -->
 
-          Without a trunk,
-          roots remain isolated subsistence units.
+<div class="layer">
 
-          Development happens here.
+<div class="layer-col">
 
-        </p>
+<div class="layer-icon">🌳</div>
+<div class="layer-lg">Ssebaaseka<br>Kasambula</div>
+<div class="layer-spine"></div>
 
-        <ul class="stage-bullets">
+</div>
 
-          <li><strong>Governance:</strong> rules, reporting, accountability</li>
-          <li><strong>Capital Formation:</strong> pooled savings, credit</li>
-          <li><strong>Process:</strong> workflows, standards, audits</li>
+<div class="layer-body">
 
-        </ul>
+<div class="layer-n">Layer III · Trunk</div>
 
-      </div>
+<h3>Productive Sectors</h3>
 
-    </div>
+<div class="layer-m">
+\(\frac{dY}{dt}=f(A,M,X,P)\)
+</div>
 
+<p>
 
-    <!-- STAGE IV · BRANCHES -->
+Here velocity emerges.
+Agro-industry, manufacturing,
+extractives, and petroleum
+convert resources to GDP.
 
-    <div class="stage-card reveal">
+</p>
 
-      <div class="stage-number-col">
-        <span class="stage-numeral">IV</span>
-        <div class="stage-spine"></div>
-      </div>
+<ul>
 
-      <div class="stage-body">
+<li><strong>Agribusiness:</strong> estates + processing</li>
+<li><strong>Industry:</strong> parks + clusters</li>
+<li><strong>Mining:</strong> beneficiation</li>
+<li><strong>Refining:</strong> downstream</li>
 
-        <span class="stage-roman">Diffusion · State Scale</span>
+</ul>
 
-        <h3 class="stage-title">Branches — Muwakanya · Mutunda · Mukulukusabitungotungo</h3>
+<div class="layer-box">
 
-        <div class="stage-math-pill">∂f/∂x : Institutional Reach</div>
+Saudi firms anchor long-term
+offtake and technology transfer.
 
-        <p class="stage-prose">
+</div>
 
-          Trunks seek sunlight.
+</div>
+</div>
 
-          <strong>Muwakanya</strong> is diversification.
-          <strong>Mutunda</strong> is specialization.
-          <strong>Mukulukusabitungotungo</strong> is network density.
+<!-- LAYER 4 -->
 
-          This is where firms become sectors.
-          Where cities form.
-          Where regulation appears.
+<div class="layer">
 
-          States live at this layer.
+<div class="layer-col">
 
-        </p>
+<div class="layer-icon">🌿</div>
+<div class="layer-lg">Muwakanya<br>Mutunda</div>
+<div class="layer-spine"></div>
 
-        <ul class="stage-bullets">
+</div>
 
-          <li><strong>Infrastructure:</strong> roads, power, water</li>
-          <li><strong>Markets:</strong> supply chains, trade corridors</li>
-          <li><strong>Institutions:</strong> regulators, courts, standards bodies</li>
+<div class="layer-body">
 
-        </ul>
+<div class="layer-n">Layer IV · Branches</div>
 
-      </div>
+<h3>Market Integration</h3>
 
-    </div>
+<div class="layer-m">
+\(\frac{d^2T}{dt^2}\pm z\sigma\)
+</div>
 
+<p>
 
-    <!-- STAGE V · CANOPY -->
+This layer governs curvature.
+Export acceleration or stagnation
+depends on logistics and diplomacy.
 
-    <div class="stage-card reveal">
+</p>
 
-      <div class="stage-number-col">
-        <span class="stage-numeral">V</span>
-      </div>
+<ul>
 
-      <div class="stage-body">
+<li><strong>EAC:</strong> 300M consumers</li>
+<li><strong>AfCFTA:</strong> 1.3B market</li>
+<li><strong>Corridors:</strong> Mombasa, Dar</li>
+<li><strong>GCC:</strong> Saudi gateway</li>
 
-        <span class="stage-roman">Emergence · Planetary Scale</span>
+</ul>
 
-        <h3 class="stage-title">Canopy — Museenene · Ntenvu</h3>
+<div class="layer-box">
 
-        <div class="stage-math-pill">∫f(x)dt : Civilizational Output</div>
+Saudi logistics hubs extend
+Uganda’s commercial reach.
 
-        <p class="stage-prose">
+</div>
 
-          The canopy is what the world sees.
+</div>
+</div>
 
-          <strong>Museenene</strong> is reputation.
-          <strong>Ntenvu</strong> is legacy.
+<!-- LAYER 5 -->
 
-          This is brand.
-          Currency.
-          Cultural exports.
-          Scientific prestige.
-          Soft power.
+<div class="layer">
 
-          It is the harvested integral
-          of millions of private lives.
+<div class="layer-col">
 
-        </p>
+<div class="layer-icon">🍃</div>
+<div class="layer-lg">Museenene<br>Ntenvu</div>
 
-        <p class="stage-prose">
+</div>
 
-          Nations do not become respected
-          by speeches.
+<div class="layer-body">
 
-          They become respected
-          by decades of
-          stable soil,
-          deep roots,
-          disciplined trunks,
-          resilient branches.
+<div class="layer-n">Layer V · Canopy</div>
 
-        </p>
+<h3>Regional Hub Equilibrium</h3>
 
-        <ul class="stage-bullets">
+<div class="layer-m">
+\(\int Y dt + C\)
+</div>
 
-          <li><strong>Exports:</strong> goods, services, culture</li>
-          <li><strong>Reputation:</strong> credit ratings, passports</li>
-          <li><strong>Knowledge:</strong> patents, universities, science</li>
+<p>
 
-        </ul>
+This is the basin.
+Where Uganda stabilizes
+as East Africa’s industrial core.
 
-      </div>
+Growth becomes self-reinforcing.
 
-    </div>
+</p>
 
+<ul>
 
-  </div>
+<li><strong>Factory Belt:</strong> regional supply</li>
+<li><strong>Dry Ports:</strong> logistics node</li>
+<li><strong>Power Exports:</strong> surplus</li>
+<li><strong>Knowledge:</strong> skilled labor</li>
+
+</ul>
+
+<div class="layer-box">
+
+Tenfold growth is a phase shift,
+not a linear trend.
+Saudi capital shortens the timeline.
+
+</div>
+
+</div>
+</div>
 
 </section>
 
-  <!-- A -->
-  <!-- X -->
+</div>
 
-  </main>
-  <!-- Centralized footer fetch -->
-  <div id="footer-placeholder"></div>
+<!-- FOOTER -->
 
-  <!-- /ukhona/.. is hardcoded -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
-<script src="../js/shared.js"></script>
-  </body>
+<footer>
+
+Uganda–Saudi Growth Corridor ·
+Fractal Development Twin G · 2026
+
+</footer>
+
+</body>
 </html>
