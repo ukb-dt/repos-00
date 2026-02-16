@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<!-- html, head, body[header, main, footer] -->
+<html lang="en" data-theme="dark">
+<!-- head, body[header, main, footer] -->
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ukhona — An Accounting of Survival</title>
+  <meta name="color-scheme" content="dark light" />
+  <meta name="theme-color" content="#0a0a0f" />
+  <meta name="description" content="The Dude's Rug.">
+  <link rel="canonical" href="https://ukb-dt.github.io/repos-00/">
+  <meta name="robots" content="index,follow">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#0a0a0f">
+
+    <!-- Open Graph / Twitter -->
+  <meta property="og:site_name" content="Repos">
+  <meta property="og:title" content="The Dude's Rug">
+  <meta property="og:description" content="Saddle Point">
+  <meta property="og:type" content="blog">
+  <meta property="og:url" content="https://ukb-dt.github.io/repos-00/">
+  <meta property="og:image" content="../img/ukb-landscape.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Dude's Rug">
+  <meta name="twitter:description" content="Saddle Point">
+  <meta name="twitter:image" content="../img/ukb-landscape.jpg"> 
+
+    <!-- Icons / assets -->
+  <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
+  <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
+  <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+  <link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-light.png" as="image">
+  <link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-dark.png" as="image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="../css/head.css" rel="stylesheet" />
+  <script src="../js/mathjax.js"></script>
+  <script id="MathJax-script" defer
+     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+</head>
+<!-- body[header, main, footer] -->
+<body>
+  <div class="scroll-indicator"><div class="scroll-progress"></div></div>
+  <div class="bg-pattern"></div>
+  <!-- header, main, footer -->
+  <header class="header">
+    <div class="nav-container wrap-max">
+      <img src="https://abikesa.github.io/logos/assets/ukubona-dark.png"
+           alt="Ukubona LLC Logo"
+           id="logo"
+           class="logo" />
+
+      <div class="top-right">
+        <ul class="nav-links">
+          <li><a href="https://ukb-dt.github.io/repos-00/" class="nav-link" data-nav="home">Home</a></li>
+        </ul>
+
+        <button class="menu-icon" id="menuIcon" role="button" aria-label="Open navigation menu" aria-expanded="false">
+          <div></div><div></div><div></div>
+          <div></div><div></div><div></div>
+          <div></div><div></div><div></div>
+        </button>
+
+        <button id="toggle-theme" aria-label="Toggle theme">🌙</button>
+      </div>
+    </div>
+    <div class="app-grid wrap-max" id="gridMenu" aria-hidden="true">
+
+          <!-- Renaissance (c. 1400–1600): Polyphony, sacred motets, madrigals -->
+          <a href="#"><div class="icon-box">🎼</div>Josquin des Prez</a>
+          <a href="#"><div class="icon-box">🎵</div>Giovanni Pierluigi da Palestrina</a>
+          <a href="#"><div class="icon-box">🎶</div>Orlando di Lasso</a>
+          <a href="#"><div class="icon-box">🎹</div>Thomas Tallis</a>
+          <a href="#"><div class="icon-box">🎻</div>William Byrd</a>
+          <a href="#"><div class="icon-box">🎵</div>Guillaume Dufay</a>
+          <a href="#"><div class="icon-box">🎼</div>Johannes Ockeghem</a>
+          <a href="#"><div class="icon-box">🎶</div>Jacob Obrecht</a>
+          <a href="#"><div class="icon-box">🎹</div>John Taverner</a>
+          <a href="#"><div class="icon-box">🌿</div>Hildegard von Bingen</a>
+          <a href="#"><div class="icon-box">🎻</div>Philippe de Vitry</a>
+          <a href="#"><div class="icon-box">🎵</div>Francesco Landini</a>
+          <a href="#"><div class="icon-box">🎼</div>Gilles Binchois</a>
+          <a href="#"><div class="icon-box">🎶</div>Johannes Ciconia</a>
+          <a href="#"><div class="icon-box">🎹</div>Antoine Busnois</a>
+
+          <!-- Baroque (c. 1600–1750): Oratorio, concerto, fugue, opera emergence -->
+          <a href="#"><div class="icon-box">🎹</div>Claudio Monteverdi</a>
+          <a href="#"><div class="icon-box">🎻</div>Henry Purcell</a>
+          <a href="#"><div class="icon-box">🎺</div>Antonio Vivaldi</a>
+          <a href="#"><div class="icon-box">🎼</div>Johann Sebastian Bach</a>
+          <a href="#"><div class="icon-box">🎵</div>George Frideric Handel</a>
+          <a href="#"><div class="icon-box">🎶</div>Georg Philipp Telemann</a>
+          <a href="#"><div class="icon-box">🎹</div>Arcangelo Corelli</a>
+          <a href="#"><div class="icon-box">🎻</div>Jean-Baptiste Lully</a>
+          <a href="#"><div class="icon-box">🎼</div>Henry Schütz</a>
+          <a href="#"><div class="icon-box">🎵</div>Domenico Scarlatti</a>
+          <a href="#"><div class="icon-box">🎶</div>François Couperin</a>
+          <a href="#"><div class="icon-box">🎹</div>Jean-Philippe Rameau</a>
+          <a href="#"><div class="icon-box">🎻</div>Tomaso Albinoni</a>
+          <a href="#"><div class="icon-box">🎺</div>Johann Pachelbel</a>
+          <a href="#"><div class="icon-box">🎼</div>Dieterich Buxtehude</a>
+          <a href="#"><div class="icon-box">🎵</div>Alessandro Scarlatti</a>
+
+          <!-- Classical (c. 1750–1820): Symphony, sonata, balance, clarity -->
+          <a href="#"><div class="icon-box">🎻</div>Franz Joseph Haydn</a>
+          <a href="#"><div class="icon-box">🎹</div>Wolfgang Amadeus Mozart</a>
+          <a href="#"><div class="icon-box">🎼</div>Ludwig van Beethoven</a>
+          <a href="#"><div class="icon-box">🎵</div>Christoph Willibald Gluck</a>
+          <a href="#"><div class="icon-box">🎶</div>Carl Philipp Emanuel Bach</a>
+          <a href="#"><div class="icon-box">🎹</div>Luigi Boccherini</a>
+          <a href="#"><div class="icon-box">🎻</div>Muzio Clementi</a>
+          <a href="#"><div class="icon-box">🎼</div>Antonio Salieri</a>
+          <a href="#"><div class="icon-box">🎵</div>Johann Christian Bach</a>
+          <a href="#"><div class="icon-box">🎶</div>Johann Stamitz</a>
+          <a href="#"><div class="icon-box">🎹</div>Carl Ditters von Dittersdorf</a>
+
+          <!-- Romantic (c. 1820–1900): Emotion, nationalism, program music, piano virtuosity -->
+          <a href="#"><div class="icon-box">🎹</div>Franz Schubert</a>
+          <a href="#"><div class="icon-box">🎼</div>Frédéric Chopin</a>
+          <a href="#"><div class="icon-box">🎻</div>Robert Schumann</a>
+          <a href="#"><div class="icon-box">🎵</div>Franz Liszt</a>
+          <a href="#"><div class="icon-box">🎶</div>Felix Mendelssohn</a>
+          <a href="#"><div class="icon-box">🎹</div>Johannes Brahms</a>
+          <a href="#"><div class="icon-box">🎭</div>Richard Wagner</a>
+          <a href="#"><div class="icon-box">🎺</div>Giuseppe Verdi</a>
+          <a href="#"><div class="icon-box">🎻</div>Pyotr Ilyich Tchaikovsky</a>
+          <a href="#"><div class="icon-box">🎼</div>Hector Berlioz</a>
+          <a href="#"><div class="icon-box">🎵</div>Antonín Dvořák</a>
+          <a href="#"><div class="icon-box">🎶</div>Gustav Mahler</a>
+          <a href="#"><div class="icon-box">🎹</div>Camille Saint-Saëns</a>
+          <a href="#"><div class="icon-box">🎻</div>Bedřich Smetana</a>
+          <a href="#"><div class="icon-box">🎼</div>Edvard Grieg</a>
+          <a href="#"><div class="icon-box">🎵</div>Clara Schumann</a>
+
+          <!-- Modern / 20th Century+ (c. 1900–present): Atonality, impressionism, minimalism, experimentation -->
+          <a href="#"><div class="icon-box">🌊</div>Claude Debussy</a>
+          <a href="#"><div class="icon-box">🎨</div>Maurice Ravel</a>
+          <a href="#"><div class="icon-box">⚛️</div>Arnold Schoenberg</a>
+          <a href="#"><div class="icon-box">🔥</div>Igor Stravinsky</a>
+          <a href="#"><div class="icon-box">🌀</div>Béla Bartók</a>
+          <a href="#"><div class="icon-box">🎼</div>Sergei Prokofiev</a>
+          <a href="#"><div class="icon-box">🎹</div>Dmitri Shostakovich</a>
+          <a href="#"><div class="icon-box">🎵</div>Olivier Messiaen</a>
+          <a href="#"><div class="icon-box">🧩</div>John Cage</a>
+          <a href="#"><div class="icon-box">♾️</div>Philip Glass</a>
+          <a href="#"><div class="icon-box">🎻</div>Aaron Copland</a>
+          <a href="#"><div class="icon-box">🎶</div>Benjamin Britten</a>
+          <a href="#"><div class="icon-box">🎹</div>Alban Berg</a>
+          <a href="#"><div class="icon-box">🎼</div>Anton Webern</a>
+          <a href="#"><div class="icon-box">🌌</div>Charles Ives</a>
+          <a href="#"><div class="icon-box">🎵</div>György Ligeti</a>
+          <a href="#"><div class="icon-box">🎻</div>Steve Reich</a>
+          <a href="#"><div class="icon-box">🎹</div>Arvo Pärt</a>
+
+    </div>
+  </header>
+
+  <!-- main[sections], footer -->
+  <main class="page wrap-max">
+
+<!-- ══════════════════════════════════════════════════════════
+     STRATA STONE PARTNERS — Firm-Tier Digital Twin
+     Drop into repos-00/index.html
+     No new CSS. All classes from ../css/head.css
+     Source: Ibo's operational breakdown + Ukubona LLC ambitions
+     ukb-fractal layer: Σ (Trunk) | Calculus: dy/dx | Scale: F
+     ══════════════════════════════════════════════════════════ -->
+
+      <section class="card">
+
+        <h1>Σ — Strata Stone</h1>
+        <h2>Firm-Tier Digital Twin | Uganda Real Estate</h2>
+        <p class="part-subtitle">
+          From land acquisition to client handover —
+          a living ledger of flows, gradients, and loss functions
+          for a construction firm operating at the <strong>F-tier</strong>
+          (≈ 2 MWh/day equivalent, <em>dy/dx</em> on the ukb-fractal spine).
+        </p>
+
+        <!-- ── CONTEXT ── -->
+        <p>
+          The ukb-fractal generalizes digital twins from
+          <em>Person → Household → <strong>Firm</strong> → City → Nation → World</em>.
+          Strata Stone Partners is the first firm-scale instantiation:
+          a Uganda-based real estate developer whose operations —
+          land procurement, construction management, finance, client relations —
+          constitute a dissipative structure far from equilibrium,
+          exactly the kind of system SGD was born to model.
+        </p>
+
+        <blockquote>
+          "Kadi, we have tried to break down the activities that we do
+          from project concept to final product handover.
+          We could start with this as we work to create a digital twin for Strata Stone."
+          — Ibo, CEO
+        </blockquote>
+
+        <!-- ── THE PIPELINE APPLIED TO F-TIER ── -->
+        <h2>The Five-Stage Pipeline — Applied to Strata Stone</h2>
+
+        <div class="stage">
+          <div class="stage-label">Stage I — Raw Observation
+            <span class="stage-meta">\((x_i, y)\) · static coordinates · the parcel before time enters</span>
+          </div>
+          <h5 class="math-block">\((x_{\text{Strata}},\; y_{\text{project}})\)</h5>
+          <p>
+            Land title number. GPS coordinates. Cadastral boundary.
+            Soil classification. Approved architectural drawings.
+            The project budget at signing. These are the invariant inputs —
+            the photograph taken before construction begins.
+            The digital twin ingests them once and holds them as the origin \(C_x\):
+            <em>the constant of integration that cannot be universalized.</em>
+          </p>
+          <ul>
+            <li><strong>Land:</strong> Duplicate certificate of title, transfer forms, survey report from independent surveyor</li>
+            <li><strong>Design:</strong> Architectural, structural, M&amp;E drawings — submitted to local authority for approval</li>
+            <li><strong>Budget:</strong> Study budget at project concept — the loss function baseline</li>
+          </ul>
+        </div>
+
+        <div class="stage">
+          <div class="stage-label">Stage II — Conditional Dynamics + Noise
+            <span class="stage-meta">\(y(t \mid x_i) + \varepsilon\) · procurement · labor · material flow · leakage</span>
+          </div>
+          <h5 class="math-block">\(y_{\text{cost}}(t \mid x_{\text{Strata}}) + \varepsilon_{\text{site}}\)</h5>
+          <p>
+            Now time enters. The project is no longer a budget — it is a <em>trajectory.</em>
+            \(\varepsilon_{\text{site}}\) is the stochastic term:
+            delayed NWSC water connection, a reckless worker damaging equipment,
+            a KPLC token spike in the materials invoice.
+            The twin lives here during construction — foraging the cost landscape before committing to descent.
+          </p>
+          <div class="warning">
+            <p>
+              <strong>Preserve the noise term.</strong>
+              Ibo's mandate to "keep a very tight leash on leakages and overruns"
+              is precisely <em>not</em> the instruction to drive \(\varepsilon \to 0\).
+              It is the instruction to <em>monitor</em> \(\varepsilon\) in real time —
+              to distinguish cost signal from site noise before the gradient steepens.
+              An audit that over-fits kills the learning.
+            </p>
+          </div>
+          <ul>
+            <li><strong>Finance:</strong> Weekly/monthly budget reports — expenses vs. allocated budget</li>
+            <li><strong>Procurement:</strong> Quotations, invoices, receipts — every negotiation a data point</li>
+            <li><strong>Material Control:</strong> Signed receipt per worker per morning — the granularity that makes \(\varepsilon\) visible</li>
+          </ul>
+        </div>
+
+        <div class="stage">
+          <div class="stage-label">Stage III — The Gradient
+            <span class="stage-meta">\(dy_{x_i}/dt\) · project velocity · rate of spend vs. rate of completion</span>
+          </div>
+          <h5 class="math-block">\(\dfrac{dy_{\text{project}}}{dt}\)</h5>
+          <p>
+            How fast is the project moving through its completion-space?
+            Not <em>where is the foundation?</em> — that is Stage I.
+            Not <em>what might the cost trajectory be?</em> — that is Stage II.
+            This is: <em>what is the current velocity of value-creation per shilling spent,
+            right now, at this week's site meeting?</em>
+          </p>
+          <p>
+            The Firm-tier digital twin earns its name at Stage III.
+            It moves alongside the construction.
+            Static spreadsheets are Stage I cosplay.
+            The twin lives at the gradient.
+          </p>
+          <ul>
+            <li><strong>Project Management:</strong> Daily, weekly, monthly reports — the discrete-time approximation of \(dy/dt\)</li>
+            <li><strong>Material Control:</strong> Weekly health status of all equipment — gradient of physical asset decay</li>
+            <li><strong>Customer Relations:</strong> Monthly payment status and targets — the revenue gradient running counter to the cost gradient</li>
+          </ul>
+        </div>
+
+        <div class="stage">
+          <div class="stage-label">Stage IV — Curvature + Uncertainty
+            <span class="stage-meta">\(dy_{\bar{x}}/dt \pm z\sqrt{d^2y_{x_i}/dt^2}\) · deviation from plan · shock sensitivity</span>
+          </div>
+          <h5 class="math-block">\(\dfrac{dy_{\bar{x}}}{dt} \;\pm\; z\sqrt{\dfrac{d^2 y_{x_i}}{dt^2}}\)</h5>
+          <p>
+            \(\bar{x}\) is the reference project — the population mean of Strata Stone builds.
+            The second derivative is curvature: is cost <em>accelerating</em> away from budget,
+            or decelerating into a stable basin?
+            \(z\) is the confidence band — how far can this specific site deviate
+            from the company baseline, given its soil, its subcontractors, its client?
+          </p>
+          <p>
+            This is what Ibo's HQ reports are actually measuring.
+            A weekly report that only shows spend is Stage I.
+            A report that shows spend-rate is Stage III.
+            A report that shows whether the spend-rate is <em>accelerating</em> —
+            that is Stage IV. That is curvature thinking. Most project managers never arrive here.
+          </p>
+          <ul>
+            <li><strong>Finance:</strong> Cross-check procurement invoices against prior budget — curvature detection at the invoice level</li>
+            <li><strong>Procurement:</strong> "Close eye on cost overruns / leakages" — monitoring the sign of \(d^2y/dt^2\)</li>
+            <li><strong>Material:</strong> Equipment damage reports — local curvature events that shift the trajectory</li>
+          </ul>
+        </div>
+
+        <div class="stage">
+          <div class="stage-label">Stage V — The Basin
+            <span class="stage-meta">\(\int y_{x_i}\,dt + \varepsilon_c t + C_x\) · handover · accumulated P&amp;L · the client's new home</span>
+          </div>
+          <h5 class="math-block">\(\displaystyle\int y_{\text{project}}\,dt \;+\; \varepsilon_c\,t \;+\; C_{\text{Strata}}\)</h5>
+          <p>
+            The integral over the project lifetime: total cost incurred, total revenue collected,
+            total value delivered.
+            \(\varepsilon_c t\) is systematic drift — Uganda inflation, KPLC tariff increases,
+            NSSF rate changes, the slow accumulation of regulatory friction.
+            A twin that ignores this will give increasingly wrong predictions on Year 3 builds
+            because it mistakes regulatory gradient for site signal.
+          </p>
+          <p>
+            And \(C_{\text{Strata}}\) — the constant of integration.
+            Every firm has one: the reputation, the founding team, the specific Ugandan market knowledge,
+            the reason a client chooses Strata Stone over the alternative.
+            It cannot be reduced to the cost trajectory.
+            It is what the digital twin witnesses, not predicts.
+          </p>
+          <div class="verdict">
+            <p>
+              The client moving in is Stage V actualized.
+              Not the optimal project. The actual one —
+              with its title delays, its equipment damages, its furniture selection conversations,
+              its bank reconciliation anomalies, its PAYE filings.
+              The basin the firm actually landed in.
+            </p>
+          </div>
+        </div>
+
+        <!-- ── OPERATIONAL NODES ── -->
+        <h2>Six Operational Nodes — The Mycelium of the Firm</h2>
+        <p>
+          Ibo's breakdown maps cleanly onto the ukb-fractal node anatomy.
+          Each department is an edge in the mycelium — not a silo, but a flow conduit.
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Node</th>
+                <th>ukb-fractal role</th>
+                <th>Primary signal \((x)\)</th>
+                <th>Primary output \((y)\)</th>
+                <th>Key gradient to monitor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Finance &amp; Accounts</strong></td>
+                <td>Ledger — the canopy integrator</td>
+                <td>All payment flows (bank, mobile money, PAYE, NSSF)</td>
+                <td>P&amp;L, cashflow, monthly reconciliation</td>
+                <td>Spend rate vs. budget rate — \(dy_{\text{cost}}/dt\)</td>
+              </tr>
+              <tr>
+                <td><strong>Procurement</strong></td>
+                <td>Trunk — the dy/dx node</td>
+                <td>Quotations, supplier negotiations, invoice records</td>
+                <td>Materials on site, price per unit vs. budget</td>
+                <td>Price drift — \(\varepsilon_c t\) accumulation</td>
+              </tr>
+              <tr>
+                <td><strong>Project Management</strong></td>
+                <td>Branches — the h(t) node</td>
+                <td>Subcontractor schedules, site meeting outcomes</td>
+                <td>Daily/weekly/monthly completion reports</td>
+                <td>Schedule curvature — are we accelerating or decelerating completion?</td>
+              </tr>
+              <tr>
+                <td><strong>Material &amp; Equipment Control</strong></td>
+                <td>Roots — the θ node</td>
+                <td>Morning distribution logs, signed receipts, damage reports</td>
+                <td>Weekly material usage, equipment health status</td>
+                <td>Consumption rate vs. planned usage — \(\varepsilon_{\text{site}}\) signal</td>
+              </tr>
+              <tr>
+                <td><strong>Customer Relations</strong></td>
+                <td>Terminal — the θ′ interface</td>
+                <td>Leads, closures, collection targets, queries</td>
+                <td>Monthly payment status, social media activity</td>
+                <td>Revenue gradient vs. cost gradient — the profitability slope</td>
+              </tr>
+              <tr>
+                <td><strong>HR</strong></td>
+                <td>Mycelium — the edge binding all nodes</td>
+                <td>Salary payments, PAYE, NSSF filings, labor disputes</td>
+                <td>Workforce compliance, retention, performance</td>
+                <td>Labor cost per unit of construction progress</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ── SGD UPDATE RULE FOR STRATA ── -->
+        <h2>The Learning Loop — How the Twin Improves</h2>
+
+        <p>
+          The digital twin is not a dashboard. It is not a report.
+          It is a <em>learning system</em> that updates its model of Strata Stone
+          with every new data point Ibo's team generates.
+        </p>
+
+        <div class="math-block">
+          \[
+            \theta_{t+1} \;=\; \theta_t \;-\; \eta \cdot \nabla_\theta\,
+            \mathcal{L}\!\left(y_{\text{actual}}(t),\;\hat{y}_{\text{predicted}}(t \mid \theta_t)\right)
+          \]
+        </div>
+
+        <p>
+          \(\theta_t\) is the twin's current model of the firm —
+          its cost curves, its schedule probabilities, its client conversion rates.
+          \(\mathcal{L}\) is the discrepancy between what the twin predicted
+          and what the site actually reported this week.
+          \(\eta\) is how aggressively the twin updates — calibrated to the project phase
+          (higher \(\eta\) during foundation works when variance is high;
+          lower \(\eta\) during finishing when the trajectory is stable).
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Data event</th>
+                <th>Twin action</th>
+                <th>ukb-fractal stage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Weekly finance report submitted</td>
+                <td>Update \(\theta\) on cost trajectory — recalibrate \(\hat{y}_{\text{cost}}\)</td>
+                <td>Stage III → Stage IV</td>
+              </tr>
+              <tr>
+                <td>Procurement invoice deviates from budget</td>
+                <td>Flag \(\varepsilon_{\text{site}}\) spike — check if systematic drift or one-off noise</td>
+                <td>Stage II</td>
+              </tr>
+              <tr>
+                <td>Equipment damage reported</td>
+                <td>Update \(d^2y/dt^2\) — assess curvature impact on schedule</td>
+                <td>Stage IV</td>
+              </tr>
+              <tr>
+                <td>Client furniture selection completed</td>
+                <td>Lock \(C_{\text{client}}\) — project enters final-basin descent</td>
+                <td>Stage V</td>
+              </tr>
+              <tr>
+                <td>Client moves in</td>
+                <td>Close the loop — compute \(\int y\,dt\), update firm priors for next project</td>
+                <td>Stage V → Stage I (next build)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ── PRE/POST CONSTRUCTION AS GRADIENT ── -->
+        <h3>The Full Construction Gradient — Concept to Handover</h3>
+
+        <p>
+          Ibo's pre-and-post construction sequence is not a checklist.
+          It is a <em>gradient path</em> through a high-dimensional loss surface —
+          each step a mini-batch that updates the project's trajectory.
+          The digital twin maps every milestone as a coordinate transition:
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Construction phase</th>
+                <th>State-space transition</th>
+                <th>Key risk \((\varepsilon)\)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Land identification &amp; due diligence</td>
+                <td>\(x^{(1)}\): title status \(\to\) verified</td>
+                <td>Title fraud, boundary dispute</td>
+              </tr>
+              <tr>
+                <td>Architectural approval</td>
+                <td>\(x^{(2)}\): design status \(\to\) gazetted</td>
+                <td>Regulatory delay, revision requests</td>
+              </tr>
+              <tr>
+                <td>Foundation works</td>
+                <td>\(x^{(3)}\): structural completion \(\to\) 0–25%</td>
+                <td>Soil conditions, subcontractor scheduling</td>
+              </tr>
+              <tr>
+                <td>Pre-fab concrete setting</td>
+                <td>\(x^{(4)}\): structural \(\to\) 25–50%</td>
+                <td>Delivery delays, weather</td>
+              </tr>
+              <tr>
+                <td>Plastering, tiling, plumbing, electrical</td>
+                <td>\(x^{(5)}\): finishing \(\to\) 50–85%</td>
+                <td>Subcontractor coordination, material stockouts</td>
+              </tr>
+              <tr>
+                <td>CCTV, wood works, aluminium, paint</td>
+                <td>\(x^{(6)}\): completion \(\to\) 85–100%</td>
+                <td>Quality control, client change requests</td>
+              </tr>
+              <tr>
+                <td>Appliance installation, client move-in</td>
+                <td>\(C_x\): basin reached — project closes</td>
+                <td>Snagging list, collections outstanding</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ── UKUBONA AMBITION ── -->
+        <h3>Ukubona LLC — What the Twin Is Actually For</h3>
+
+        <p>
+          Ukubona LLC's ambition is not to build dashboards for construction firms.
+          It is to make the mathematics of survival legible
+          across every scale of human organization —
+          from the person (2 kWh/day) to the world (20 TWh/day).
+        </p>
+        <p>
+          The Strata Stone digital twin is the <strong>Firm-tier proof of concept</strong>:
+          can we take Ibo's operational breakdown —
+          hand-written, email-delivered, born in the dailiness of a Uganda construction site —
+          and transform it into a living gradient machine
+          that tells the CEO, in real time,
+          where on the loss surface the project sits,
+          how fast it is moving, and which direction is downhill?
+        </p>
+
+        <div class="verdict">
+          <p>
+            The answer is yes. The mathematics is the same
+            whether the system is a kidney-transplant recipient's eGFR
+            or a Kampala real estate parcel's cost trajectory.
+            The gradient exists. The basins exist. SGD finds them.
+          </p>
+          <p>
+            Strata Stone is not a client. It is a co-builder.
+            Ibo's email is not a brief. It is a Stage I dataset —
+            the raw \((x_i, y)\) from which a digital twin will learn
+            to witness, not just predict, what it means to build something real
+            in Uganda in 2025.
+          </p>
+        </div>
+
+      </section>
+
+  </main>
+  <!-- Centralized footer fetch -->
+  <div id="footer-placeholder"></div>
+
+  <!-- /ukhona/.. is hardcoded -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+<script src="../js/shared.js"></script>
+  </body>
+</html>
