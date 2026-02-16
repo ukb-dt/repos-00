@@ -1,0 +1,240 @@
+/* ============================================
+   CARD COMPONENT STYLES
+   ============================================ */
+
+.card {
+  background: var(--card-bg, #1a1a1f);
+  border: 1px solid var(--card-border, #2a2a3a);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  border-color: var(--accent-color, #4a9eff);
+  box-shadow: 0 8px 12px rgba(74, 158, 255, 0.15);
+}
+
+/* Typography */
+.card h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary, #ffffff);
+  text-align: left;
+}
+
+.card h2 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+  color: var(--text-secondary, #b0b0b0);
+  text-align: left;
+}
+
+.card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-primary, #ffffff);
+  text-align: left;
+}
+
+.card p {
+  line-height: 1.7;
+  margin-bottom: 1rem;
+  color: var(--text-primary, #e0e0e0);
+  text-align: left;
+}
+
+/* Lists */
+.card ul,
+.card ol {
+  margin: 1rem 0 1rem 1.5rem;
+  text-align: left;
+}
+
+.card li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+  text-align: left;
+}
+
+/* Code blocks */
+.card pre {
+  background: var(--code-bg, #0d0d12);
+  border: 1px solid var(--code-border, #2a2a3a);
+  border-radius: 8px;
+  padding: 1.5rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  text-align: left;
+}
+
+.card code {
+  font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+  font-size: 0.9rem;
+  color: var(--code-text, #a0d4ff);
+  background: var(--code-inline-bg, #1a1a24);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+
+.card pre code {
+  background: transparent;
+  padding: 0;
+  color: var(--code-text, #e0e0e0);
+  display: block;
+  white-space: pre;
+  line-height: 1.5;
+}
+
+/* JSON-specific formatting */
+.card pre code {
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+}
+
+/* Links */
+.card a {
+  color: var(--link-color, #4a9eff);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.card a:hover {
+  color: var(--link-hover, #7bb8ff);
+  text-decoration: underline;
+}
+
+/* Figures and media */
+.card figure {
+  margin: 2rem 0;
+}
+
+.card figcaption {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary, #b0b0b0);
+  font-style: italic;
+  text-align: left;
+}
+
+.card iframe {
+  border-radius: 8px;
+  border: 1px solid var(--card-border, #2a2a3a);
+}
+
+/* Images */
+.card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+/* Blockquotes */
+.card blockquote {
+  border-left: 4px solid var(--accent-color, #4a9eff);
+  padding-left: 1.5rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: var(--text-secondary, #b0b0b0);
+  text-align: left;
+}
+
+/* Tables */
+.card table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  text-align: left;
+}
+
+.card th,
+.card td {
+  padding: 0.75rem;
+  border: 1px solid var(--card-border, #2a2a3a);
+  text-align: left;
+}
+
+.card th {
+  background: var(--table-header-bg, #2a2a3a);
+  font-weight: 600;
+}
+
+/* Horizontal rules */
+.card hr {
+  border: none;
+  border-top: 1px solid var(--card-border, #2a2a3a);
+  margin: 2rem 0;
+}
+
+/* Strong emphasis */
+.card strong,
+.card b {
+  font-weight: 600;
+  color: var(--text-primary, #ffffff);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .card {
+    padding: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  .card h1 {
+    font-size: 2rem;
+  }
+
+  .card h2 {
+    font-size: 1.25rem;
+  }
+
+  .card h3 {
+    font-size: 1.1rem;
+  }
+
+  .card pre {
+    padding: 1rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Dark theme specific (if using data-theme) */
+[data-theme="dark"] .card {
+  background: #1a1a1f;
+  border-color: #2a2a3a;
+}
+
+[data-theme="dark"] .card pre {
+  background: #0d0d12;
+  border-color: #2a2a3a;
+}
+
+/* Light theme specific */
+[data-theme="light"] .card {
+  background: #ffffff;
+  border-color: #e0e0e0;
+}
+
+[data-theme="light"] .card h1,
+[data-theme="light"] .card h2,
+[data-theme="light"] .card h3,
+[data-theme="light"] .card p {
+  color: #1a1a1f;
+}
+
+[data-theme="light"] .card pre {
+  background: #f5f5f5;
+  border-color: #e0e0e0;
+}
+
+[data-theme="light"] .card code {
+  background: #f0f0f0;
+  color: #0066cc;
+}
