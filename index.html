@@ -1,20 +1,16 @@
 <!DOCTYPE html>
-<!-- html, head, body[header, main, footer] -->
 <html lang="en" data-theme="dark">
-<!-- head, body[header, main, footer] -->
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Ukhona — An Accounting of Survival</title>
+  <title>Smart Journaling</title>
   <meta name="color-scheme" content="dark light" />
   <meta name="theme-color" content="#0a0a0f" />
   <meta name="description" content="The Dude's Rug.">
   <link rel="canonical" href="https://ukb-dt.github.io/repos-00/">
   <meta name="robots" content="index,follow">
-  <meta name="color-scheme" content="dark light">
-  <meta name="theme-color" content="#0a0a0f">
-
-    <!-- Open Graph / Twitter -->
+    
+  <!-- Open Graph / Twitter -->
   <meta property="og:site_name" content="Repos">
   <meta property="og:title" content="The Dude's Rug">
   <meta property="og:description" content="Saddle Point">
@@ -28,20 +24,26 @@
   <meta name="twitter:description" content="Saddle Point">
   <meta name="twitter:image" content="ukhona/img/ukb-landscape.jpg"> 
 
-    <!-- Icons / assets -->
+  <!-- Icons / assets -->
   <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
   <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
   <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
   <link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-light.png" as="image">
   <link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-dark.png" as="image">
 
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link href="ukhona/css/head.css" rel="stylesheet" />
-  <script id="MathJax-script" defer
-     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-  </script>
+  
+  <!-- CSS IN ORDER: Variables → Base → Components → Footer -->
+  <link href="ukhona/css/variables.css?v=1.1" rel="stylesheet" />
+  <link href="ukhona/css/head.css?v=1.1" rel="stylesheet" />
+  <link href="ukhona/css/card.css?v=1.1" rel="stylesheet" />
+  <link href="ukhona/css/footer.css" rel="stylesheet" />
+  
+  <!-- MathJax -->
+  <script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <!-- body[header, main, footer] -->
 <body>
@@ -50,17 +52,18 @@
   <!-- header, main, footer -->
   <header class="header">
     <div class="nav-container wrap-max">
-      <img src="https://abikesa.github.io/logos/assets/ukubona-dark.png"
-           alt="Ukubona LLC Logo"
-           id="logo"
-           class="logo" />
-
+      <img src="https://abikesa.github.io/logos/assets/ukubona-dark.png" 
+          alt="Ukubona LLC Logo" 
+          id="logo" 
+          class="logo" 
+          data-light-src="https://abikesa.github.io/logos/assets/ukubona-light.png"
+          data-dark-src="https://abikesa.github.io/logos/assets/ukubona-dark.png" />
       <div class="top-right">
         <ul class="nav-links">
           <li><a href="https://ukb-dt.github.io/invariance/" class="nav-link" data-nav="home">Home</a></li>
         </ul>
 
-        <button class="menu-icon" id="menuIcon" role="button" aria-label="Open navigation menu" aria-expanded="false">
+    <button class="menu-icon" id="menuIcon" role="button" aria-label="Open navigation menu">
           <div></div><div></div><div></div>
           <div></div><div></div><div></div>
           <div></div><div></div><div></div>
