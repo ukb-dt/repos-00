@@ -172,37 +172,91 @@
     <section class="card">
         <h2>2. Tumescence vs. Detumescence (The Toggle)</h2>
         <p>The state of the system is a function of intracellular Calcium concentration $[Ca^{2+}]$. Efficiency is achieved through the <strong>Corporo-Veno-Occlusive Mechanism (CVOM)</strong>—a passive hydraulic lock.</p>
-        <table>
-            <thead>
-                <tr>
-                    <th>Feature</th>
-                    <th>Tumescence (ON)</th>
-                    <th>Detumescence (OFF)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>Primary Signal</strong></td>
-                    <td>Nitric Oxide (NO) - NANC Nerve</td>
-                    <td>Norepinephrine (NE) - Sympathetic</td>
-                </tr>
-                <tr>
-                    <td><strong>Second Messenger</strong></td>
-                    <td>cGMP (High)</td>
-                    <td>$IP_3$ / DAG</td>
-                </tr>
-                <tr>
-                    <td><strong>Ion Flux</strong></td>
-                    <td>$[Ca^{2+}]$ Sequestration (Decrease)</td>
-                    <td>$[Ca^{2+}]$ Release (Increase)</td>
-                </tr>
-                <tr>
-                    <td><strong>Hardware State</strong></td>
-                    <td>Smooth Muscle Relaxation</td>
-                    <td>Smooth Muscle Contraction</td>
-                </tr>
-            </tbody>
-        </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Autoencoder Stage</th>
+                        <th>Relaxation Pathway (NANC)</th>
+                        <th>Contraction Pathway (Sympathetic)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <strong>1. Signal</strong>
+                            <span class="stage-meta">Input Layer (Primary)</span>
+                        </td>
+                        <td>
+                            <strong>Nitric Oxide (NO)</strong><br>
+                            Lipophilic gas (diffuses freely)
+                        </td>
+                        <td>
+                            <strong>Norepinephrine (NE)</strong><br>
+                            Hydrophilic amine (binds surface)
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <strong>2. Protein</strong>
+                            <span class="stage-meta">Encoder / Transducer</span>
+                        </td>
+                        <td>
+                            <strong>Guanylyl Cyclase (sGC)</strong><br>
+                            Cytosolic enzyme activated by NO
+                        </td>
+                        <td>
+                            <strong>&alpha;<sub>1</sub>-Adrenergic / G<sub>q</sub></strong><br>
+                            GPCR activates Phospholipase C
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <strong>3. Messenger</strong>
+                            <span class="stage-meta">Latent Space (Second Messenger)</span>
+                        </td>
+                        <td>
+                            <strong>cyclic GMP (cGMP)</strong><br>
+                            High Concentration
+                        </td>
+                        <td>
+                            <strong>IP<sub>3</sub> / DAG</strong><br>
+                            Inositol Triphosphate / Diacylglycerol
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <strong>4. Protein</strong>
+                            <span class="stage-meta">Decoder / Kinase</span>
+                        </td>
+                        <td>
+                            <strong>Protein Kinase G (PKG)</strong><br>
+                            Phosphorylates to scavenge Ca
+                        </td>
+                        <td>
+                            <strong>IP<sub>3</sub> Receptor / PKC</strong><br>
+                            Opens SR channels / Phosphorylates
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <strong>5. Effect</strong>
+                            <span class="stage-meta">Output / Reconstruction</span>
+                        </td>
+                        <td>
+                            <strong>[Ca<sup>2+</sup>] Sequestration</strong><br>
+                            (Relaxation / MLCP dominates)
+                        </td>
+                        <td>
+                            <strong>[Ca<sup>2+</sup>] Release</strong><br>
+                            (Contraction / MLCK dominates)
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
     </section>
 
     <section class="card">
