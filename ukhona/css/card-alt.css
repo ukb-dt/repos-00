@@ -1,3 +1,24 @@
+
+    /* Mobile-specific fix for first card visibility */
+    @media (max-width:768px){
+        /* Ensure first card has extra top margin on mobile */
+        .page > .card:first-of-type {
+            margin-top: calc(var(--space-xl) + 2rem) !important;
+        }
+        
+        /* OR increase page padding-top on mobile */
+        .page {
+            padding-top: calc(var(--header-h) + var(--space-xl) + 2rem) !important;
+        }
+        
+        /* Ensure h1 is visible */
+        .card h1:first-child {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+    }
+
 /* ============================================
    CARD COMPONENT STYLES
    ============================================ */
