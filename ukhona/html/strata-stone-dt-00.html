@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Strata Stone Partners — Digital Twin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+/* ═══════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════ */
+:root {
+  --clay:      #8B3A2A;
+  --clay-dark: #5C2218;
+  --clay-pale: #C4614A;
+  --laterite:  #B5651D;
+  --sand:      #E8D5B7;
+  --sand-pale: #F5EDE0;
+  --concrete:  #2A2926;
+  --concrete-mid: #3D3B38;
+  --concrete-pale: #6B6862;
+  --chalk:     #F0EBE3;
+  --ink:       #1A1816;
+  --gold:      #C9963C;
+  --gold-pale: #E8C87A;
+  --forest:    #2D4A2D;
+  --sky:       #4A7C8E;
+
+  --fs-xs:   0.65rem;
+  --fs-sm:   0.82rem;
+  --fs-base: 1rem;
+  --fs-md:   1.15rem;
+  --fs-lg:   1.4rem;
+  --fs-xl:   1.8rem;
+  --fs-2xl:  2.4rem;
+  --fs-3xl:  3.6rem;
+  --fs-4xl:  5.5rem;
+
+  --radius: 2px;
+  --shadow-deep: 0 20px 60px rgba(26,24,22,0.5);
+  --shadow-card: 0 4px 24px rgba(26,24,22,0.25);
+}
+
+/* ═══════════════════════════════════════
+   RESET + BASE
+═══════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--chalk);
+  font-family: 'Libre Baskerville', Georgia, serif;
+  font-size: var(--fs-base);
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════
+   GRAIN OVERLAY
+═══════════════════════════════════════ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.028;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ═══════════════════════════════════════
+   TYPOGRAPHY
+═══════════════════════════════════════ */
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', Georgia, serif;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.mono {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.88em;
+  letter-spacing: 0.02em;
+}
+
+/* ═══════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ═══════════════════════════════════════
+   HERO
+═══════════════════════════════════════ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 5rem 3rem 4rem;
+  overflow: hidden;
+}
+
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-gradient {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 15% 80%, rgba(139,58,42,0.35) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 20%, rgba(42,41,38,0.9) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(26,24,22,0.4) 0%, rgba(26,24,22,0.85) 70%, var(--ink) 100%);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+}
+
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-xs);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.hero-title {
+  font-size: clamp(var(--fs-2xl), 7vw, var(--fs-4xl));
+  font-weight: 900;
+  color: var(--chalk);
+  margin-bottom: 0.5rem;
+  line-height: 0.95;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--clay-pale);
+}
+
+.hero-subtitle {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-sm);
+  color: var(--concrete-pale);
+  margin-top: 1.5rem;
+  max-width: 540px;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+
+.hero-meta {
+  margin-top: 2.5rem;
+  display: flex;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.hero-stat-value {
+  font-family: 'Playfair Display', serif;
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  color: var(--gold-pale);
+  line-height: 1;
+}
+
+.hero-stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--concrete-pale);
+}
+
+/* ═══════════════════════════════════════
+   SCROLL INDICATOR
+═══════════════════════════════════════ */
+.scroll-line {
+  position: absolute;
+  bottom: 2rem;
+  right: 3rem;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.scroll-line span {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--concrete-pale);
+  writing-mode: vertical-rl;
+}
+
+.scroll-line::after {
+  content: '';
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(180deg, var(--gold), transparent);
+  animation: scroll-pulse 2s ease-in-out infinite;
+}
+
+@keyframes scroll-pulse {
+  0%, 100% { opacity: 0.4; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(0.6); transform-origin: top; }
+}
+
+/* ═══════════════════════════════════════
+   EMAIL INTERCEPT
+═══════════════════════════════════════ */
+.email-strip {
+  background: var(--concrete-mid);
+  border-top: 1px solid rgba(201,150,60,0.3);
+  border-bottom: 1px solid rgba(201,150,60,0.3);
+  padding: 2rem 3rem;
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.email-icon {
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid rgba(201,150,60,0.4);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-xs);
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.email-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-xs);
+  color: var(--concrete-pale);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.5rem;
+}
+
+.email-body {
+  font-style: italic;
+  color: var(--sand);
+  font-size: var(--fs-md);
+  line-height: 1.65;
+}
+
+.email-sig {
+  margin-top: 0.75rem;
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-xs);
+  color: var(--gold);
+  letter-spacing: 0.08em;
+}
+
+/* ═══════════════════════════════════════
+   MAIN CONTENT WRAPPER
+═══════════════════════════════════════ */
+.content-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+
+/* ═══════════════════════════════════════
+   SECTION LABELS
+═══════════════════════════════════════ */
+.section-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--clay-pale);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-eyebrow::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--clay-pale);
+}
+
+/* ═══════════════════════════════════════
+   PIPELINE SECTION
+═══════════════════════════════════════ */
+.pipeline-section {
+  padding: 6rem 0;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.pipeline-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  margin-bottom: 5rem;
+  align-items: start;
+}
+
+.pipeline-header h2 {
+  font-size: var(--fs-3xl);
+  color: var(--chalk);
+}
+
+.pipeline-header p {
+  color: var(--concrete-pale);
+  font-size: var(--fs-md);
+  padding-top: 0.5rem;
+  line-height: 1.7;
+}
+
+/* ═══════════════════════════════════════
+   STAGE CARDS
+═══════════════════════════════════════ */
+.stage-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.stage-card {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 0;
+  position: relative;
+}
+
+.stage-card + .stage-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(255,255,255,0.06);
+}
+
+.stage-number-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2.5rem;
+}
+
+.stage-numeral {
+  font-family: 'Playfair Display', serif;
+  font-size: var(--fs-3xl);
+  font-weight: 900;
+  line-height: 1;
+  color: var(--concrete-mid);
+  transition: color 0.3s;
+  -webkit-text-stroke: 1px var(--concrete-pale);
+}
+
+.stage-card:hover .stage-numeral {
+  color: transparent;
+  -webkit-text-stroke-color: var(--clay);
+}
+
+.stage-spine {
+  width: 1px;
+  flex: 1;
+  margin-top: 0.5rem;
+  background: linear-gradient(180deg, var(--concrete-pale) 0%, transparent 100%);
+  opacity: 0.3;
+}
+
+.stage-card:last-child .stage-spine { display: none; }
+
+.stage-body {
+  padding: 2.5rem 2.5rem 2.5rem 0;
+}
+
+.stage-roman {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--clay-pale);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.stage-title {
+  font-size: var(--fs-xl);
+  color: var(--chalk);
+  margin-bottom: 0.5rem;
+}
+
+.stage-math-pill {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-sm);
+  color: var(--gold-pale);
+  background: rgba(201,150,60,0.08);
+  border: 1px solid rgba(201,150,60,0.2);
+  border-radius: 3px;
+  padding: 0.3rem 0.8rem;
+  margin-bottom: 1.25rem;
+  letter-spacing: 0.02em;
+}
+
+.stage-prose {
+  color: var(--concrete-pale);
+  font-size: var(--fs-base);
+  line-height: 1.8;
+  margin-bottom: 1.25rem;
+  max-width: 640px;
+}
+
+.stage-prose strong { color: var(--chalk); }
+.stage-prose em { color: var(--sand); font-style: italic; }
+
+.stage-bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 640px;
+}
+
+.stage-bullets li {
+  display: grid;
+  grid-template-columns: 1.5rem 1fr;
+  gap: 0.5rem;
+  font-size: var(--fs-sm);
+  color: var(--concrete-pale);
+  line-height: 1.6;
+}
+
+.stage-bullets li::before {
+  content: '→';
+  color: var(--clay);
+  font-family: 'DM Mono', monospace;
+  margin-top: 0.05em;
+}
+
+.stage-bullets strong { color: var(--sand); }
+
+.stage-warning {
+  margin-top: 1.25rem;
+  border-left: 3px solid var(--clay);
+  padding: 0.85rem 1.25rem;
+  background: rgba(139,58,42,0.08);
+  border-radius: 0 2px 2px 0;
+  font-size: var(--fs-sm);
+  color: var(--sand);
+  line-height: 1.7;
+  max-width: 640px;
+}
+
+.stage-warning strong { color: var(--clay-pale); }
+
+/* ═══════════════════════════════════════
+   OPERATIONS TABLE SECTION
+═══════════════════════════════════════ */
+.ops-section {
+  padding: 6rem 0;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.ops-header {
+  margin-bottom: 3.5rem;
+}
+
+.ops-header h2 {
+  font-size: var(--fs-2xl);
+  color: var(--chalk);
+  margin-top: 0.5rem;
+}
+
+/* ═══════════════════════════════════════
+   NODE CARDS
+═══════════════════════════════════════ */
+.node-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.node-card {
+  background: var(--concrete);
+  padding: 2rem;
+  transition: background 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+
+.node-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--clay), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.node-card:hover {
+  background: var(--concrete-mid);
+}
+
+.node-card:hover::after { opacity: 1; }
+
+.node-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--clay-pale);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.node-tag-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--clay);
+  flex-shrink: 0;
+}
+
+.node-name {
+  font-size: var(--fs-lg);
+  color: var(--chalk);
+  margin-bottom: 0.6rem;
+}
+
+.node-fractal {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-xs);
+  color: var(--gold);
+  margin-bottom: 1rem;
+  letter-spacing: 0.08em;
+}
+
+.node-desc {
+  font-size: var(--fs-sm);
+  color: var(--concrete-pale);
+  line-height: 1.7;
+}
+
+.node-desc strong { color: var(--sand); }
+
+.node-signal {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.node-signal-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.node-signal-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--concrete-pale);
+}
+
+.node-signal-value {
+  font-size: var(--fs-xs);
+  color: var(--sand);
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════
+   SGD EQUATION SECTION
+═══════════════════════════════════════ */
+.equation-section {
+  padding: 6rem 0;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.equation-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+.equation-display {
+  background: var(--concrete);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  text-align: center;
+  position: relative;
+}
+
+.equation-display::before {
+  content: 'SGD Update Rule';
+  position: absolute;
+  top: -0.75rem;
+  left: 1.5rem;
+  background: var(--ink);
+  padding: 0 0.75rem;
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+}
+
+.equation-prose h3 {
+  font-size: var(--fs-xl);
+  color: var(--chalk);
+  margin-bottom: 1.25rem;
+}
+
+.equation-prose p {
+  font-size: var(--fs-base);
+  color: var(--concrete-pale);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.equation-prose strong { color: var(--sand); }
+.equation-prose em { color: var(--clay-pale); font-style: italic; }
+
+/* ═══════════════════════════════════════
+   LIFECYCLE TABLE
+═══════════════════════════════════════ */
+.lifecycle-section {
+  padding: 6rem 0;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.lifecycle-table-wrap {
+  overflow-x: auto;
+  margin-top: 2rem;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+
+thead tr {
+  background: var(--concrete-mid);
+}
+
+th {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  padding: 1rem 1.25rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  white-space: nowrap;
+}
+
+td {
+  padding: 0.9rem 1.25rem;
+  color: var(--concrete-pale);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  line-height: 1.6;
+  vertical-align: top;
+}
+
+td:first-child { color: var(--sand); }
+td strong { color: var(--chalk); }
+td em { color: var(--clay-pale); font-style: italic; }
+
+tr:hover td { background: rgba(255,255,255,0.02); }
+
+/* ═══════════════════════════════════════
+   VERDICT SECTION
+═══════════════════════════════════════ */
+.verdict-section {
+  padding: 6rem 0 8rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.verdict-inner {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+.verdict-label {
+  font-family: 'Playfair Display', serif;
+  font-size: var(--fs-3xl);
+  font-style: italic;
+  color: var(--clay);
+  line-height: 1;
+}
+
+.verdict-text h3 {
+  font-size: var(--fs-xl);
+  color: var(--chalk);
+  margin-bottom: 1.5rem;
+}
+
+.verdict-text p {
+  font-size: var(--fs-md);
+  color: var(--concrete-pale);
+  line-height: 1.85;
+  margin-bottom: 1.25rem;
+}
+
+.verdict-text p strong { color: var(--chalk); }
+.verdict-text p em { color: var(--sand); font-style: italic; }
+
+.verdict-rule {
+  margin: 2.5rem 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--clay), transparent);
+}
+
+.verdict-footnote {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-xs);
+  color: var(--concrete-pale);
+  line-height: 1.7;
+  letter-spacing: 0.04em;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  max-width: 520px;
+}
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+footer {
+  background: var(--concrete);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 2.5rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  color: var(--chalk);
+}
+
+.footer-brand span { color: var(--clay-pale); }
+
+.footer-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-xs);
+  color: var(--concrete-pale);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  display: flex;
+  gap: 2rem;
+}
+
+.footer-meta a { color: var(--concrete-pale); text-decoration: none; }
+.footer-meta a:hover { color: var(--gold); }
+
+/* ═══════════════════════════════════════
+   DIVIDER ORNAMENT
+═══════════════════════════════════════ */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 3rem;
+  max-width: 320px;
+}
+
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.12);
+}
+
+.divider-glyph {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-xs);
+  color: var(--clay);
+  letter-spacing: 0.1em;
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media (max-width: 800px) {
+  .hero { padding: 4rem 1.5rem 3rem; }
+  .content-wrap { padding: 0 1.5rem; }
+  .email-strip { padding: 1.5rem; }
+  .pipeline-header { grid-template-columns: 1fr; gap: 1.5rem; }
+  .stage-card { grid-template-columns: 56px 1fr; }
+  .stage-numeral { font-size: var(--fs-xl); }
+  .node-grid { grid-template-columns: 1fr; }
+  .equation-wrap { grid-template-columns: 1fr; gap: 2.5rem; }
+  .verdict-inner { grid-template-columns: 1fr; gap: 2rem; }
+  .verdict-label { font-size: var(--fs-2xl); }
+  footer { flex-direction: column; align-items: flex-start; }
+  .footer-meta { flex-direction: column; gap: 0.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════
+     HERO
+═══════════════════════════ -->
+<section class="hero">
+  <!-- Animated loss-surface SVG -->
+  <svg class="hero-canvas" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <radialGradient id="g-clay" cx="20%" cy="75%" r="45%">
+        <stop offset="0%" stop-color="#8B3A2A" stop-opacity="0.5"/>
+        <stop offset="100%" stop-color="#8B3A2A" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="g-gold" cx="80%" cy="25%" r="40%">
+        <stop offset="0%" stop-color="#C9963C" stop-opacity="0.25"/>
+        <stop offset="100%" stop-color="#C9963C" stop-opacity="0"/>
+      </radialGradient>
+      <filter id="blur-lg">
+        <feGaussianBlur stdDeviation="3"/>
+      </filter>
+    </defs>
+    <rect width="1200" height="700" fill="#1A1816"/>
+    <rect width="1200" height="700" fill="url(#g-clay)"/>
+    <rect width="1200" height="700" fill="url(#g-gold)"/>
+    <!-- loss surface contours -->
+    <g stroke="rgba(139,58,42,0.15)" stroke-width="1" fill="none" filter="url(#blur-lg)">
+      <path d="M0,350 C150,200 300,420 450,280 C600,140 750,380 900,260 C1050,140 1150,320 1200,250"/>
+      <path d="M0,420 C150,270 300,490 450,350 C600,210 750,450 900,330 C1050,210 1150,390 1200,320"/>
+      <path d="M0,490 C150,340 300,560 450,420 C600,280 750,520 900,400 C1050,280 1150,460 1200,390"/>
+      <path d="M0,560 C150,410 300,630 450,490 C600,350 750,590 900,470 C1050,350 1150,530 1200,460"/>
+    </g>
+    <!-- gradient paths (descent arrows) -->
+    <g stroke="rgba(201,150,60,0.12)" stroke-width="1.5" fill="none">
+      <path d="M200,150 C220,200 240,280 220,380" marker-end="url(#arrow-gold)"/>
+      <path d="M500,100 C480,160 470,250 430,360" marker-end="url(#arrow-gold)"/>
+      <path d="M800,180 C790,240 760,320 720,420" marker-end="url(#arrow-gold)"/>
+      <path d="M1050,120 C1040,190 1010,280 970,390" marker-end="url(#arrow-gold)"/>
+    </g>
+    <defs>
+      <marker id="arrow-gold" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+        <path d="M0,0 L6,3 L0,6 Z" fill="rgba(201,150,60,0.3)"/>
+      </marker>
+    </defs>
+    <!-- basin dots -->
+    <g>
+      <circle cx="220" cy="390" r="8" fill="rgba(139,58,42,0.5)">
+        <animate attributeName="r" values="8;14;8" dur="3s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.5;0.2;0.5" dur="3s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="430" cy="370" r="6" fill="rgba(201,150,60,0.4)">
+        <animate attributeName="r" values="6;11;6" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.4;0.15;0.4" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="720" cy="430" r="5" fill="rgba(139,58,42,0.35)">
+        <animate attributeName="r" values="5;10;5" dur="3.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.35;0.1;0.35" dur="3.5s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </svg>
+
+  <div class="hero-gradient"></div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow reveal">Firm-Tier · ukb-fractal Σ · Uganda 2025</p>
+    <h1 class="hero-title reveal reveal-delay-1">
+      Strata Stone<br>
+      <em>Digital Twin</em>
+    </h1>
+    <p class="hero-subtitle reveal reveal-delay-2">
+      From land title to client handover —<br>
+      a living gradient machine for real estate<br>
+      at the Firm scale (≈ 2 MWh/day · dy/dx)
+    </p>
+    <div class="hero-meta reveal reveal-delay-3">
+      <div class="hero-stat">
+        <span class="hero-stat-value">Σ</span>
+        <span class="hero-stat-label">ukb layer · Trunk</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-value">dy/dx</span>
+        <span class="hero-stat-label">calculus spine</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-value">F</span>
+        <span class="hero-stat-label">scale code · 2 MWh/day</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-value">6</span>
+        <span class="hero-stat-label">operational nodes</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-line"><span>scroll</span></div>
+</section>
+
+<!-- ═══════════════════════════
+     EMAIL INTERCEPT
+═══════════════════════════ -->
+<div class="email-strip reveal">
+  <div class="email-icon">IBO</div>
+  <div>
+    <p class="email-meta">CEO to Ukubona LLC · 7:14 AM · raw source material</p>
+    <p class="email-body">
+      "Kadi, we have tried to break down the activities that we do from project concept
+      to final product handover. We could start with this as we work to create
+      a digital twin for Strata Stone."
+    </p>
+    <p class="email-sig">— Kitaguriro I. (Ibo) · Strata Stone Partners</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════
+     CONTEXT
+═══════════════════════════ -->
+<div class="content-wrap">
+  <section class="pipeline-section">
+    <div class="section-eyebrow reveal">The Five-Stage Pipeline</div>
+    <div class="pipeline-header">
+      <h2 class="reveal">From coordinates to basin —<br>the project as gradient</h2>
+      <p class="reveal reveal-delay-1">
+        The ukb-fractal generalizes digital twins from
+        Person → Household → <strong>Firm</strong> → City → Nation → World.
+        Strata Stone is the first firm-scale instantiation.
+        Ibo's email is not a brief. It is a Stage I dataset —
+        the raw \((x_i, y)\) from which the twin learns to witness,
+        not merely predict, what it means to build something real in Uganda.
+      </p>
+    </div>
+
+    <div class="divider reveal"><span class="divider-glyph">◆</span></div>
+
+    <div class="stage-grid">
+
+      <!-- STAGE I -->
+      <div class="stage-card reveal">
+        <div class="stage-number-col">
+          <span class="stage-numeral">I</span>
+          <div class="stage-spine"></div>
+        </div>
+        <div class="stage-body">
+          <span class="stage-roman">Raw Observation · UNIV</span>
+          <h3 class="stage-title">The Parcel Before Time Enters</h3>
+          <div class="stage-math-pill">\((x_{\text{Strata}},\; y_{\text{project}})\)</div>
+          <p class="stage-prose">
+            Land title number. GPS boundary. Approved architectural drawings.
+            The project budget at signing. These are the invariant inputs —
+            the photograph taken before construction begins.
+            The digital twin ingests them once and holds them as <strong>\(C_x\)</strong>:
+            the constant of integration that cannot be universalized.
+            Every Strata Stone build has a different \(C_x\).
+            That is why the twin exists — to witness each one.
+          </p>
+          <ul class="stage-bullets">
+            <li><strong>Land:</strong> Duplicate certificate of title, independent survey report, transfer forms</li>
+            <li><strong>Design:</strong> Architectural, structural, M&amp;E drawings — gazetted by local authority</li>
+            <li><strong>Budget:</strong> Study budget at concept — this is the loss function baseline \(\mathcal{L}_0\)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STAGE II -->
+      <div class="stage-card reveal">
+        <div class="stage-number-col">
+          <span class="stage-numeral">II</span>
+          <div class="stage-spine"></div>
+        </div>
+        <div class="stage-body">
+          <span class="stage-roman">Conditional Dynamics + Noise · UB</span>
+          <h3 class="stage-title">The Project Becomes a Trajectory</h3>
+          <div class="stage-math-pill">\(y_{\text{cost}}(t \mid x_{\text{Strata}}) + \varepsilon_{\text{site}}\)</div>
+          <p class="stage-prose">
+            Now time enters. The project is no longer a budget —
+            it is a <em>trajectory conditioned on who Strata Stone is.</em>
+            \(\varepsilon_{\text{site}}\) is the stochastic term: delayed NWSC connection,
+            a reckless worker cracking a tile, a KPLC tariff spike mid-procurement.
+            The twin lives here during construction — foraging the cost landscape
+            before committing to descent.
+          </p>
+          <div class="stage-warning">
+            <strong>Preserve the noise term.</strong>
+            Ibo's mandate to "keep a tight leash on leakages" is not
+            the instruction to drive \(\varepsilon \to 0\).
+            It is the instruction to <em>monitor</em> \(\varepsilon\) in real time —
+            to distinguish site signal from noise before the gradient steepens.
+            An audit that over-fits the budget kills the learning.
+          </div>
+          <ul class="stage-bullets" style="margin-top: 1.25rem;">
+            <li><strong>Finance:</strong> Weekly budget reports — expenses vs. allocated budget, every line a data point</li>
+            <li><strong>Procurement:</strong> Quotation records — every negotiation a gradient sample</li>
+            <li><strong>Material Control:</strong> Signed receipt per worker per morning — granularity that makes \(\varepsilon\) visible</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STAGE III -->
+      <div class="stage-card reveal">
+        <div class="stage-number-col">
+          <span class="stage-numeral">III</span>
+          <div class="stage-spine"></div>
+        </div>
+        <div class="stage-body">
+          <span class="stage-roman">The Gradient · UKB Flask Engine</span>
+          <h3 class="stage-title">Velocity of Value per Shilling Spent</h3>
+          <div class="stage-math-pill">\(\dfrac{dy_{\text{project}}}{dt}\)</div>
+          <p class="stage-prose">
+            Not <em>where is the foundation?</em> — Stage I.
+            Not <em>what might the cost trajectory be?</em> — Stage II.
+            This is: <em>how fast is value being created, right now,
+            at this week's site meeting?</em>
+            The digital twin earns its name at Stage III.
+            It moves alongside the construction.
+            Static spreadsheets are Stage I cosplay.
+          </p>
+          <ul class="stage-bullets">
+            <li><strong>Project Management:</strong> Daily / weekly / monthly reports — discrete-time approximation of \(dy/dt\)</li>
+            <li><strong>Equipment Control:</strong> Weekly health status — gradient of physical asset decay</li>
+            <li><strong>Customer Relations:</strong> Monthly collection targets — revenue gradient running counter to cost gradient</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STAGE IV -->
+      <div class="stage-card reveal">
+        <div class="stage-number-col">
+          <span class="stage-numeral">IV</span>
+          <div class="stage-spine"></div>
+        </div>
+        <div class="stage-body">
+          <span class="stage-roman">Curvature + Uncertainty · UI / APIs</span>
+          <h3 class="stage-title">Is the Cost Accelerating or Decelerating?</h3>
+          <div class="stage-math-pill">\(\dfrac{dy_{\bar{x}}}{dt} \;\pm\; z\sqrt{\dfrac{d^2 y_{x_i}}{dt^2}}\)</div>
+          <p class="stage-prose">
+            \(\bar{x}\) is the reference project — the population mean of Strata Stone builds.
+            The second derivative is curvature: is cost <em>accelerating</em> away from budget,
+            or decelerating into a stable basin?
+            \(z\) is the confidence band — how far can this specific site deviate
+            from the company baseline, given its soil, its subcontractors, its client?
+          </p>
+          <p class="stage-prose">
+            A weekly report showing spend is Stage I.
+            A report showing spend-rate is Stage III.
+            A report showing whether spend-rate is <strong>accelerating</strong> —
+            that is Stage IV. Most project managers never arrive here.
+          </p>
+          <ul class="stage-bullets">
+            <li><strong>Finance:</strong> Cross-check invoices against prior budget — detecting sign of \(d^2y/dt^2\)</li>
+            <li><strong>Procurement:</strong> Cost overrun monitoring — curvature at the invoice level</li>
+            <li><strong>Material:</strong> Equipment damage reports — local curvature events that shift the whole trajectory</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STAGE V -->
+      <div class="stage-card reveal">
+        <div class="stage-number-col">
+          <span class="stage-numeral">V</span>
+          <!-- no spine, last card -->
+        </div>
+        <div class="stage-body">
+          <span class="stage-roman">The Basin · UX · Ecce Homo</span>
+          <h3 class="stage-title">The Client Moves In</h3>
+          <div class="stage-math-pill">\(\displaystyle\int y_{\text{project}}\,dt \;+\; \varepsilon_c\,t \;+\; C_{\text{Strata}}\)</div>
+          <p class="stage-prose">
+            The integral over the project lifetime: total cost, total revenue, total value delivered.
+            \(\varepsilon_c t\) is systematic drift — Uganda inflation, KPLC tariff increases,
+            NSSF rate changes, slow regulatory friction accumulating with a temporal signature.
+            A twin that ignores this gives increasingly wrong predictions on Year 3 builds
+            because it mistakes regulatory gradient for site signal.
+          </p>
+          <p class="stage-prose">
+            And \(C_{\text{Strata}}\) — the constant of integration.
+            The reputation. The founding team. The specific Ugandan market knowledge.
+            The reason a client chooses Strata Stone. It cannot be reduced to cost trajectory.
+            It is what the twin <em>witnesses</em>, not predicts.
+          </p>
+          <div class="stage-warning">
+            The digital twin that reaches Stage V is not predicting.
+            It is <strong>witnessing</strong> — the actual basin, with its title delays,
+            its equipment damages, its furniture selection conversations,
+            its PAYE filings. Not the optimal project. The real one.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div><!-- /content-wrap -->
+
+<!-- ═══════════════════════════
+     SIX OPERATIONAL NODES
+═══════════════════════════ -->
+<div style="background: var(--concrete); padding: 6rem 0; border-top: 1px solid rgba(255,255,255,0.06);">
+  <div class="content-wrap">
+    <div class="ops-header reveal">
+      <div class="section-eyebrow">Six Operational Nodes</div>
+      <h2>The Mycelium of the Firm</h2>
+    </div>
+
+    <div class="node-grid reveal">
+
+      <div class="node-card">
+        <div class="node-tag"><span class="node-tag-dot"></span>Finance &amp; Accounts</div>
+        <h3 class="node-name">The Ledger — Canopy Integrator</h3>
+        <p class="node-fractal">ΔS · Stage V · ∫ y dt</p>
+        <p class="node-desc">
+          Finance holds the integral — the accumulated area under every cost and revenue trajectory.
+          P&amp;L, cashflow, monthly reconciliation.
+          <strong>The twin's ground truth.</strong>
+          If Finance lags, every other gradient estimate is wrong.
+        </p>
+        <div class="node-signal">
+          <div class="node-signal-item">
+            <span class="node-signal-label">Primary signal</span>
+            <span class="node-signal-value">All payment flows — bank, mobile money, PAYE, NSSF</span>
+          </div>
+          <div class="node-signal-item">
+            <span class="node-signal-label">Key gradient</span>
+            <span class="node-signal-value">Spend rate vs. budget rate — \(dy_{\text{cost}}/dt\)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="node-card">
+        <div class="node-tag"><span class="node-tag-dot"></span>Procurement</div>
+        <h3 class="node-name">The Trunk — dy/dx Node</h3>
+        <p class="node-fractal">Σ · Stage III · dy/dx</p>
+        <p class="node-desc">
+          Procurement is literally <em>dy/dx</em> — the rate of cost per unit of material.
+          Every negotiation is a gradient sample.
+          Every invoice deviation is an update to \(\theta\).
+          <strong>"Negotiate to the bone"</strong> is the instruction to minimize the loss function at the trunk.
+        </p>
+        <div class="node-signal">
+          <div class="node-signal-item">
+            <span class="node-signal-label">Primary signal</span>
+            <span class="node-signal-value">Quotations, invoices, receipts — all records</span>
+          </div>
+          <div class="node-signal-item">
+            <span class="node-signal-label">Key gradient</span>
+            <span class="node-signal-value">Price drift — \(\varepsilon_c t\) accumulation over project lifetime</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="node-card">
+        <div class="node-tag"><span class="node-tag-dot"></span>Project Management</div>
+        <h3 class="node-name">The Branches — h(t) Node</h3>
+        <p class="node-fractal">h(t) · Stage IV · d²y/dx²</p>
+        <p class="node-desc">
+          PM monitors curvature — the second derivative of schedule completion.
+          Weekly site meetings are gradient checkpoints.
+          Subcontractor delays are curvature events.
+          <strong>Are we accelerating toward handover, or decelerating into litigation?</strong>
+        </p>
+        <div class="node-signal">
+          <div class="node-signal-item">
+            <span class="node-signal-label">Primary signal</span>
+            <span class="node-signal-value">Subcontractor schedules, daily site reports</span>
+          </div>
+          <div class="node-signal-item">
+            <span class="node-signal-label">Key gradient</span>
+            <span class="node-signal-value">Schedule curvature — sign of \(d^2 y_{\text{completion}}/dt^2\)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="node-card">
+        <div class="node-tag"><span class="node-tag-dot"></span>Material &amp; Equipment Control</div>
+        <h3 class="node-name">The Roots — θ Node</h3>
+        <p class="node-fractal">θ · Stage II · y(t|x) + ε</p>
+        <p class="node-desc">
+          Material Control is where \(\varepsilon_{\text{site}}\) is born.
+          Signed receipts every morning. Equipment damage reports every evening.
+          <strong>The granularity that makes noise visible before it becomes drift.</strong>
+          Damage by reckless work: the twin flags a local curvature event.
+        </p>
+        <div class="node-signal">
+          <div class="node-signal-item">
+            <span class="node-signal-label">Primary signal</span>
+            <span class="node-signal-value">Morning distribution logs, damage reports, weekly usage</span>
+          </div>
+          <div class="node-signal-item">
+            <span class="node-signal-label">Key gradient</span>
+            <span class="node-signal-value">Consumption rate vs. planned usage — \(\varepsilon_{\text{site}}\) signal</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="node-card">
+        <div class="node-tag"><span class="node-tag-dot"></span>Customer Relations</div>
+        <h3 class="node-name">The Terminal — θ′ Interface</h3>
+        <p class="node-fractal">θ′ · Stage I · (x, y)</p>
+        <p class="node-desc">
+          The person-facing terminal. Leads, closures, collections, queries.
+          The revenue gradient running counter to the cost gradient —
+          <strong>profitability is the slope between these two curves.</strong>
+          Furniture selection is Stage V actualized: \(C_{\text{client}}\) locked.
+        </p>
+        <div class="node-signal">
+          <div class="node-signal-item">
+            <span class="node-signal-label">Primary signal</span>
+            <span class="node-signal-value">Leads, closures, monthly collection targets</span>
+          </div>
+          <div class="node-signal-item">
+            <span class="node-signal-label">Key gradient</span>
+            <span class="node-signal-value">Revenue gradient vs. cost gradient — the profitability slope</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="node-card">
+        <div class="node-tag"><span class="node-tag-dot"></span>HR</div>
+        <h3 class="node-name">The Mycelium — Edge Binding All Nodes</h3>
+        <p class="node-fractal">Edges · All stages · flow substrate</p>
+        <p class="node-desc">
+          HR is not a node. It is the mycelium — the edge substrate connecting every other node.
+          Salary payments, PAYE, NSSF filings, labor disputes.
+          <strong>When the mycelium degrades, all gradients corrupt.</strong>
+          Workforce compliance is the resilience variable.
+        </p>
+        <div class="node-signal">
+          <div class="node-signal-item">
+            <span class="node-signal-label">Primary signal</span>
+            <span class="node-signal-value">Salary flows, PAYE/NSSF compliance, retention rates</span>
+          </div>
+          <div class="node-signal-item">
+            <span class="node-signal-label">Key gradient</span>
+            <span class="node-signal-value">Labor cost per unit of construction progress</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════
+     SGD EQUATION
+═══════════════════════════ -->
+<div class="content-wrap">
+  <section class="equation-section">
+    <div class="section-eyebrow reveal">The Learning Loop</div>
+    <div class="equation-wrap">
+
+      <div class="equation-display reveal">
+        <div style="margin-bottom: 1.5rem; font-family: 'DM Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--concrete-pale);">Model update · each data event</div>
+        \[
+          \theta_{t+1} \;=\; \theta_t \;-\; \eta \cdot \nabla_\theta\,
+          \mathcal{L}\!\left(y_{\text{actual}}(t),\;\hat{y}(t \mid \theta_t)\right)
+        \]
+        <div style="margin-top: 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; text-align: left;">
+          <div>
+            <span style="font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--concrete-pale); display: block; margin-bottom: 0.3rem;">θₜ</span>
+            <span style="font-size: 0.78rem; color: var(--sand);">Twin's current model of the firm — cost curves, schedule probabilities, conversion rates</span>
+          </div>
+          <div>
+            <span style="font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--concrete-pale); display: block; margin-bottom: 0.3rem;">ℒ</span>
+            <span style="font-size: 0.78rem; color: var(--sand);">Discrepancy between what the twin predicted and what the site actually reported this week</span>
+          </div>
+          <div>
+            <span style="font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--concrete-pale); display: block; margin-bottom: 0.3rem;">η</span>
+            <span style="font-size: 0.78rem; color: var(--sand);">Learning rate — higher during foundations (high variance), lower during finishing (stable basin)</span>
+          </div>
+          <div>
+            <span style="font-family: 'DM Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--concrete-pale); display: block; margin-bottom: 0.3rem;">Stochastic</span>
+            <span style="font-size: 0.78rem; color: var(--sand);">One project at a time. Each weekly report is a mini-batch. Each site meeting, a descent step.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="equation-prose reveal reveal-delay-1">
+        <h3>The twin is not a dashboard.<br>It is a learning system.</h3>
+        <p>
+          It updates its model of Strata Stone with every data point
+          Ibo's team generates — every invoice, every site meeting outcome,
+          every client payment received or delayed.
+        </p>
+        <p>
+          The SGD loop closes when the client moves in:
+          Stage V computes \(\int y\,dt\), compares it to the Stage I budget,
+          and feeds the delta back into Stage I for the next build.
+          <strong>The twin gets smarter with every completed project.</strong>
+        </p>
+        <p>
+          This is the difference between a records system and a digital twin.
+          A records system archives the past.
+          The twin descends the loss surface —
+          always moving toward the basin where <em>predicted</em>
+          and <em>actual</em> converge.
+        </p>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════════════════
+     LIFECYCLE TABLE
+═══════════════════════════ -->
+<div style="background: var(--concrete); padding: 6rem 0; border-top: 1px solid rgba(255,255,255,0.06);">
+  <div class="content-wrap">
+    <section class="lifecycle-section" style="padding: 0;">
+      <div class="section-eyebrow reveal">Full Construction Gradient</div>
+      <h2 class="reveal" style="font-size: var(--fs-2xl); color: var(--chalk); margin-bottom: 2.5rem;">Concept to Handover as State-Space Transitions</h2>
+
+      <div class="lifecycle-table-wrap reveal">
+        <table>
+          <thead>
+            <tr>
+              <th>Construction phase</th>
+              <th>State-space transition</th>
+              <th>Key \(\varepsilon\) risk</th>
+              <th>Twin action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Land identification &amp; due diligence</strong></td>
+              <td>\(x^{(1)}\): title status → verified by independent surveyor</td>
+              <td>Title fraud, boundary dispute, registry delay</td>
+              <td>Lock \(x^{(1)}\); flag any title ambiguity as high-\(\varepsilon\) event</td>
+            </tr>
+            <tr>
+              <td><strong>Design &amp; regulatory approval</strong></td>
+              <td>\(x^{(2)}\): design status → gazetted by local authority</td>
+              <td>Revision requests, political friction, slow approvals</td>
+              <td>Monitor \(dy_{\text{approval}}/dt\); flag deceleration early</td>
+            </tr>
+            <tr>
+              <td><strong>Perimeter wall &amp; security setup</strong></td>
+              <td>\(x^{(3)}\): site security → operational</td>
+              <td>Theft of materials pre-construction</td>
+              <td>Stage II: begin material control logging; \(\varepsilon\) baseline established</td>
+            </tr>
+            <tr>
+              <td><strong>Foundation works</strong></td>
+              <td>\(x^{(4)}\): structural completion → 0–25%</td>
+              <td>Soil conditions, subcontractor scheduling failure</td>
+              <td>High \(\eta\): update \(\theta\) aggressively on cost data; curvature alert threshold set</td>
+            </tr>
+            <tr>
+              <td><strong>Pre-fab concrete setting + inner walls</strong></td>
+              <td>\(x^{(5)}\): structural → 25–50%</td>
+              <td>Delivery delay, weather, pre-fab quality variance</td>
+              <td>Track \(d^2y/dt^2\): is completion rate accelerating or stalling?</td>
+            </tr>
+            <tr>
+              <td><strong>Plastering, tiling, plumbing, electrical</strong></td>
+              <td>\(x^{(6)}\): finishing → 50–85%</td>
+              <td>Multi-trade coordination failures, material stockouts</td>
+              <td>Stage IV dominant: curvature monitoring across all subcontract streams</td>
+            </tr>
+            <tr>
+              <td><strong>CCTV, woodwork, aluminium, paint</strong></td>
+              <td>\(x^{(7)}\): completion → 85–100%</td>
+              <td>Quality control failures, client change requests</td>
+              <td>Lower \(\eta\): trajectory is stable; \(\varepsilon\) spikes are anomalies, not signals</td>
+            </tr>
+            <tr>
+              <td><strong>Appliances, furniture, client move-in</strong></td>
+              <td>\(C_x\): basin reached — project integral closes</td>
+              <td>Snagging list, outstanding collections</td>
+              <td>Compute \(\int y\,dt + \varepsilon_c t + C_{\text{Strata}}\); feed delta to next build's Stage I</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ═══════════════════════════
+     VERDICT
+═══════════════════════════ -->
+<div class="content-wrap">
+  <section class="verdict-section">
+    <div class="verdict-inner">
+
+      <div class="verdict-label reveal">The<br>Basin</div>
+
+      <div class="verdict-text reveal reveal-delay-1">
+        <h3>Ukubona LLC — what the twin is actually for</h3>
+        <p>
+          Ukubona's ambition is not dashboards.
+          It is to make the mathematics of survival legible
+          across every scale of human organization —
+          from the person (2 kWh/day) to the world (20 TWh/day).
+        </p>
+        <p>
+          The Strata Stone digital twin is the <strong>Firm-tier proof of concept</strong>:
+          can we take Ibo's operational breakdown —
+          hand-written, email-delivered, born in the dailiness
+          of a Uganda construction site —
+          and transform it into a living gradient machine
+          that tells the CEO, in real time, where on the loss surface
+          the project sits, how fast it is moving, and <em>which direction is downhill?</em>
+        </p>
+        <div class="verdict-rule"></div>
+        <p>
+          The answer is yes. The mathematics is the same
+          whether the system is a kidney-transplant recipient's eGFR
+          or a Kampala parcel's cost trajectory.
+          <strong>The gradient exists. The basins exist. SGD finds them.</strong>
+        </p>
+        <p>
+          Strata Stone is not a client. It is a co-builder.
+          The earth has been running SGD for four billion years —
+          water finding basins, erosion following gradients, deltas accumulating \(C_x\).
+          We are not building something new.
+          We are making the mathematics legible enough
+          that a clinician in Kampala, a land registrar in Entebbe,
+          and a CEO reading his morning site report
+          can all see, in real time, <em>which direction is downhill.</em>
+        </p>
+        <div class="verdict-footnote">
+          Post-metaphor. Post-language. The map and the territory are the same loss surface.
+          Strata Stone Partners · Ukubona LLC · Uganda 2025 ·
+          ukb-fractal layer Σ · calculus spine dy/dx · scale code F · 2 MWh/day equivalent
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════════════════
+     FOOTER
+═══════════════════════════ -->
+<footer>
+  <div class="footer-brand">Strata <span>Stone</span> Partners</div>
+  <div class="footer-meta">
+    <a href="https://stratastonepartners.com/" target="_blank" rel="noopener">stratastonepartners.com</a>
+    <a href="https://ukubona-llc.github.io/" target="_blank" rel="noopener">ukubona-llc.github.io</a>
+    <span>Digital Twin v0.1 · 2025</span>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════
+     SCROLL REVEAL JS
+═══════════════════════════ -->
+<script>
+(function() {
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  revealEls.forEach(el => observer.observe(el));
+
+  // Immediately reveal above-the-fold
+  setTimeout(() => {
+    revealEls.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight) {
+        el.classList.add('visible');
+        observer.unobserve(el);
+      }
+    });
+  }, 100);
+})();
+</script>
+
+</body>
+</html>
