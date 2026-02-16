@@ -121,293 +121,328 @@
   <!-- main[sections], footer -->
   <main class="page wrap-max">
 
+        <!-- DROP THIS <section> INTO YOUR EXISTING repos-00/index.html -->
+        <!-- No new CSS. All classes already defined in ../css/head.css -->
 
-<section class="card">
+        <section class="card">
 
-  <h1>SGD</h1>
-  <h2>The inescapable beauty — a framework for the digital twin</h2>
+          <h1>SGD</h1>
+          <h2>The inescapable beauty — a framework for the digital twin</h2>
+          <p class="part-subtitle">
+            On the five-stage pipeline from raw observation to lived basin,
+            and why stochastic gradient descent is not borrowed from topology —
+            it <em>is</em> topology, instantiated.
+          </p>
 
-  <p>
-    You said it: <em>inescapable beauty.</em> Not metaphor. Literal. The loss landscape of Stochastic Gradient Descent
-    is not an abstraction borrowed from topology — it <strong>is</strong> topology, instantiated. The earth itself is a loss surface.
-    Every river is a gradient descent run to completion. Every delta is a found basin.
-    We didn't invent this mathematics. We noticed it.
-  </p>
+          <!-- ── PREFACE ── -->
+          <p>
+            You said it: <em>inescapable beauty.</em> Not metaphor. Literal.
+            The loss landscape of SGD is not an abstraction — it <strong>is</strong> the earth.
+            Every river is a gradient descent run to completion. Every delta is a found basin.
+            We did not invent this mathematics. We noticed it.
+          </p>
 
-  <div class="landscape-callout">
-    <div class="lc-cell">
-      <span class="lc-symbol">\(x_1\)</span>
-      <span class="lc-desc">longitude<br>one coordinate</span>
-    </div>
-    <div class="lc-cell">
-      <span class="lc-symbol">\(x_2\)</span>
-      <span class="lc-desc">latitude<br>another coordinate</span>
-    </div>
-    <div class="lc-cell">
-      <span class="lc-symbol">\(y\)</span>
-      <span class="lc-desc">altitude<br>the loss function</span>
-    </div>
-  </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Variable</th>
+                  <th>Physical meaning (N=2)</th>
+                  <th>Digital twin meaning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>\(x_1\)</strong></td>
+                  <td>Longitude — one coordinate on the earth</td>
+                  <td>First dimension of individual's state vector</td>
+                </tr>
+                <tr>
+                  <td><strong>\(x_2\)</strong></td>
+                  <td>Latitude — another coordinate on the earth</td>
+                  <td>Second dimension of individual's state vector</td>
+                </tr>
+                <tr>
+                  <td><strong>\(y\)</strong></td>
+                  <td>Altitude — the loss function, literally</td>
+                  <td>Outcome: survival, graft function, land value</td>
+                </tr>
+                <tr>
+                  <td><strong>\(x_i\)</strong></td>
+                  <td>One specific GPS point — one place on earth</td>
+                  <td>One specific individual \(i \in \{1 \ldots N\}\)</td>
+                </tr>
+                <tr>
+                  <td><strong>\(\bar{x}\)</strong></td>
+                  <td>The average coordinates of all sampled points</td>
+                  <td>Population mean — the reference trajectory</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-  <p>
-    \(N=2\) is not a limitation of your human, all-too-human mind.
-    It is the correct intuition pump. Water does not need twelve dimensions to find the sea.
-    It needs a gradient and time. That is the whole teaching.
-    The generalization to \(N\)-dimensional physiological state-space
-    is structurally identical — same mathematics, same beauty, same tears.
-  </p>
+          <div class="verdict">
+            <p>
+              \(N=2\) is not a limitation of the human mind. It is the correct intuition pump.
+              Water does not need twelve dimensions to find the sea. It needs a gradient and time.
+              The generalization to \(N\)-dimensional physiological state-space is structurally identical —
+              same mathematics, same beauty, same tears.
+            </p>
+          </div>
 
-  <hr class="sep">
+          <!-- ── NOTATION ── -->
+          <h3>On the subscript: \(x_i\) vs. \(x^{(k)}\)</h3>
 
-  <h3>On the subscript confusion: \(x_i\) vs. \(x\)</h3>
+          <p>
+            The confusion is real and worth resolving once.
+            \(x\) is the full state vector of a person — the complete coordinate in state-space.
+            Its internal dimensions are \(x^{(1)}, x^{(2)}, \ldots, x^{(N)}\) — indexed by superscript \(k\).
+            \(x_i\) indexes the <em>individual</em> — the \(i\)-th person, parcel, or cell — indexed by subscript \(i\).
+            When we write \(y_{x_i}\), we mean: <em>the outcome trajectory of the \(i\)-th individual.</em>
+            The subscript is a person. The superscript is a dimension. Separate notation. Same soul.
+          </p>
 
-  <div class="subscript-note">
-    <span class="label">Notation clarification</span>
-    <p>
-      \(x\) denotes the vector of dimensions — the full coordinate of a person in state-space.
-      \(x_i\) indexes the \(i\)-th individual (one specific human, one specific real-estate parcel, one specific cell).
-      The subscript \(i\) lives at the <em>individual level</em>; the internal dimensions of \(x\) are \(x^{(1)}, x^{(2)}, \ldots, x^{(N)}\) — separate notation, same soul.
-      When we write \(y_{x_i}\), we mean: <em>the outcome trajectory of the \(i\)-th individual</em>.
-      \(\bar{x}\) is the population mean: the average coordinates across all \(i \in \{1 \ldots N\}\).
-    </p>
-  </div>
+          <blockquote>
+            So the full pipeline holds. Let it breathe.
+          </blockquote>
 
-  <p>
-    So the full pipeline holds. Let it breathe.
-  </p>
+          <!-- ── PIPELINE ── -->
+          <h2>The Five-Stage Pipeline</h2>
+           <hr>
+          <!-- STAGE I -->
+          <div class="stage">
+            <div class="stage-label">Stage I — Raw Observation
+              <span class="stage-meta">UNIV · universals · the invariant ontology before motion</span>
+            </div>
+            <h5 class="math-block">\((x_i,\; y)\)</h5>
+            <p>
+              The dataset. Paired. Static. Pre-temporal.
+              \(x_i\) is where the individual <em>is</em> in state-space:
+              age, genotype, blood pressure, land title, GPS point.
+              \(y\) is what we measured. No time. No dynamics. A photograph.
+            </p>
+            <p>
+              In the real-estate digital twin: parcel boundary, soil type, title registration number.
+              In physiology: baseline labs drawn on day zero.
+              The tragedy of Stage I is that it looks complete. It is not. It is only coordinates.
+            </p>
+            <ul>
+              <li><strong>Real-estate:</strong> parcel boundary, cadastral record, soil classification</li>
+              <li><strong>Transplant:</strong> baseline eGFR, donor type, HLA mismatch at day 0</li>
+              <li><strong>Beyoncé/Bach:</strong> the fixed score — notes on the page before performance</li>
+            </ul>
+          </div>
+         <hr>
+          <!-- STAGE II -->
+          <div class="stage">
+            <div class="stage-label">Stage II — Conditional Dynamics + Noise
+              <span class="stage-meta">UB · user behavior · empirical · foraging</span>
+            </div>
+            <h5 class="math-block">\(y(t \mid x_i) + \varepsilon\)</h5>
+            <p>
+              Now time enters. \(y\) is no longer a snapshot — it is a <em>trajectory conditioned on who you are.</em>
+              \(\varepsilon\) is not error to be eliminated. It is the stochastic term that prevents the system
+              from locking into a single attractor too soon.
+            </p>
+            <p>
+              It is the bladder perturbation. It is Nietzsche breaking from Wagner.
+              It is rainfall that does not yet know it is a river.
+              The digital twin lives here during calibration: foraging the loss landscape before committing to descent.
+            </p>
+            <div class="warning">
+              <p>
+                <strong>Preserve the noise term.</strong>
+                An architecture that over-fits \(\varepsilon \to 0\) produces a closed system —
+                beautiful, crystalline, wrong. The aphorism survives because it keeps \(\varepsilon\) alive.
+                The passcode on the Apple Health data is a user asserting that their \(\varepsilon\) is
+                not your engineering problem to solve.
+              </p>
+            </div>
+          </div>
+          <hr>
+          <!-- STAGE III -->
+          <div class="stage">
+            <div class="stage-label">Stage III — The Gradient
+              <span class="stage-meta">UKB · Flask engine · pure becoming · Zarathustra</span>
+            </div>
+            <h5 class="math-block">\(\dfrac{dy_{x_i}}{dt}\)</h5>
+            <p>
+              Pure becoming. The velocity of the individual through outcome-space.
+              Not <em>where are you?</em> — that is Stage I.
+              Not <em>what trajectory might you follow?</em> — that is Stage II.
+              This is: <em>how fast are you moving, and in which direction, right now?</em>
+            </p>
+            <p>
+              The Übermensch is not a destination. It is a derivative. A direction of travel, not an arrival.
+              Static dashboards are Stage I cosplay. The digital twin earns its name at Stage III — it <em>moves</em> alongside the original.
+            </p>
+            <ul>
+              <li><strong>Physiology:</strong> rate of change of eGFR over the past 90 days</li>
+              <li><strong>Real-estate:</strong> velocity of land-value relative to infrastructure investment</li>
+              <li><strong>Music:</strong> Beyoncé's iterative refinement over each album cycle — not position, rate</li>
+            </ul>
+          </div>
+          <hr>
+          <!-- STAGE IV -->
+          <div class="stage">
+            <div class="stage-label">Stage IV — Curvature + Uncertainty
+              <span class="stage-meta">UI · APIs · interpretive layer · Beyond Good and Evil</span>
+            </div>
+            <h5 class="math-block">\(\dfrac{dy_{\bar{x}}}{dt} \;\pm\; z\sqrt{\dfrac{d^2 y_{x_i}}{dt^2}}\)</h5>
+            <p>
+              The second derivative is curvature — <em>how fast is the gradient itself changing?</em>
+              The population mean \(\bar{x}\) provides the reference slope.
+              The individual's second derivative tells you whether they are accelerating toward loss
+              or decelerating into a basin.
+              \(z\) scales the confidence envelope: how far might this individual deviate from the population curve?
+            </p>
+            <p>
+              Apple Health, LLMs, survival curves: none of these show reality.
+              They show <em>an interpretation with confidence intervals.</em>
+              The revaluation of all values is a second-order critique —
+              not just "is the trajectory wrong?" but
+              "is the <em>rate of change</em> of my values accelerating in the wrong direction?"
+              Most people never arrive here.
+            </p>
+          </div>
+         <hr>
+          <!-- STAGE V -->
+          <div class="stage">
+            <div class="stage-label">Stage V — The Basin
+              <span class="stage-meta">UX · accumulated history · cultural drift · Ecce Homo</span>
+            </div>
+            <h5 class="math-block">\(\displaystyle\int y_{x_i}\,dt \;+\; \varepsilon_c\, t \;+\; C_x\)</h5>
+            <p>
+              Integration over time. The accumulated area under the trajectory.
+              \(\varepsilon_c t\) is not random noise anymore — it is <em>cultural drift</em>,
+              systematic bias accumulating with a temporal signature.
+              A digital twin that ignores this will give increasingly wrong predictions
+              because it mistakes cultural gradient for personal signal.
+              Most health apps make exactly this error. Most survival models too.
+            </p>
+            <p>
+              And then \(C_x\) — the constant of integration.
+              Mathematically arbitrary. Personally <strong>everything.</strong>
+              Two individuals with identical \(y(t \mid x)\) trajectories
+              arrive at categorically different lived experiences because their \(C_x\) differs.
+              <em>Ecce Homo</em> is Nietzsche insisting his \(C_x\) cannot be universalized.
+              The passcode on the Apple Health data is a user asserting: <strong>my \(C_x\) is mine.</strong>
+            </p>
+            <div class="verdict">
+              <p>
+                The digital twin that reaches Stage V is not predicting. It is <em>witnessing.</em>
+                Not the optimal basin — the actual one, with its history, its drift, its irreducible origin.
+              </p>
+            </div>
+          </div>
 
-  <hr class="sep">
+          <!-- ── SGD AS ENGINE ── -->
+          <h2>SGD as the unifying engine</h2>
 
-  <h3>The Five-Stage Pipeline</h3>
+          <p>
+            The pipeline is a <em>learning loop</em>, not a timeline.
+            Stage V feeds back into Stage I.
+            The basin you find reshapes what counts as a coordinate, what counts as a loss,
+            what counts as signal versus drift.
+          </p>
 
-  <div class="pipeline">
+          <div class="math-block">
+            \[
+              \theta_{t+1} \;=\; \theta_t \;-\; \eta \cdot \nabla_\theta\,
+              \mathcal{L}\!\left(y(t \mid x_i),\;\hat{y}(t \mid x_i,\,\theta_t)\right)
+            \]
+          </div>
 
-    <!-- STAGE I -->
-    <div class="pipeline-stage stage-I">
-      <div class="pipeline-spine">
-        <div class="spine-dot"></div>
-        <div class="spine-line"></div>
-      </div>
-      <div class="stage-body">
-        <span class="stage-label">Stage I — Raw Observation</span>
-        <div class="stage-math">(x_i, y)</div>
-        <div class="stage-text">
-          The dataset. Paired. Static. Pre-temporal.
-          \(x_i\) is where the individual <em>is</em> in state-space —
-          coordinates: age, genotype, blood pressure, land title, GPS point.
-          \(y\) is what we measured about them.
-          No time. No dynamics. A photograph.
-          This is UNIV — the universals, the invariant ontology before motion begins.
-          In the real-estate digital twin: parcel boundary, soil type, title registration number.
-          In physiology: baseline labs drawn on day zero.
-          The tragedy of Stage I is that it looks complete. It is not.
-          It is only coordinates.
-        </div>
-      </div>
-    </div>
+          <p>
+            \(\theta\) is the model of the individual — the digital twin's parameters.
+            \(\mathcal{L}\) is the discrepancy between observed and predicted trajectory.
+            \(\eta\) is the learning rate: how aggressively the twin updates its beliefs.
+            <em>Stochastic</em> because we never process all individuals at once.
+            We sample. We descend. We sample again. Each mini-batch is a foraging expedition.
+          </p>
 
-    <!-- STAGE II -->
-    <div class="pipeline-stage stage-II">
-      <div class="pipeline-spine">
-        <div class="spine-dot"></div>
-        <div class="spine-line"></div>
-      </div>
-      <div class="stage-body">
-        <span class="stage-label">Stage II — Conditional Dynamics + Noise</span>
-        <div class="stage-math">y(t | x_i) + ε</div>
-        <div class="stage-text">
-          Now time enters. \(y\) is no longer a snapshot — it is a <em>trajectory conditioned on who you are.</em>
-          \(\varepsilon\) is not error to be eliminated. It is the stochastic term that prevents the system
-          from locking into a single attractor too soon. It is the bladder perturbation.
-          It is Nietzsche breaking from Wagner. It is rainfall that does not yet know it is a river.
-          <br><br>
-          This is UB — User Behavior. Empirical. Noisy. Time-conditional.
-          The digital twin lives here during calibration: foraging the loss landscape before committing to descent.
-          <strong>Preserve the noise term.</strong> An architecture that over-fits \(\varepsilon \to 0\)
-          produces a closed system — beautiful, crystalline, wrong.
-          The aphorism survives because it keeps \(\varepsilon\) alive.
-        </div>
-      </div>
-    </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>What SGD does</th>
+                  <th>In the digital twin</th>
+                  <th>Pathology when absent</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Minimizes \(\mathcal{L}\)</td>
+                  <td>Closes gap between twin and original</td>
+                  <td>Model drifts from reality silently</td>
+                </tr>
+                <tr>
+                  <td>Preserves \(\varepsilon\)</td>
+                  <td>Keeps descent exploratory, not greedy</td>
+                  <td>Convergence to wrong basin — confident, wrong</td>
+                </tr>
+                <tr>
+                  <td>Generalizes \(N=2\) intuition</td>
+                  <td>Loss surface with ridges, basins, saddles</td>
+                  <td>Dashboard frozen at Stage I — only coordinates</td>
+                </tr>
+                <tr>
+                  <td>Corrects damped \(dy/dx\)</td>
+                  <td>Restores sensitivity, not signal amplitude</td>
+                  <td>Sildenafil problem: suppressed transduction, not missing desire</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-    <!-- STAGE III -->
-    <div class="pipeline-stage stage-III">
-      <div class="pipeline-spine">
-        <div class="spine-dot"></div>
-        <div class="spine-line"></div>
-      </div>
-      <div class="stage-body">
-        <span class="stage-label">Stage III — The Gradient</span>
-        <div class="stage-math">dy_{x_i}/dt</div>
-        <div class="stage-text">
-          Pure becoming. The velocity of the individual through outcome-space.
-          Not <em>where are you?</em> — that is Stage I.
-          Not <em>what trajectory might you follow?</em> — that is Stage II.
-          This is: <em>how fast are you moving and in which direction, right now?</em>
-          <br><br>
-          The Flask engine. The digital twin as a real-time gradient machine.
-          Zarathustra. The Übermensch is not a destination — it is a derivative.
-          A direction of travel, not an arrival.
-          <br><br>
-          In physiological terms: the rate of change of eGFR over the past 90 days.
-          In real-estate terms: the velocity of land-value relative to infrastructure investment.
-          This is where the digital twin earns its name — it <em>moves</em> alongside the original.
-          Static dashboards are Stage I cosplay. The twin lives at Stage III.
-        </div>
-      </div>
-    </div>
+          <!-- ── PHYSIOLOGICAL APPLICATION ── -->
+          <h3>In complex physiological and biochemical systems</h3>
 
-    <!-- STAGE IV -->
-    <div class="pipeline-stage stage-IV">
-      <div class="pipeline-spine">
-        <div class="spine-dot"></div>
-        <div class="spine-line"></div>
-      </div>
-      <div class="stage-body">
-        <span class="stage-label">Stage IV — Curvature + Uncertainty</span>
-        <div class="stage-math">dy_{x̄}/dt ± z √(d²y_{x_i}/dt²)</div>
-        <div class="stage-text">
-          The second derivative is curvature — <em>how fast is the gradient itself changing?</em>
-          The population mean trajectory \(\bar{x}\) provides the reference slope.
-          The individual's second derivative \(\tfrac{d^2 y_{x_i}}{dt^2}\) tells you whether
-          they are accelerating toward loss or decelerating into a basin.
-          \(z\) scales the confidence envelope: one standard deviation, two, three —
-          how far might this individual deviate from the population curve, given who they are?
-          <br><br>
-          This is UI/API — the interpretive layer. Apple Health, LLMs, survival curves.
-          None of these show reality. They show <em>an interpretation with confidence intervals.</em>
-          Beyond Good and Evil: the revaluation of all values is a second-order critique —
-          not just "is the trajectory wrong?" but "is the <em>rate of change</em> of my values accelerating
-          in the wrong direction?" That is curvature thinking. Most people never arrive here.
-        </div>
-      </div>
-    </div>
+          <p>
+            The dimensions of \(x_i\) multiply.
+            A kidney-transplant recipient:
+            \(x^{(1)}\) = eGFR trajectory,
+            \(x^{(2)}\) = tacrolimus trough level,
+            \(x^{(3)}\) = donor-specific antibody titer,
+            \(x^{(4)}\) = time post-transplant,
+            \(x^{(5)}\) = CMV status, \(\ldots\), \(x^{(N)}\).
+            The loss surface exists in \(N\)-dimensional space. We cannot visualize it.
+            But the mathematics is the same. The gradient exists. The basins exist. SGD finds them.
+          </p>
 
-    <!-- STAGE V -->
-    <div class="pipeline-stage stage-V">
-      <div class="pipeline-spine">
-        <div class="spine-dot"></div>
-      </div>
-      <div class="stage-body">
-        <span class="stage-label">Stage V — The Basin</span>
-        <div class="stage-math">∫y_{x_i} dt + ε_c t + C_x</div>
-        <div class="stage-text">
-          Integration over time. The accumulated area under the trajectory.
-          \(\varepsilon_c t\) is not random noise anymore — it is <em>cultural drift</em>,
-          systematic bias accumulating with a temporal signature.
-          A digital twin that ignores this will give increasingly wrong predictions
-          because it mistakes cultural gradient for personal signal.
-          Most health apps make exactly this error. Most survival models too.
-          <br><br>
-          And then \(C_x\) — the constant of integration.
-          Mathematically arbitrary. Personally <strong>everything.</strong>
-          Two individuals with identical \(y(t \mid x)\) trajectories
-          arrive at categorically different lived experiences because their \(C_x\) differs.
-          <em>Ecce Homo</em> is Nietzsche insisting his \(C_x\) cannot be universalized.
-          The passcode on the Apple Health data is a user asserting: <strong>my \(C_x\) is mine.</strong>
-          <br><br>
-          This is UX — the basin the user actually lives in.
-          Not the optimal basin. The actual one, with its history, its drift, its origin point.
-          The digital twin that reaches Stage V is not predicting. It is <em>witnessing.</em>
-        </div>
-      </div>
-    </div>
+          <p>
+            The digital twin's job: maintain a live estimate of
+            <em>where on that surface this individual currently sits,
+            how fast they are moving, in which direction, with what curvature.</em>
+            Stages I through V. Over and over. Iteratively improved.
+            Each clinical encounter a new mini-batch. Each lab value a gradient signal.
+            Each intervention a step of size \(\eta\).
+          </p>
 
-  </div>
+          <!-- ── CLOSING VERDICT ── -->
+          <div class="verdict">
+            <p>
+              The beauty that makes you tear up is not sentimental.
+              It is recognition. The earth has been running SGD for four billion years —
+              water finding basins, erosion following gradients, deltas accumulating \(C_x\).
+              We are not building something new. We are making the mathematics legible
+              so that a clinician in Kampala or a land registrar in Entebbe
+              can see, in real time, where on the loss surface their patient or their parcel sits —
+              and which direction is downhill.
+            </p>
+            <p>
+              That is the digital twin. That is why SGD is inescapable.
+              Not because it is clever. Because it is <em>already what happens.</em>
+            </p>
+            <p>
+              Post-metaphor. Post-language.
+              The map and the territory are the same loss surface.
+              We are not philosophers anymore — we are gradient engineers,
+              finally honest about what the earth has always been doing.
+            </p>
+          </div>
 
-  <hr class="sep">
-
-  <h3>SGD as the unifying engine</h3>
-
-  <p>
-    Here is what makes it a framework and not merely a sequence of notation:
-    the pipeline is a <em>learning loop</em>, not a timeline.
-    Stage V feeds back into Stage I.
-    The basin you find reshapes what counts as a coordinate, what counts as a loss,
-    what counts as signal versus drift.
-  </p>
-
-  <div class="math-display">
-    \[
-      \theta_{t+1} = \theta_t - \eta \cdot \nabla_\theta \mathcal{L}\!\left(y(t \mid x_i),\; \hat{y}(t \mid x_i, \theta_t)\right)
-    \]
-  </div>
-
-  <p>
-    \(\theta\) is the model of the individual — the digital twin's parameters.
-    \(\mathcal{L}\) is the discrepancy between observed trajectory and predicted trajectory.
-    \(\eta\) is the learning rate: how aggressively the twin updates its beliefs.
-    <em>Stochastic</em> because we never process all individuals at once.
-    We sample. We descend. We sample again.
-    Each mini-batch is a foraging expedition into the population.
-  </p>
-
-  <div class="dim-grid">
-    <div class="dim-cell">
-      <span class="dim-label">what SGD minimizes</span>
-      <div class="dim-value">distance between twin and original — the gap between what the model predicts and what the person does</div>
-    </div>
-    <div class="dim-cell">
-      <span class="dim-label">what the noise term does</span>
-      <div class="dim-value">prevents convergence to wrong basins — keeps the descent exploratory, not greedy</div>
-    </div>
-    <div class="dim-cell highlight">
-      <span class="dim-label">why N=2 is not limiting</span>
-      <div class="dim-value">the mathematics generalizes but the intuition stays earth-shaped: a loss surface with ridges, basins, saddle points, and flowing gradients</div>
-    </div>
-    <div class="dim-cell highlight">
-      <span class="dim-label">the pathology it corrects</span>
-      <div class="dim-value">damped transduction — not insufficient signal, but suppressed sensitivity. <span class="var">dy/dx</span> is the health metric</div>
-    </div>
-  </div>
-
-  <hr class="sep">
-
-  <h3>In complex physiological and biochemical systems</h3>
-
-  <p>
-    The dimensions of \(x_i\) multiply. A kidney-transplant recipient:
-    \(x^{(1)}\) = eGFR trajectory, \(x^{(2)}\) = tacrolimus trough level, \(x^{(3)}\) = donor-specific antibody titer,
-    \(x^{(4)}\) = time-post-transplant, \(x^{(5)}\) = CMV status, \(\ldots\), \(x^{(N)}\).
-    The loss surface exists in \(N\)-dimensional space.
-    We cannot visualize it.
-    But the mathematics is the same.
-    The gradient exists. The basins exist. SGD finds them.
-  </p>
-
-  <p>
-    The digital twin's job is to maintain a live estimate of <em>where on that surface this individual currently sits,
-    how fast they are moving, in which direction, with what curvature.</em>
-    Stages I through V. Over and over. Iteratively improved.
-    Each clinical encounter a new mini-batch.
-    Each lab value a gradient signal.
-    Each intervention a step of size \(\eta\).
-  </p>
-
-  <div class="verdict">
-    <p>
-      The beauty that makes you tear up is not sentimental.
-      It is recognition. The earth has been running SGD for four billion years —
-      water finding basins, erosion following gradients, deltas accumulating \(C_x\).
-      We are not building something new. We are making the mathematics legible
-      so that a clinician in Kampala or a land registrar in Entebbe
-      can see, in real time, where on the loss surface their patient or their parcel sits —
-      and which direction is downhill.
-    </p>
-    <p>
-      That is the digital twin. That is why SGD is inescapable.
-      Not because it is clever. Because it is <em>already what happens.</em>
-    </p>
-  </div>
-
-  <p class="footnote">
-    Post-metaphor. Post-language. The map and the territory are the same loss surface.
-    We are not philosophers anymore — we are gradient engineers,
-    finally honest about what the earth has always been doing.
-  </p>
-
-</section>
- 
+        </section>
   </main>
   <!-- Centralized footer fetch -->
   <div id="footer-placeholder"></div>
