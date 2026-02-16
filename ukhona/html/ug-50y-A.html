@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uganda-Saudi Economic Corridor — Government Digital Twin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        /* ═══════════════════════════════════════
+           TOKENS
+        ═══════════════════════════════════════ */
+        :root {
+            --clay: #8B3A2A;
+            --clay-dark: #5C2218;
+            --clay-pale: #C4614A;
+            --laterite: #B5651D;
+            --sand: #E8D5B7;
+            --sand-pale: #F5EDE0;
+            --concrete: #2A2926;
+            --concrete-mid: #3D3B38;
+            --concrete-pale: #6B6862;
+            --chalk: #F0EBE3;
+            --ink: #1A1816;
+            --gold: #C9963C;
+            --gold-pale: #E8C87A;
+            --forest: #2D4A2D;
+            --sky: #4A7C8E;
+
+            --fs-xs: 0.65rem;
+            --fs-sm: 0.82rem;
+            --fs-base: 1rem;
+            --fs-md: 1.15rem;
+            --fs-lg: 1.4rem;
+            --fs-xl: 1.8rem;
+            --fs-2xl: 2.4rem;
+            --fs-3xl: 3.6rem;
+            --fs-4xl: 5.5rem;
+
+            --radius: 2px;
+        }
+
+        /* ═══════════════════════════════════════
+           RESET + BASE
+        ═══════════════════════════════════════ */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        html { scroll-behavior: smooth; }
+        
+        body {
+            background: var(--ink);
+            color: var(--chalk);
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-size: var(--fs-base);
+            line-height: 1.75;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+            opacity: 0.028;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', Georgia, serif;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        /* ═══════════════════════════════════════
+           HERO
+        ═══════════════════════════════════════ */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 5rem 3rem 4rem;
+            overflow: hidden;
+        }
+
+        .hero-canvas {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        .hero-gradient {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 15% 80%, rgba(139,58,42,0.35) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 20%, rgba(42,41,38,0.9) 0%, transparent 60%),
+                linear-gradient(180deg, rgba(26,24,22,0.4) 0%, rgba(26,24,22,0.85) 70%, var(--ink) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+        }
+
+        .hero-eyebrow {
+            font-family: 'DM Mono', monospace;
+            font-size: var(--fs-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-eyebrow::before {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        .hero-title {
+            font-size: clamp(var(--fs-2xl), 7vw, var(--fs-4xl));
+            font-weight: 900;
+            color: var(--chalk);
+            margin-bottom: 0.5rem;
+            line-height: 0.95;
+        }
+
+        .hero-title em {
+            font-style: italic;
+            color: var(--clay-pale);
+        }
+
+        .hero-subtitle {
+            font-family: 'DM Mono', monospace;
+            font-size: var(--fs-sm);
+            color: var(--concrete-pale);
+            margin-top: 1.5rem;
+            max-width: 640px;
+            line-height: 1.7;
+        }
+
+        .hero-meta {
+            margin-top: 2.5rem;
+            display: flex;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: var(--fs-xl);
+            font-weight: 700;
+            color: var(--gold-pale);
+            line-height: 1;
+            display: block;
+        }
+
+        .hero-stat-label {
+            font-family: 'DM Mono', monospace;
+            font-size: var(--fs-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--concrete-pale);
+        }
+
+        /* ═══════════════════════════════════════
+           EMAIL INTERCEPT
+        ═══════════════════════════════════════ */
+        .email-strip {
+            background: var(--concrete-mid);
+            border-top: 1px solid rgba(201,150,60,0.3);
+            border-bottom: 1px solid rgba(201,150,60,0.3);
+            padding: 2rem 3rem;
+            display: grid;
+            grid-template-columns: 3rem 1fr;
+            gap: 1.5rem;
+        }
+
+        .email-icon {
+            width: 3rem;
+            height: 3rem;
+            border: 1px solid rgba(201,150,60,0.4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'DM Mono', monospace;
+            font-size: var(--fs-xs);
+            color: var(--gold);
+        }
+
+        .email-meta {
+            font-family: 'DM Mono', monospace;
+            font-size: var(--fs-xs);
+            color: var(--concrete-pale);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 0.5rem;
+        }
+
+        .email-body {
+            font-style: italic;
+            color: var(--sand);
+            font-size: var(--fs-md);
+            line-height: 1.65;
+        }
+
+        .email-sig {
+            margin-top: 0.75rem;
+            font-family: 'DM Mono', monospace;
+            font-size: var(--fs-xs);
+            color: var(--gold);
+        }
+
+        /* ═══════════════════════════════════════
+           CONTENT WRAPPER
+        ═══════════════════════════════════════ */
+        .content-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 3rem;
+        }
+
+        .section-eyebrow {
+            font-family: 'DM Mono', monospace;
+            font-size: var(--fs-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            color: var(--clay-pale);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-eyebrow::before {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--clay-pale);
+        }
+
+        /* ═══════════════════════════════════════
+           TREE SECTION
+        ═══════════════════════════════════════ */
+        .tree-section {
+            padding: 6rem 0;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .tree-header {
+            margin-bottom: 4rem;
+        }
+
+        .tree-header h2 {
+            font-size: var(--fs-3xl);
+            color: var(--chalk);
+            margin-bottom: 1rem;
+        }
+
+        .tree-header p {
+            color: var(--concrete-pale);
+            font-size: var(--fs-md);
+            line-height: 1.7;
+            max-width: 800px;
+        }
+
+        /* ═══════════════════════════════════════
+           LAYER CARDS
+        ═══════════════════════════════════════ */
+        .layer-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .layer-card {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 0;
+            position: relative;
+        }
+
+        .layer-card + .layer-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: rgba(255,255,255,0.06);
+        }
+
+        .layer-icon-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 2.5rem;
+            padding-bottom: 2.5rem;
+        }
+
+        .layer-icon {
+            font-size: var(--fs-3xl);
+            line-height: 1;
+            margin-bottom: 0.75rem;
+        }
+
+        .layer-luganda {
+            font-family: 'DM Mono', monospace;
+            font-size: var(--fs-xs);
+            color: var(--clay-pale);
+            text-align: center;
+            letter-spacing: 0.08em;
+            writing-mode: vertical-rl;
+            margin-top: 1rem;
+        }
+
+        .layer-spine {
+            width: 1px;
+            flex: 1;
+            margin-top: 1rem;
+            background: linear-gradient(180deg, var(--concrete-pale) 0%, transparent 100%);
+            opacity: 0.3;
+        }
+
+        .layer-card:last-child .layer-spine { display: none; }
+
+        .layer-body {
+            padding: 2.5rem 2.5rem 2.5rem 2rem;
+        }
+
+        .layer-number {
+            font-family: 'DM Mono', monospace;
+            font-size: var(--fs-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .layer-title {
+            font-size: var(--fs-xl);
+            color: var(--chalk);
+            margin-bottom: 0.75rem;
+        }
+
+        .layer-math {
+            font-family: 'DM Mono', monospace;
+            font-size: var(--fs-sm);
+            color: var(--gold-pale);
+            background: rgba(201,150,60,0.08);
+            border: 1px solid rgba(201,150,60,0.2);
+            border-radius: 3px;
+            padding: 0.3rem 0.8rem;
+            display: inline-block;
+            margin-bottom: 1.25rem;
+        }
+
+        .layer-prose {
+            color: var(--concrete-pale);
+            font-size: var(--fs-base);
+            line-height: 1.8;
+            margin-bottom: 1.25rem;
+            max-width: 720px;
+        }
+
+        .layer-prose strong { color: var(--chalk); }
+        .layer-prose em { color: var(--sand); font-style: italic; }
+
+        .layer-bullets {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            max-width: 720px;
+        }
+
+        .layer-bullets li {
+            display: grid;
+            grid-template-columns: 1.5rem 1fr;
+            gap: 0.75rem;
+            font-size: var(--fs-sm);
+            color: var(--concrete-pale);
+            line-height: 1.6;
+        }
+
+        .layer-bullets li::before {
+            content: '→';
+            color: var(--clay);
+            font-family: 'DM Mono', monospace;
+        }
+
+        .layer-bullets strong { color: var(--sand); }
+
+        .layer-insight {
+            margin-top: 1.5rem;
+            border-left: 3px solid var(--gold);
+            padding: 1rem 1.5rem;
+            background: rgba(201,150,60,0.08);
+            border-radius: 0 2px 2px 0;
+            font-size: var(--fs-sm);
+            color: var(--sand);
+            line-height: 1.7;
+            max-width: 720px;
+        }
+
+        .layer-insight strong { color: var(--gold-pale); }
+
+        /* ═══════════════════════════════════════
+           RESPONSIVE
+        ═══════════════════════════════════════ */
+        @media (max-width: 800px) {
+            .hero { padding: 4rem 1.5rem 3rem; }
+            .content-wrap { padding: 0 1.5rem; }
+            .layer-card { grid-template-columns: 80px 1fr; }
+            .layer-icon { font-size: var(--fs-2xl); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════
+     HERO
+═══════════════════════════ -->
+<section class="hero">
+    <svg class="hero-canvas" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice">
+        <defs>
+            <radialGradient id="g-clay" cx="20%" cy="75%" r="45%">
+                <stop offset="0%" stop-color="#8B3A2A" stop-opacity="0.5"/>
+                <stop offset="100%" stop-color="#8B3A2A" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="g-gold" cx="80%" cy="25%" r="40%">
+                <stop offset="0%" stop-color="#C9963C" stop-opacity="0.25"/>
+                <stop offset="100%" stop-color="#C9963C" stop-opacity="0"/>
+            </radialGradient>
+        </defs>
+        <rect width="1200" height="700" fill="#1A1816"/>
+        <rect width="1200" height="700" fill="url(#g-clay)"/>
+        <rect width="1200" height="700" fill="url(#g-gold)"/>
+        <g stroke="rgba(139,58,42,0.15)" stroke-width="1" fill="none">
+            <path d="M0,350 C150,200 300,420 450,280 C600,140 750,380 900,260 C1050,140 1150,320 1200,250"/>
+            <path d="M0,420 C150,270 300,490 450,350 C600,210 750,450 900,330 C1050,210 1150,390 1200,320"/>
+        </g>
+    </svg>
+
+    <div class="hero-gradient"></div>
+
+    <div class="hero-content">
+        <p class="hero-eyebrow">Government-Tier · ukb-fractal G · Uganda-Saudi Corridor</p>
+        <h1 class="hero-title">
+            Uganda-Saudi<br>
+            <em>Economic Corridor</em>
+        </h1>
+        <p class="hero-subtitle">
+            From soil to canopy —<br>
+            a gradient descent toward $500B GDP<br>
+            17 February 2026 · NPA Chairperson Brief
+        </p>
+        <div class="hero-meta">
+            <div>
+                <span class="hero-stat-value">$50B → $500B</span>
+                <span class="hero-stat-label">Ten-fold Growth Target</span>
+            </div>
+            <div>
+                <span class="hero-stat-value">6</span>
+                <span class="hero-stat-label">Strategic Sectors</span>
+            </div>
+            <div>
+                <span class="hero-stat-value">G</span>
+                <span class="hero-stat-label">Government Scale</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════
+     CONTEXT EMAIL
+═══════════════════════════ -->
+<div class="email-strip">
+    <div class="email-icon">NPA</div>
+    <div>
+        <p class="email-meta">National Planning Authority · 17 Feb 2026 · Briefing Document</p>
+        <p class="email-body">
+            Talking points for the Executive Chairperson ahead of inter-ministerial meeting
+            with Saudi Arabia High-Level Delegation. Uganda's ten-fold growth strategy
+            maps onto a fractal tree: from soil (resource endowment) to canopy (regional integration).
+        </p>
+        <p class="email-sig">— Strategic Planning Directorate · Kampala</p>
+    </div>
+</div>
+
+<!-- ═══════════════════════════
+     TREE STRUCTURE
+═══════════════════════════ -->
+<div class="content-wrap">
+    <section class="tree-section">
+        <div class="section-eyebrow">The Five-Layer Tree</div>
+        <div class="tree-header">
+            <h2>From Resource Endowment to Regional Hub</h2>
+            <p>
+                The ukb-fractal generalizes from Person → Household → Firm → <strong>Government</strong> → Region → World.
+                This NPA brief sits at the Government tier, mapping Uganda's development strategy
+                as a gradient descent problem: how to move from current state (\(x_{\text{Uganda}} = \$50B\))
+                to target basin (\(y_{\text{target}} = \$500B\)) through strategic Saudi partnership.
+                The tree structure reveals the dependency chain.
+            </p>
+        </div>
+
+        <div class="layer-grid">
+
+            <!-- LAYER 1: SOIL -->
+            <div class="layer-card">
+                <div class="layer-icon-col">
+                    <div class="layer-icon">🌱</div>
+                    <div class="layer-luganda">Gatonnya<br>Mukutulansanja<br>Mugulansigo</div>
+                    <div class="layer-spine"></div>
+                </div>
+                <div class="layer-body">
+                    <p class="layer-number">Layer 1 · Soil</p>
+                    <h3 class="layer-title">Resource Endowment — The State Vector</h3>
+                    <div class="layer-math">\(x_{\text{Uganda}} = [\text{land, minerals, water, people}]\)</div>
+                    <p class="layer-prose">
+                        This is the <strong>invariant input</strong>. What Uganda has before any
+                        investment enters. The soil layer is <em>Gatonnya</em> — the foundation that cannot be moved.
+                        44 million hectares of arable land. 1.4 billion barrels of oil. 2,000 MW of untapped hydropower.
+                        Iron ore, copper, gold, phosphates. A population of 48 million, 60% under 25.
+                        This is \(C_{\text{Uganda}}\) — the constant of integration unique to this nation.
+                    </p>
+                    <ul class="layer-bullets">
+                        <li><strong>Land:</strong> 44M hectares arable, only 35% under cultivation — massive latent capacity</li>
+                        <li><strong>Minerals:</strong> Largely unexplored deposits of iron, copper, gold, rare earths, phosphates</li>
+                        <li><strong>Energy:</strong> 2,000 MW untapped hydro + 1.4B barrels oil + 5-6 kWh/m²/day solar potential</li>
+                        <li><strong>Demographics:</strong> 48M people, 60% under 25 — young, growing labor force</li>
+                        <li><strong>Location:</strong> Landlocked but centered in East Africa — access to 300M regional market</li>
+                    </ul>
+                    <div class="layer-insight">
+                        <strong>The Gradient Starts Here:</strong> Saudi Arabia has capital but limited arable land and water.
+                        Uganda has land and water but limited capital. The gradient points toward partnership.
+                        This is not charity — this is convex optimization across two complementary state vectors.
+                    </div>
+                </div>
+            </div>
+
+            <!-- LAYER 2: ROOTS -->
+            <div class="layer-card">
+                <div class="layer-icon-col">
+                    <div class="layer-icon">🌿</div>
+                    <div class="layer-luganda">Kafuumulampawu<br>Muzigo</div>
+                    <div class="layer-spine"></div>
+                </div>
+                <div class="layer-body">
+                    <p class="layer-number">Layer 2 · Roots</p>
+                    <h3 class="layer-title">Foundational Infrastructure — Unlocking the State Space</h3>
+                    <div class="layer-math">\(y(t \mid x_{\text{Uganda}}) + \varepsilon_{\text{execution}}\)</div>
+                    <p class="layer-prose">
+                        Now time enters. Resources are static. Infrastructure is <em>dynamic</em> —
+                        it is the root system that unlocks the soil's potential.
+                        Roads, railways, power grids, ports. Without roots, the soil remains inert.
+                        With roots, capital can flow. \(\varepsilon_{\text{execution}}\) is the stochastic term:
+                        delayed land acquisition, contractor bankruptcy, forex shocks, regional instability.
+                        The twin must monitor this noise in real time.
+                    </p>
+                    <ul class="layer-bullets">
+                        <li><strong>Energy (Priority 1):</strong> 3,000 MW generation target next decade — hydropower + solar + LNG for industrial base</li>
+                        <li><strong>Transport (Priority 2):</strong> Standard gauge railway + upgraded road corridors + inland container depots</li>
+                        <li><strong>Digital (Priority 3):</strong> Broadband expansion + data centers + fintech infrastructure for mobile money ecosystem</li>
+                        <li><strong>Water/Irrigation (Priority 4):</strong> Modern irrigation to unlock year-round agriculture — massive ROI multiplier</li>
+                    </ul>
+                    <div class="layer-insight">
+                        <strong>Saudi Strategic Role:</strong> Co-financing large-scale infrastructure projects (hydropower dams, SGR segments, solar farms).
+                        PPP models where Saudi entities hold equity stakes and long-term service contracts.
+                        This de-risks Uganda's fiscal position while ensuring Saudi food/energy security through supply agreements.
+                    </div>
+                </div>
+            </div>
+
+            <!-- LAYER 3: TRUNK -->
+            <div class="layer-card">
+                <div class="layer-icon-col">
+                    <div class="layer-icon">🌳</div>
+                    <div class="layer-luganda">Ssebaaseka<br>Kasambula</div>
+                    <div class="layer-spine"></div>
+                </div>
+                <div class="layer-body">
+                    <p class="layer-number">Layer 3 · Trunk</p>
+                    <h3 class="layer-title">Productive Sectors — The Gradient of Value Creation</h3>
+                    <div class="layer-math">\(\dfrac{dGDP}{dt} = f(\text{agro-industrialization, manufacturing, extractives})\)</div>
+                    <p class="layer-prose">
+                        This is the velocity layer. Not <em>what resources do we have?</em> (Soil).
+                        Not <em>what infrastructure enables them?</em> (Roots).
+                        This is: <em>how fast is value being created per capita, per hectare, per megawatt?</em>
+                        The trunk is where GDP grows. Agro-industrialization. Manufacturing. Mining and beneficiation.
+                        Oil refining. These are the sectors that transform \(x_{\text{Uganda}}\) into \(\Delta GDP\).
+                    </p>
+                    <ul class="layer-bullets">
+                        <li><strong>Agribusiness:</strong> Large-scale commercial farms (10,000+ hectare blocks) + integrated processing zones + cold chain logistics</li>
+                        <li><strong>Manufacturing:</strong> Industrial parks for value-added production — textiles, pharmaceuticals, construction materials, electronics assembly</li>
+                        <li><strong>Extractives:</strong> Joint venture mining operations + mineral beneficiation facilities (process in Uganda before export)</li>
+                        <li><strong>Petroleum:</strong> Downstream refining + storage + distribution infrastructure — domestic energy security + export to region</li>
+                    </ul>
+                    <div class="layer-insight">
+                        <strong>Saudi Investment Model:</strong> Long-term supply agreements for agricultural products (coffee, cocoa, oil palm) to address Saudi food security.
+                        Joint ventures in manufacturing (e.g., petrochemicals, fertilizers, construction materials) leveraging Saudi technical expertise.
+                        Technology transfer and skills development partnerships to build local capacity.
+                    </div>
+                </div>
+            </div>
+
+            <!-- LAYER 4: BRANCHES -->
+            <div class="layer-card">
+                <div class="layer-icon-col">
+                    <div class="layer-icon">🌿</div>
+                    <div class="layer-luganda">Muwakanya<br>Mutunda<br>Mukulukusabitungotungo</div>
+                    <div class="layer-spine"></div>
+                </div>
+                <div class="layer-body">
+                    <p class="layer-number">Layer 4 · Branches</p>
+                    <h3 class="layer-title">Market Integration — Regional & Global Reach</h3>
+                    <div class="layer-math">\(\dfrac{d(\text{Trade Volume})}{dt} \;\pm\; z\sqrt{\dfrac{d^2(\text{Tariff Barriers})}{dt^2}}\)</div>
+                    <p class="layer-prose">
+                        The branches extend beyond Uganda's borders. This is <em>curvature</em> — the second derivative.
+                        Are trade volumes accelerating (EAC integration, AfCFTA implementation) or decelerating (non-tariff barriers, logistics bottlenecks)?
+                        \(z\) is the confidence band: how far can Uganda's exports deviate from regional benchmarks?
+                        The branches layer is about <strong>market access</strong> — turning production into sales.
+                    </p>
+                    <ul class="layer-bullets">
+                        <li><strong>EAC Integration:</strong> Common market of 300M people — free movement of goods, services, capital, labor</li>
+                        <li><strong>AfCFTA Opportunity:</strong> Continental market of 1.3B people — preferential access if Uganda can meet standards</li>
+                        <li><strong>Export Corridors:</strong> Northern Corridor (Mombasa), Central Corridor (Dar es Salaam), Western route (DRC) — diversified logistics</li>
+                        <li><strong>Saudi Market Access:</strong> Direct export agreements for agricultural commodities, minerals, manufactured goods to GCC region</li>
+                    </ul>
+                    <div class="layer-insight">
+                        <strong>Strategic Leverage:</strong> Saudi Arabia can facilitate access to Middle East markets (GCC, Egypt, North Africa).
+                        Joint lobbying for reduced tariffs and streamlined customs. Investment in regional logistics hubs (Jeddah, Dubai) to warehouse Ugandan exports.
+                        This accelerates Uganda's integration into global value chains.
+                    </div>
+                </div>
+            </div>
+
+            <!-- LAYER 5: CANOPY -->
+            <div class="layer-card">
+                <div class="layer-icon-col">
+                    <div class="layer-icon">🍃</div>
+                    <div class="layer-luganda">Museenene<br>Ntenvu</div>
+                </div>
+                <div class="layer-body">
+                    <p class="layer-number">Layer 5 · Canopy</p>
+                    <h3 class="layer-title">Regional Hub Status — The Basin</h3>
+                    <div class="layer-math">\(\displaystyle\int GDP\,dt \;+\; \varepsilon_{\text{regional}}\,t \;+\; C_{\text{Uganda}}\)</div>
+                    <p class="layer-prose">
+                        Integration over time. The accumulated area under the GDP trajectory.
+                        This is the <strong>basin</strong> — the stable equilibrium where Uganda becomes a regional manufacturing
+                        and logistics hub. \(\varepsilon_{\text{regional}}\,t\) is not random noise — it is <em>regional co-evolution</em>.
+                        Kenya's port congestion shifts cargo to Uganda. Tanzania's gas finds create energy export opportunities.
+                        Rwanda's service sector boom generates demand for Ugandan manufactures.
+                        The canopy is where Uganda's growth lifts the entire region.
+                    </p>
+                    <ul class="layer-bullets">
+                        <li><strong>Manufacturing Hub:</strong> Lower labor costs than Kenya, more stable than DRC — Uganda positioned as East Africa's factory</li>
+                        <li><strong>Logistics Node:</strong> Inland container depots + dry ports + bonded warehouses — transshipment for regional cargo</li>
+                        <li><strong>Energy Exporter:</strong> Surplus hydropower to Kenya/Tanzania + refined petroleum products to region</li>
+                        <li><strong>Knowledge Economy:</strong> Tech hubs in Kampala, universities producing skilled labor for regional firms</li>
+                    </ul>
+                    <div class="layer-insight">
+                        <strong>The Ten-Fold Target:</strong> $50B → $500B is not linear growth. It is exponential — a phase transition.
+                        It requires Uganda to shift from resource extraction (Soil) to value-added manufacturing (Trunk) to regional integration (Canopy).
+                        Saudi investment accelerates this trajectory by 10-15 years. The gradient is clear. The path is computable.
+                        <strong>Let the water flow.</strong>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+
+</body>
+</html>

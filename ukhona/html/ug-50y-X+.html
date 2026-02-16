@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ukubona LLC — Calendar Fractal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+/* ═══════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════ */
+:root {
+  --clay:      #8B3A2A;
+  --clay-dark: #5C2218;
+  --clay-pale: #C4614A;
+  --laterite:  #B5651D;
+  --sand:      #E8D5B7;
+  --sand-pale: #F5EDE0;
+  --concrete:  #2A2926;
+  --concrete-mid: #3D3B38;
+  --concrete-pale: #6B6862;
+  --chalk:     #F0EBE3;
+  --ink:       #1A1816;
+  --gold:      #C9963C;
+  --gold-pale: #E8C87A;
+  --forest:    #2D4A2D;
+  --sky:       #4A7C8E;
+
+  --fs-xs:   0.65rem;
+  --fs-sm:   0.82rem;
+  --fs-base: 1rem;
+  --fs-md:   1.15rem;
+  --fs-lg:   1.4rem;
+  --fs-xl:   1.8rem;
+  --fs-2xl:  2.4rem;
+  --fs-3xl:  3.6rem;
+  --fs-4xl:  5.5rem;
+
+  --radius: 2px;
+  --shadow-deep: 0 20px 60px rgba(26,24,22,0.5);
+  --shadow-card: 0 4px 24px rgba(26,24,22,0.25);
+}
+
+/* ═══════════════════════════════════════
+   RESET + BASE
+═══════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--chalk);
+  font-family: 'Libre Baskerville', Georgia, serif;
+  font-size: var(--fs-base);
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════
+   GRAIN OVERLAY
+═══════════════════════════════════════ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.028;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ═══════════════════════════════════════
+   TYPOGRAPHY
+═══════════════════════════════════════ */
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', Georgia, serif;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.mono {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.88em;
+  letter-spacing: 0.02em;
+}
+
+/* ═══════════════════════════════════════
+   HERO
+═══════════════════════════════════════ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 5rem 3rem 4rem;
+  overflow: hidden;
+}
+
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-gradient {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 15% 80%, rgba(139,58,42,0.35) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 20%, rgba(42,41,38,0.9) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(26,24,22,0.4) 0%, rgba(26,24,22,0.85) 70%, var(--ink) 100%);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+}
+
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-xs);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.hero-title {
+  font-size: clamp(var(--fs-2xl), 7vw, var(--fs-4xl));
+  font-weight: 900;
+  color: var(--chalk);
+  margin-bottom: 0.5rem;
+  line-height: 0.95;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--clay-pale);
+}
+
+.hero-subtitle {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-sm);
+  color: var(--concrete-pale);
+  margin-top: 1.5rem;
+  max-width: 540px;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+
+.hero-meta {
+  margin-top: 2.5rem;
+  display: flex;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.hero-stat-value {
+  font-family: 'Playfair Display', serif;
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  color: var(--gold-pale);
+  line-height: 1;
+}
+
+.hero-stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--concrete-pale);
+}
+
+/* ═══════════════════════════════════════
+   SCROLL INDICATOR
+═══════════════════════════════════════ */
+.scroll-line {
+  position: absolute;
+  bottom: 2rem;
+  right: 3rem;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.scroll-line span {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--concrete-pale);
+  writing-mode: vertical-rl;
+}
+
+.scroll-line::after {
+  content: '';
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(180deg, var(--gold), transparent);
+  animation: scroll-pulse 2s ease-in-out infinite;
+}
+
+@keyframes scroll-pulse {
+  0%, 100% { opacity: 0.4; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(0.6); transform-origin: top; }
+}
+
+/* ═══════════════════════════════════════
+   EMAIL INTERCEPT
+═══════════════════════════════════════ */
+.email-strip {
+  background: var(--concrete-mid);
+  border-top: 1px solid rgba(201,150,60,0.3);
+  border-bottom: 1px solid rgba(201,150,60,0.3);
+  padding: 2rem 3rem;
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.email-icon {
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid rgba(201,150,60,0.4);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-xs);
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.email-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-xs);
+  color: var(--concrete-pale);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.5rem;
+}
+
+.email-body {
+  font-style: italic;
+  color: var(--sand);
+  font-size: var(--fs-md);
+  line-height: 1.65;
+}
+
+.email-sig {
+  margin-top: 0.75rem;
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-xs);
+  color: var(--gold);
+  letter-spacing: 0.08em;
+}
+
+/* ═══════════════════════════════════════
+   MAIN CONTENT WRAPPER
+═══════════════════════════════════════ */
+.content-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+
+/* ═══════════════════════════════════════
+   SECTION LABELS
+═══════════════════════════════════════ */
+.section-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--clay-pale);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-eyebrow::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--clay-pale);
+}
+
+/* ═══════════════════════════════════════
+   PIPELINE SECTION
+═══════════════════════════════════════ */
+.pipeline-section {
+  padding: 6rem 0;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.pipeline-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  margin-bottom: 5rem;
+  align-items: start;
+}
+
+.pipeline-header h2 {
+  font-size: var(--fs-3xl);
+  color: var(--chalk);
+}
+
+.pipeline-header p {
+  color: var(--concrete-pale);
+  font-size: var(--fs-md);
+  padding-top: 0.5rem;
+  line-height: 1.7;
+}
+
+/* ═══════════════════════════════════════
+   STAGE CARDS
+═══════════════════════════════════════ */
+.stage-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.stage-card {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 0;
+  position: relative;
+}
+
+.stage-card + .stage-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(255,255,255,0.06);
+}
+
+.stage-number-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2.5rem;
+}
+
+.stage-numeral {
+  font-family: 'Playfair Display', serif;
+  font-size: var(--fs-3xl);
+  font-weight: 900;
+  line-height: 1;
+  color: var(--concrete-mid);
+  transition: color 0.3s;
+  -webkit-text-stroke: 1px var(--concrete-pale);
+}
+
+.stage-card:hover .stage-numeral {
+  color: transparent;
+  -webkit-text-stroke-color: var(--clay);
+}
+
+.stage-spine {
+  width: 1px;
+  flex: 1;
+  margin-top: 0.5rem;
+  background: linear-gradient(180deg, var(--concrete-pale) 0%, transparent 100%);
+  opacity: 0.3;
+}
+
+.stage-card:last-child .stage-spine { display: none; }
+
+.stage-body {
+  padding: 2.5rem 2.5rem 2.5rem 0;
+}
+
+.stage-roman {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--clay-pale);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.stage-title {
+  font-size: var(--fs-xl);
+  color: var(--chalk);
+  margin-bottom: 0.5rem;
+}
+
+.stage-math-pill {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-sm);
+  color: var(--gold-pale);
+  background: rgba(201,150,60,0.08);
+  border: 1px solid rgba(201,150,60,0.2);
+  border-radius: 3px;
+  padding: 0.3rem 0.8rem;
+  margin-bottom: 1.25rem;
+  letter-spacing: 0.02em;
+}
+
+.stage-prose {
+  color: var(--concrete-pale);
+  font-size: var(--fs-base);
+  line-height: 1.8;
+  margin-bottom: 1.25rem;
+  max-width: 640px;
+}
+
+.stage-prose strong { color: var(--chalk); }
+.stage-prose em { color: var(--sand); font-style: italic; }
+
+.stage-bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 640px;
+}
+
+.stage-bullets li {
+  display: grid;
+  grid-template-columns: 1.5rem 1fr;
+  gap: 0.5rem;
+  font-size: var(--fs-sm);
+  color: var(--concrete-pale);
+  line-height: 1.6;
+}
+
+.stage-bullets li::before {
+  content: '→';
+  color: var(--clay);
+  font-family: 'DM Mono', monospace;
+  margin-top: 0.05em;
+}
+
+.stage-bullets strong { color: var(--sand); }
+
+.stage-warning {
+  margin-top: 1.25rem;
+  border-left: 3px solid var(--clay);
+  padding: 0.85rem 1.25rem;
+  background: rgba(139,58,42,0.08);
+  border-radius: 0 2px 2px 0;
+  font-size: var(--fs-sm);
+  color: var(--sand);
+  line-height: 1.7;
+  max-width: 640px;
+}
+
+.stage-warning strong { color: var(--clay-pale); }
+
+/* ═══════════════════════════════════════
+   VERDICT SECTION
+═══════════════════════════════════════ */
+.verdict-section {
+  padding: 6rem 0 8rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.verdict-inner {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+.verdict-label {
+  font-family: 'Playfair Display', serif;
+  font-size: var(--fs-3xl);
+  font-style: italic;
+  color: var(--clay);
+  line-height: 1;
+}
+
+.verdict-text h3 {
+  font-size: var(--fs-xl);
+  color: var(--chalk);
+  margin-bottom: 1.5rem;
+}
+
+.verdict-text p {
+  font-size: var(--fs-md);
+  color: var(--concrete-pale);
+  line-height: 1.85;
+  margin-bottom: 1.25rem;
+}
+
+.verdict-text p strong { color: var(--chalk); }
+.verdict-text p em { color: var(--sand); font-style: italic; }
+
+.verdict-rule {
+  margin: 2.5rem 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--clay), transparent);
+}
+
+.verdict-footnote {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-xs);
+  color: var(--concrete-pale);
+  line-height: 1.7;
+  letter-spacing: 0.04em;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  max-width: 520px;
+}
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+footer {
+  background: var(--concrete);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 2.5rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  color: var(--chalk);
+}
+
+.footer-brand span { color: var(--clay-pale); }
+
+.footer-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-xs);
+  color: var(--concrete-pale);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  display: flex;
+  gap: 2rem;
+}
+
+.footer-meta a { color: var(--concrete-pale); text-decoration: none; }
+.footer-meta a:hover { color: var(--gold); }
+
+/* ═══════════════════════════════════════
+   DIVIDER ORNAMENT
+═══════════════════════════════════════ */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 3rem;
+  max-width: 320px;
+}
+
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.12);
+}
+
+.divider-glyph {
+  font-family: 'DM Mono', monospace;
+  font-size: var(--fs-xs);
+  color: var(--clay);
+  letter-spacing: 0.1em;
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media (max-width: 800px) {
+  .hero { padding: 4rem 1.5rem 3rem; }
+  .content-wrap { padding: 0 1.5rem; }
+  .email-strip { padding: 1.5rem; }
+  .pipeline-header { grid-template-columns: 1fr; gap: 1.5rem; }
+  .stage-card { grid-template-columns: 56px 1fr; }
+  .stage-numeral { font-size: var(--fs-xl); }
+  .verdict-inner { grid-template-columns: 1fr; gap: 2rem; }
+  .verdict-label { font-size: var(--fs-2xl); }
+  footer { flex-direction: column; align-items: flex-start; }
+  .footer-meta { flex-direction: column; gap: 0.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════
+     HERO
+═══════════════════════════ -->
+<section class="hero">
+  <!-- Animated calendar-cycle SVG -->
+  <svg class="hero-canvas" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <radialGradient id="g-clay" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#8B3A2A" stop-opacity="0.5"/>
+        <stop offset="100%" stop-color="#8B3A2A" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="g-gold" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#C9963C" stop-opacity="0.25"/>
+        <stop offset="100%" stop-color="#C9963C" stop-opacity="0"/>
+      </radialGradient>
+      <filter id="blur-lg">
+        <feGaussianBlur stdDeviation="3"/>
+      </filter>
+    </defs>
+    <rect width="1200" height="700" fill="#1A1816"/>
+    <rect width="1200" height="700" fill="url(#g-clay)"/>
+    <rect width="1200" height="700" fill="url(#g-gold)"/>
+    <!-- calendar cycle contours -->
+    <g stroke="rgba(139,58,42,0.15)" stroke-width="1" fill="none" filter="url(#blur-lg)">
+      <circle cx="600" cy="350" r="200"/>
+      <circle cx="600" cy="350" r="150"/>
+      <circle cx="600" cy="350" r="100"/>
+      <path d="M600,150 V550"/>
+      <path d="M400,350 H800"/>
+      <path d="M450,200 L750,500"/>
+      <path d="M450,500 L750,200"/>
+    </g>
+    <!-- progression paths -->
+    <g stroke="rgba(201,150,60,0.12)" stroke-width="1.5" fill="none">
+      <path d="M600,550 A200 200 0 0 1 800,350" marker-end="url(#arrow-gold)"/>
+      <path d="M800,350 A200 200 0 0 1 600,150" marker-end="url(#arrow-gold)"/>
+      <path d="M600,150 A200 200 0 0 1 400,350" marker-end="url(#arrow-gold)"/>
+      <path d="M400,350 A200 200 0 0 1 600,550" marker-end="url(#arrow-gold)"/>
+    </g>
+    <defs>
+      <marker id="arrow-gold" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+        <path d="M0,0 L6,3 L0,6 Z" fill="rgba(201,150,60,0.3)"/>
+      </marker>
+    </defs>
+    <!-- month nodes -->
+    <g>
+      <circle cx="600" cy="550" r="8" fill="rgba(139,58,42,0.5)">
+        <animate attributeName="r" values="8;14;8" dur="3s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.5;0.2;0.5" dur="3s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="800" cy="350" r="6" fill="rgba(201,150,60,0.4)">
+        <animate attributeName="r" values="6;11;6" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.4;0.15;0.4" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="600" cy="150" r="5" fill="rgba(139,58,42,0.35)">
+        <animate attributeName="r" values="5;10;5" dur="3.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.35;0.1;0.35" dur="3.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="400" cy="350" r="5" fill="rgba(139,58,42,0.35)">
+        <animate attributeName="r" values="5;10;5" dur="3.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.35;0.1;0.35" dur="3.5s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </svg>
+
+  <div class="hero-gradient"></div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">Government-Tier · ukb-fractal Σ · Uganda 2026</p>
+    <h1 class="hero-title">
+      NPA Development<br>
+      <em>Digital Twin</em>
+    </h1>
+    <p class="hero-subtitle">
+      From vision to transformation —<br>
+      a living cycle machine for national planning<br>
+      at the Government scale (≈ 100 GWh/year · dY/dX)
+    </p>
+    <div class="hero-meta">
+      <div class="hero-stat">
+        <span class="hero-stat-value">Σ</span>
+        <span class="hero-stat-label">ukb layer · Cycle</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-value">dY/dX</span>
+        <span class="hero-stat-label">national calculus</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-value">G</span>
+        <span class="hero-stat-label">scale code · 100 GWh/year</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-value">6</span>
+        <span class="hero-stat-label">sectoral nodes</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-line"><span>scroll</span></div>
+</section>
+
+<!-- ═══════════════════════════
+     EMAIL INTERCEPT
+═══════════════════════════ -->
+<div class="email-strip">
+  <div class="email-icon">NPA</div>
+  <div>
+    <p class="email-meta">Chairperson to Ukubona LLC · 2:40 AM · raw source material</p>
+    <p class="email-body">
+      "Ilya Zosima, we've prepared these talking points for today's inter-ministerial meeting with the Saudi delegation. Let's use this as the basis to create a digital twin for Uganda's development framework."
+    </p>
+    <p class="email-sig">— Executive Chairperson · National Planning Authority</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════
+     CONTEXT
+═══════════════════════════ -->
+<div class="content-wrap">
+  <section class="pipeline-section">
+    <div class="section-eyebrow">The Six-Stage Cycle</div>
+    <div class="pipeline-header">
+      <h2>From Gatonnya to Ntenvu —<br>the nation as living calendar</h2>
+      <p>
+        The ukb-fractal generalizes digital twins from
+        Person → Household → Firm → <strong>Government</strong> → Region → World.
+        As Ukubona LLC serving the National Planning Authority, this calendar fractal is our government-scale instantiation —
+        a living model that witnesses national transformation, drawing from Luganda months to map the yearly cycle of development in Uganda.
+      </p>
+    </div>
+
+    <div class="divider"><span class="divider-glyph">◆</span></div>
+
+    <div class="stage-grid">
+
+      <!-- STAGE I -->
+      <div class="stage-card">
+        <div class="stage-number-col">
+          <span class="stage-numeral">I</span>
+          <div class="stage-spine"></div>
+        </div>
+        <div class="stage-body">
+          <span class="stage-roman">Raw Observation · UNIV</span>
+          <h3 class="stage-title">Gatonnya-Mukutulansanja: Agribusiness Foundation</h3>
+          <div class="stage-math-pill">\((x_{\text{NPA}},\; y_{\text{development}})\)</div>
+          <p class="stage-prose">
+            Gatonnya, Mukutulansanja — the early months set the invariants.
+            For Uganda's development, this is the raw strategic advantage in agribusiness: arable land, climate, crops.
+            The fractal ingests them as <strong>\(C_x\)</strong>: the constant that grounds national planning, unique to Uganda's resources.
+          </p>
+          <ul class="stage-bullets">
+            <li><strong>Gatonnya:</strong> Fertile beginnings, like 44 million hectares of arable land</li>
+            <li><strong>Mukutulansanja:</strong> Binding potential, as access to EAC, COMESA, AfCFTA</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STAGE II -->
+      <div class="stage-card">
+        <div class="stage-number-col">
+          <span class="stage-numeral">II</span>
+          <div class="stage-spine"></div>
+        </div>
+        <div class="stage-body">
+          <span class="stage-roman">Conditional Dynamics + Noise · UB</span>
+          <h3 class="stage-title">Mugulansigo-Kafuumulampawu: Energy Anchoring</h3>
+          <div class="stage-math-pill">\(y_{\text{transformation}}(t \mid x_{\text{Uganda}}) + \varepsilon_{\text{global}}\)</div>
+          <p class="stage-prose">
+            Mugulansigo, Kafuumulampawu — time enters as energy potential takes root.
+            Hydropower, oil reserves, solar — \(\varepsilon_{\text{global}}\) accounts for market fluctuations, tech shifts.
+            The fractal forages during planning, distinguishing signal from noise in Uganda's energy landscape.
+          </p>
+          <div class="stage-warning">
+            <strong>Monitor the noise.</strong>
+            Energy security isn't eliminating \(\varepsilon\); it's adapting to it — ensuring mutual benefit through agreements.
+          </div>
+          <ul class="stage-bullets" style="margin-top: 1.25rem;">
+            <li><strong>Mugulansigo:</strong> Untapped potential, like 2,000 MW hydropower</li>
+            <li><strong>Kafuumulampawu:</strong> Probing reserves, as 1.4 billion barrels of oil</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STAGE III -->
+      <div class="stage-card">
+        <div class="stage-number-col">
+          <span class="stage-numeral">III</span>
+          <div class="stage-spine"></div>
+        </div>
+        <div class="stage-body">
+          <span class="stage-roman">The Gradient · UKB Flask Engine</span>
+          <h3 class="stage-title">Muzigo-Ssebaaseka: Minerals Ascent</h3>
+          <div class="stage-math-pill">\(\dfrac{dy_{\text{nation}}}{dt}\)</div>
+          <p class="stage-prose">
+            Muzigo, Ssebaaseka — the velocity of mineral development.
+            Not <em>what are the deposits?</em> but <em>how fast is value creation accelerating now?</em>
+            As Ukubona LLC, we move alongside NPA's extractives strategy, turning endowments into dynamic gradients.
+          </p>
+          <ul class="stage-bullets">
+            <li><strong>Muzigo:</strong> Core endowment, like iron ore, copper, gold</li>
+            <li><strong>Ssebaaseka:</strong> Supportive exploration, as geological mapping</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STAGE IV -->
+      <div class="stage-card">
+        <div class="stage-number-col">
+          <span class="stage-numeral">IV</span>
+          <div class="stage-spine"></div>
+        </div>
+        <div class="stage-body">
+          <span class="stage-roman">Curvature + Uncertainty · UI / APIs</span>
+          <h3 class="stage-title">Kasambula-Muwakanya: Logistics Expansion</h3>
+          <div class="stage-math-pill">\(\dfrac{dy_{\bar{x}}}{dt} \;\pm\; z\sqrt{\dfrac{d^2 y_{x_i}}{dt^2}}\)</div>
+          <p class="stage-prose">
+            Kasambula, Muwakanya — curvature in infrastructure outreach.
+            Is transformation accelerating through networks or decelerating under constraints?
+            The fractal measures deviation from national baseline, confidence in logistics span.
+          </p>
+          <p class="stage-prose">
+            Metrics show connections; rates show flow; acceleration reveals hub potential.
+          </p>
+          <ul class="stage-bullets">
+            <li><strong>Kasambula:</strong> Inner corridors, like standard gauge railway</li>
+            <li><strong>Muwakanya:</strong> Dividing paths, as upgraded roads</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STAGE V -->
+      <div class="stage-card">
+        <div class="stage-number-col">
+          <span class="stage-numeral">V</span>
+          <div class="stage-spine"></div>
+        </div>
+        <div class="stage-body">
+          <span class="stage-roman">Acceleration · Advanced Engine</span>
+          <h3 class="stage-title">Mutunda-Mukulukusabitungotungo: Manufacturing Momentum</h3>
+          <div class="stage-math-pill">\(\dfrac{d^2 y_{\text{development}}}{dt^2}\)</div>
+          <p class="stage-prose">
+            Mutunda, Mukulukusabitungotungo — the second derivative of industrial growth.
+            Not velocity, but how fast is the velocity changing in manufacturing?
+            Ukubona's calculus detects whether value addition is accelerating toward ten-fold GDP.
+          </p>
+          <ul class="stage-bullets">
+            <li><strong>Mutunda:</strong> Fruit-bearing zones, like industrial parks</li>
+            <li><strong>Mukulukusabitungotungo:</strong> Tangled networks, as supply chains</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STAGE VI -->
+      <div class="stage-card">
+        <div class="stage-number-col">
+          <span class="stage-numeral">VI</span>
+          <!-- no spine, last card -->
+        </div>
+        <div class="stage-body">
+          <span class="stage-roman">The Integration · UX · Ecce Nation</span>
+          <h3 class="stage-title">Museenene-Ntenvu: Digital Harvest</h3>
+          <div class="stage-math-pill">\(\displaystyle\int y_{\text{nation}}\,dt \;+\; \varepsilon_c\,t \;+\; C_{\text{Uganda}}\)</div>
+          <p class="stage-prose">
+            Museenene, Ntenvu — the integral of transformation, yielding digital fruits and seeds.
+            The nation matures: broadband, fintech, e-government.
+            As Ukubona LLC, we witness NPA's digital spread, seeding the knowledge economy.
+          </p>
+          <ul class="stage-bullets">
+            <li><strong>Museenene:</strong> Shading connectivity, like ICT hubs</li>
+            <li><strong>Ntenvu:</strong> Dispersed innovations, as fintech partnerships</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════
+       VERDICT SECTION
+  ═══════════════════════════ -->
+  <section class="verdict-section">
+    <div class="verdict-inner">
+      <div class="verdict-label">Verdict</div>
+      <div class="verdict-text">
+        <h3>A National Cycle Unfolds</h3>
+        <p>
+          In serving the National Planning Authority, Ukubona LLC deploys this calendar fractal not as a plan,
+          but as a witness to cyclic growth. From Gatonnya's foundations to Ntenvu's harvest,
+          it scales Uganda toward regional integration — rooted in vision, cycling to the world.
+        </p>
+        <div class="verdict-rule"></div>
+        <p class="verdict-footnote">
+          ukb-fractal v1.0 · Government instantiation · No over-fit; let the months guide the flow.
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════════════════
+     FOOTER
+═══════════════════════════ -->
+<footer>
+  <div class="footer-brand">Ukubona <span>LLC</span></div>
+  <div class="footer-meta">
+    <span>Kampala · UG</span>
+    <span>Ilya Zosima</span>
+    <a href="#">Contact</a>
+    <a href="#">Fractals</a>
+  </div>
+</footer>
+
+</body>
+</html>
