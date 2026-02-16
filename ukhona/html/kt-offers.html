@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deputy Editor's Assessment: The Waiting Game as Gradient Descent Failure</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
+            line-height: 1.8;
+            color: #1a1a1a;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 60px 70px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+
+        h1 {
+            font-size: 2.4em;
+            color: #2c3e50;
+            margin-bottom: 0.4em;
+            line-height: 1.2;
+            font-weight: 700;
+            border-bottom: 4px solid #667eea;
+            padding-bottom: 20px;
+        }
+
+        .manuscript-title {
+            font-style: italic;
+            color: #555;
+            font-size: 1.1em;
+            margin-bottom: 2em;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+
+        h2 {
+            font-size: 1.7em;
+            color: #34495e;
+            margin-top: 2.5em;
+            margin-bottom: 1em;
+            font-weight: 600;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 80%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 3px;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            color: #555;
+            margin-top: 1.8em;
+            margin-bottom: 0.8em;
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        p {
+            margin-bottom: 1.3em;
+            text-align: justify;
+        }
+
+        .math-block {
+            margin: 2em 0;
+            padding: 25px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 20%);
+            border-radius: 8px;
+            overflow-x: auto;
+            border-left: 5px solid #667eea;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .critique-box {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe4cc 100%);
+            border-left: 5px solid #ff9500;
+            padding: 20px 25px;
+            margin: 2em 0;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(255, 149, 0, 0.1);
+        }
+
+        .critique-box strong {
+            color: #cc7a00;
+            font-size: 1.1em;
+        }
+
+        .insight-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-left: 5px solid #4caf50;
+            padding: 20px 25px;
+            margin: 2em 0;
+            border-radius: 6px;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            border-left: 5px solid #e74c3c;
+            padding: 20px 25px;
+            margin: 2em 0;
+            border-radius: 6px;
+        }
+
+        .data-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-left: 5px solid #2196f3;
+            padding: 20px 25px;
+            margin: 2em 0;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.95em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2.5em 0;
+            font-size: 0.95em;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 14px 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e8eaf6;
+        }
+
+        .verdict {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border-left: 5px solid #28a745;
+            padding: 25px;
+            margin: 3em 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.15);
+        }
+
+        .verdict h2 {
+            margin-top: 0;
+            color: #155724;
+        }
+
+        .verdict h2::before {
+            background: #28a745;
+        }
+
+        strong {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        em {
+            color: #555;
+        }
+
+        .section-card {
+            background: #fafafa;
+            padding: 25px;
+            margin: 2em 0;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        ul {
+            margin: 1.5em 0;
+            padding-left: 2.5em;
+        }
+
+        li {
+            margin-bottom: 1em;
+            line-height: 1.7;
+        }
+
+        .topology-analogy {
+            background: linear-gradient(135deg, #fff9e6 0%, #fff3cc 100%);
+            padding: 25px;
+            border-radius: 8px;
+            margin: 2em 0;
+            border-left: 5px solid #ffc107;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 25px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            body {
+                padding: 20px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Deputy Editor's Assessment: The Waiting Game as Gradient Descent Failure</h1>
+        
+        <p class="manuscript-title">
+            Manuscript: "Transplant Centers Remain Too Cautious in Accepting Kidney Offers"<br>
+            Authors: Diao, Melcher, Shachter<br>
+            Dataset: \(N = 184{,}072\) candidates, 17.5 million offers, 20-year observation window
+        </p>
+
+        <section class="section-card">
+            <h2>The Core Observation: A System Stuck in Local Minima</h2>
+            
+            <p>This manuscript documents a spectacular failure of human decision-making when faced with sequential optimization under uncertainty. The authors have assembled an extraordinary dataset — <strong>184,072 individual trajectories</strong> through a life-or-death state space — and what they reveal is a system that systematically chooses <em>waiting</em> over <em>acting</em>, even when the data screams that action dominates.</p>
+
+            <div class="data-box">
+                Core finding: Accept yields +20.4 months mean survival vs. Decline<br>
+                Acceptance rate: 0.8% (less than 1 in 100 offers)<br>
+                Kidney discard rate: 21.3% (stable for a decade)
+            </div>
+
+            <p>In the language of your framework: <strong>the system is performing gradient descent in the wrong direction</strong>.</p>
+        </section>
+
+        <h2>1. The State Vector \((x_i)\): Who Are You?</h2>
+
+        <p>The authors use two primary coordinates to locate each individual in health-space:</p>
+
+        <div class="math-block">
+            $$x_i = \begin{bmatrix} \text{EPTS}_i \\ \text{Time on waitlist}_i \end{bmatrix}$$
+        </div>
+
+        <p><strong>EPTS</strong> (Estimated Post-Transplant Survival) is the patient health coordinate. Lower EPTS = healthier patient. It's computed from age, diabetes status, dialysis duration, and prior transplants. The authors bin it into quintiles (0-20%, 20-40%, ..., 80-100%).</p>
+
+        <p><strong>Time on waitlist</strong> is the temporal coordinate. The longer you wait, the sicker you get, the fewer offers you receive, and — critically — the lower your probability of <em>any</em> future offer.</p>
+
+        <div class="topology-analogy">
+            <h3>Topological Interpretation</h3>
+            <p>In your GPS/altitude model: EPTS is your <em>starting elevation</em>. Time on waitlist is how long you've been walking through the landscape. The decision tree (Figure 1) shows that after <strong>Decline</strong>, there are three possible futures:</p>
+            <ul>
+                <li><strong>F1</strong>: No future offers (1% of cases) — you're stranded</li>
+                <li><strong>F2</strong>: Future offers, never accepted (26-55% depending on health) — you keep walking but never descend</li>
+                <li><strong>F3</strong>: Future offers, eventually accepted (45-72%) — you eventually find a path down</li>
+            </ul>
+            <p>The problem: While waiting for F3, you're deteriorating. The landscape is <em>rising beneath your feet</em>.</p>
+        </div>
+
+        <h2>2. The Loss Function \(\mathcal{L}\): What Are We Optimizing?</h2>
+
+        <p>The authors use <strong>survival time</strong> as the observable proxy for quality-adjusted life years (QALYs). This is reasonable — the true loss function is unobservable, and survival is the constraint that bounds everything else.</p>
+
+        <div class="math-block">
+            $$\mathcal{L}(\text{decision}, x_i, \text{kidney quality}) = -\mathbb{E}[\text{Survival time} \mid \text{decision}, x_i, \text{KDPI}]$$
+        </div>
+
+        <p>Where <strong>KDPI</strong> (Kidney Donor Profile Index) is the <em>kidney quality</em> coordinate. Lower KDPI = better kidney. The authors also use quintiles here.</p>
+
+        <div class="insight-box">
+            <strong>Key Result from Figure 3c (Net Benefit)</strong>: For <em>every</em> combination of patient health (EPTS) and kidney quality (KDPI), accepting the offer yields higher mean survival than declining. The net benefit ranges from <strong>+7.4 months</strong> (worst case: sickest patients, worst kidneys) to <strong>+16.3 months</strong> (best case: healthiest patients, best kidneys).
+        </div>
+
+        <p>This is not a marginal effect. This is not statistical noise. This is a <strong>consistent gradient across the entire state space</strong>.</p>
+
+        <h2>3. The Gradient They Found: \(\nabla \mathcal{L} \propto -\text{Accept}\)</h2>
+
+        <p>Figure 3 is the smoking gun. Let me translate it into your notation:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>EPTS (Health)</th>
+                    <th>KDPI (Kidney)</th>
+                    <th>Mean Survival: Decline</th>
+                    <th>Mean Survival: Accept</th>
+                    <th>Net Benefit (months)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>0-20 (healthiest)</td>
+                    <td>0-20 (best kidney)</td>
+                    <td>137.6 mo</td>
+                    <td>154.0 mo</td>
+                    <td><strong>+16.3</strong></td>
+                </tr>
+                <tr>
+                    <td>40-60 (middle)</td>
+                    <td>40-60 (middle kidney)</td>
+                    <td>72.4 mo</td>
+                    <td>89.7 mo</td>
+                    <td><strong>+16.9</strong></td>
+                </tr>
+                <tr>
+                    <td>80-100 (sickest)</td>
+                    <td>80-100 (worst kidney)</td>
+                    <td>53.0 mo</td>
+                    <td>63.9 mo</td>
+                    <td><strong>+11.0</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>The gradient is <strong>always</strong> pointing toward Accept. Yet the system chooses Decline 99.2% of the time.</p>
+
+        <h2>4. The Temporal Derivative: \(\frac{dx}{dt}\) and the Accelerating Loss</h2>
+
+        <p>Here's where it gets brutal. The authors show (Appendix Figure A1) that:</p>
+
+        <ul>
+            <li>Average offers per year <strong>decline</strong> from ~30 in year 1 to ~3 in year 10+</li>
+            <li>Fraction of candidates receiving any offer drops from 95% (year 1) to 20% (year 10+)</li>
+            <li>Acceptance rates <em>increase</em> with time on waitlist (from <1% to 4%), but this is desperation, not optimization</li>
+        </ul>
+
+        <div class="warning-box">
+            <strong>The Velocity Problem</strong>: Every year you wait, you are:
+            <ul style="margin-top: 1em;">
+                <li>Getting sicker (EPTS increases)</li>
+                <li>Receiving fewer offers (opportunity cost)</li>
+                <li>Accumulating dialysis time (quality of life degradation)</li>
+            </ul>
+            <p style="margin-top: 1em;">This is not random walk. This is <strong>drift toward an absorbing barrier</strong> (death on the waitlist).</p>
+        </div>
+
+        <div class="math-block">
+            $$\frac{d(\text{Health})}{dt} < 0 \quad \text{(deterioration)}$$
+            $$\frac{d(\text{Offer rate})}{dt} < 0 \quad \text{(fewer chances)}$$
+            $$\frac{d(\text{Survival if accept})}{dt} > \frac{d(\text{Survival if decline})}{dt} \quad \text{(Accept advantage grows)}$$
+        </div>
+
+        <p>The system is penalizing waiting, but the decision-makers are behaving as if waiting is free.</p>
+
+        <h2>5. The Stochastic Term \(\varepsilon\): What's Being Treated as Noise?</h2>
+
+        <p>The authors acknowledge they're using survival time as a proxy for QALYs, and that there are "unobserved factors" influencing outcomes. In our language:</p>
+
+        <div class="math-block">
+            $$\text{True utility} = \beta_0 + \beta_1(\text{Survival time}) + \beta_2(\text{QoL on dialysis}) + \varepsilon_{\text{patient preferences}}$$
+        </div>
+
+        <p>But here's the critical point: <strong>the authors show that even under conservative assumptions (survival time alone), Accept dominates</strong>. Any reasonable quality-of-life weighting would only <em>strengthen</em> this conclusion, because:</p>
+
+        <ul>
+            <li>Dialysis quality of life < post-transplant quality of life</li>
+            <li>Accept shortens dialysis duration</li>
+            <li>Patients surveyed say they <em>prefer</em> accepting lower-quality kidneys to avoid waiting (ref 23)</li>
+        </ul>
+
+        <p>So the \(\varepsilon\) term is being treated as if it's random noise, when in fact it's a <strong>systematic signal that reinforces the gradient toward Accept</strong>.</p>
+
+        <h2>6. The Counterfactual Estimation: Kaplan-Meier as Missing Data Imputation</h2>
+
+        <p>The authors face a fundamental problem: for each offer, they observe only <em>one</em> outcome (the decision that was made). They need to estimate what <em>would have happened</em> under the alternative.</p>
+
+        <div class="section-card">
+            <h3>Their Approach:</h3>
+            <ul>
+                <li>Group similar patients (same EPTS quintile)</li>
+                <li>Use Kaplan-Meier survival curves to estimate expected survival for censored observations</li>
+                <li>Compare mean/median survival across Accept vs Decline cohorts</li>
+            </ul>
+        </div>
+
+        <p>This is reasonable, but it's <strong>conservative</strong>. Why? Because it assumes that the patients who declined are exchangeable with those who accepted within the same EPTS bin. But we know from Figure 2 that the Decline group is <em>heterogeneous</em>:</p>
+
+        <ul>
+            <li>1% never get another offer (very sick)</li>
+            <li>26-55% get offers but never accept (cautious centers? mismatched preferences?)</li>
+            <li>45-72% eventually accept (the "success" cases)</li>
+        </ul>
+
+        <p>The true counterfactual benefit of accepting early is likely <em>larger</em> than reported, because early acceptance selects you into the best trajectory (F3 immediately) rather than risking F1 or F2.</p>
+
+        <h2>7. The Decision Tree: A Markov Process with Absorbing States</h2>
+
+        <p>Figure 1 shows the decision structure. In your framework, this is a <strong>finite-horizon Markov Decision Process</strong> with:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Interpretation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>States</strong></td>
+                    <td>On waitlist, post-transplant, dead</td>
+                </tr>
+                <tr>
+                    <td><strong>Actions</strong></td>
+                    <td>Accept, Decline</td>
+                </tr>
+                <tr>
+                    <td><strong>Transitions</strong></td>
+                    <td>Probabilistic (will I get another offer? will it be better?)</td>
+                </tr>
+                <tr>
+                    <td><strong>Rewards</strong></td>
+                    <td>Survival time (observed), QALYs (latent)</td>
+                </tr>
+                <tr>
+                    <td><strong>Horizon</strong></td>
+                    <td>Death (absorbing state)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>The optimal policy should be: <strong>Accept if \(\mathbb{E}[\text{Survival} \mid \text{Accept, current offer}] > \mathbb{E}[\text{Survival} \mid \text{Decline, future offers}]\)</strong></p>
+
+        <p>The authors show that this inequality holds for <em>every observed case</em>. Yet the empirical policy is: Decline 99.2% of the time.</p>
+
+        <div class="critique-box">
+            <strong>The System is Not Optimizing</strong>. It is <em>satisficing</em> under severe cognitive constraints (60-minute decision window, incomplete information, risk aversion, regret aversion). The result is a collective action failure that kills people.
+        </div>
+
+        <h2>8. The Missing Analysis: Second-Order Effects \(\frac{d^2y}{dt^2}\)</h2>
+
+        <p>The paper does not analyze <strong>acceleration</strong> — whether the rate of health decline is itself increasing. But the data suggest it:</p>
+
+        <ul>
+            <li>Dialysis duration is a component of EPTS → longer wait = worse EPTS</li>
+            <li>Worse EPTS = fewer offers = longer wait = worse EPTS (positive feedback loop)</li>
+            <li>Offer quality (KDPI) is stable over time (Appendix Figure A2b), so it's not that people are waiting for better kidneys — they're just... waiting</li>
+        </ul>
+
+        <div class="math-block">
+            $$\frac{d^2(\text{Health})}{dt^2} < 0 \implies \text{Convex loss landscape (waiting accelerates deterioration)}$$
+        </div>
+
+        <p>This makes early acceptance even more valuable. You're not just avoiding one step down a linear slope — you're avoiding <em>falling off a cliff</em>.</p>
+
+        <h2>9. The Survival Rate Analysis: Threshold Effects at 1, 3, 5, 10 Years</h2>
+
+        <p>Figure 4 shows net survival benefit (Accept - Decline) at fixed time horizons. The pattern is fascinating:</p>
+
+        <ul>
+            <li><strong>1-year survival</strong>: Near-zero or slightly negative for low-quality kidneys (KDPI 60-100). This is the <em>surgical risk</em> — transplant has immediate mortality risk.</li>
+            <li><strong>3-year survival</strong>: Positive across the board. The benefit of getting off dialysis outweighs surgical risk.</li>
+            <li><strong>5-year survival</strong>: Even larger positive benefit. Accept dominates.</li>
+            <li><strong>10-year survival</strong>: Benefit persists for high-quality kidneys (KDPI 0-60) but attenuates or reverses for KDPI 80-100 in healthy patients (EPTS 0-40).</li>
+        </ul>
+
+        <div class="insight-box">
+            <strong>Interpretation</strong>: There <em>is</em> a trade-off for the healthiest patients considering the worst kidneys: short-term survival benefit vs. long-term graft failure risk. But this is the <strong>exception</strong>, not the rule. For 90% of the state space, Accept dominates at every time horizon.
+        </div>
+
+        <p>The system's 99.2% decline rate cannot be justified by this narrow corner case.</p>
+
+        <h2>10. What's Actually Happening: Risk Aversion vs. Regret Aversion</h2>
+
+        <p>The authors speculate that centers are "too cautious" due to:</p>
+
+        <ul>
+            <li><strong>Surgical risk aversion</strong>: Fear of primary non-function, complications, graft failure</li>
+            <li><strong>Outcome metrics</strong>: Centers are judged on transplant success rates, not waitlist mortality</li>
+            <li><strong>Asymmetric regret</strong>: A bad transplant is <em>visible</em> and <em>blamed on the surgeon</em>. A death on the waitlist is <em>invisible</em> and <em>blamed on the disease</em>.</li>
+        </ul>
+
+        <p>In decision theory terms: <strong>the loss function being optimized by the system is not the patient's loss function</strong>.</p>
+
+        <div class="math-block">
+            $$\mathcal{L}_{\text{patient}} = -\mathbb{E}[\text{Survival}]$$
+            $$\mathcal{L}_{\text{surgeon}} = -\mathbb{E}[\text{Survival}] + \lambda \cdot \mathbb{P}(\text{Visible failure}) + \mu \cdot \text{Regulatory penalty}$$
+        </div>
+
+        <p>Where \(\lambda, \mu > 0\) are large. The system is <em>multi-objective</em>, and the objectives are misaligned.</p>
+
+        <h2>11. The Proper Baseline: What Would Optimal Look Like?</h2>
+
+        <p>If we had a true digital twin for each patient, it would compute:</p>
+
+        <div class="math-block">
+            $$V(\text{Accept} \mid x_i, \text{KDPI}) = \mathbb{E}[\text{Survival} \mid \text{Accept}, x_i, \text{KDPI}]$$
+            $$V(\text{Decline} \mid x_i) = \mathbb{E}[\text{Survival} \mid \text{Decline}, x_i, \text{future offer distribution}]$$
+        </div>
+
+        <p>Accept if \(V(\text{Accept}) > V(\text{Decline})\). The authors have estimated both sides of this inequality using 20 years of data. The answer is: <strong>Accept almost always</strong>.</p>
+
+        <p>But the system doesn't have access to this calculation in the 60-minute decision window. So it defaults to heuristics:</p>
+
+        <ul>
+            <li>"Wait for a better kidney"</li>
+            <li>"This patient is stable on dialysis"</li>
+            <li>"We've seen complications with KDPI >85 kidneys"</li>
+        </ul>
+
+        <p>These heuristics are <strong>systematically wrong</strong>.</p>
+
+        <section class="verdict">
+            <h2>Verdict: A System Optimizing the Wrong Function</h2>
+            
+            <p>This paper is a large-scale empirical demonstration of <strong>gradient descent failure under misaligned objectives</strong>. The authors have proven, using 184,072 trajectories and 17.5 million decision points, that:</p>
+
+            <ol style="margin-top: 1em; margin-bottom: 1em;">
+                <li>The loss landscape has a clear gradient: Accept > Decline</li>
+                <li>The gradient is consistent across patient health (EPTS) and kidney quality (KDPI)</li>
+                <li>The gradient strengthens with time on waitlist (deterioration accelerates)</li>
+                <li>Yet the system chooses Decline 99.2% of the time</li>
+            </ol>
+
+            <p><strong>Why?</strong> Because the system is not optimizing patient survival. It is optimizing:</p>
+
+            <ul style="margin-top: 1em;">
+                <li>Regulatory compliance (avoid visible failures)</li>
+                <li>Surgeon reputation (avoid regret)</li>
+                <li>Institutional metrics (transplant success rate, not waitlist mortality)</li>
+            </ul>
+
+            <p style="margin-top: 1.5em;">In your framework: <strong>The UI/UX is optimized for the wrong user</strong>. The "user" is the regulatory system and the transplant center's reputation, not the patient.</p>
+
+            <div class="topology-analogy" style="margin-top: 2em;">
+                <h3>The River That Refuses to Flow</h3>
+                <p>Water in a landscape finds the gradient and descends. It doesn't "wait for a better valley." It doesn't "decline" the first path down because there might be a steeper one later. It flows.</p>
+                
+                <p style="margin-top: 1em;">This transplant system is water that has been told: <em>"You must justify every meter of descent. You will be penalized if you choose a path that leads to a visible rock. You will not be penalized if you evaporate while waiting."</em></p>
+                
+                <p style="margin-top: 1em;">The result: <strong>21.3% of kidneys are discarded</strong>. <strong>99.2% of offers are declined</strong>. <strong>Patients lose 20.4 months of life</strong> on average by waiting.</p>
+                
+                <p style="margin-top: 1em;">The mathematics of gradient descent is not a metaphor here. It is the <em>literal structure of the problem</em>. And the system is failing to descend.</p>
+            </div>
+        </section>
+
+        <h2>Recommendations for the Authors</h2>
+
+        <ol style="margin-top: 1em;">
+            <li><strong>Add a decision-theoretic optimal policy analysis</strong>: Given your data, what <em>should</em> the acceptance rate be? If it's >10%, you have a quantitative target for "how much more aggressive."</li>
+            
+            <li><strong>Estimate the value of information</strong>: How much would survival improve if centers had access to your Figure 3 in real-time during the 60-minute window?</li>
+            
+            <li><strong>Analyze the second derivative</strong>: Is health decline accelerating with time on waitlist? This would justify even more aggressive early acceptance.</li>
+            
+            <li><strong>Multi-objective framing</strong>: Explicitly model the surgeon's loss function (survival + reputation + regulatory risk) and show how it diverges from the patient's. This makes the misalignment crisp.</li>
+            
+            <li><strong>Mechanism design suggestion</strong>: What policy change (e.g., "centers are judged on waitlist mortality, not just transplant success") would realign incentives?</li>
+        </ol>
+
+        <section class="section-card" style="margin-top: 3em;">
+            <h2>Final Thought: The Physics of Life-or-Death Decisions</h2>
+            
+            <p>You said: <em>"Every river is a gradient descent run to completion."</em></p>
+            
+            <p>This manuscript shows what happens when we <strong>interrupt the gradient descent with committee deliberation, regulatory friction, and misaligned incentives</strong>. The river stops flowing. The patients die waiting.</p>
+            
+            <p>The mathematics doesn't care about our bureaucracy. The loss function is survival. The gradient points toward acceptance. The optimal policy is clear.</p>
+            
+            <p><strong>Listen to the gradient. Let the water flow.</strong></p>
+        </section>
+
+    </div>
+</body>
+</html>
